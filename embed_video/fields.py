@@ -13,6 +13,15 @@ class EmbedVideoField(models.URLField):
         defaults.update(kwargs)
         return super(EmbedVideoField, self).formfield(**defaults)
 
+    def south_field_triple(self):
+        from south.modelsinspector import introspector
+        cls_name = '%s.%s' % (
+            self.__class__.__module__,
+            self.__class__.__name__
+        )
+        args, kwargs = introspector(self)
+        return (cls_name, args, kwargs)
+
 
 class EmbedVideoFormField(forms.URLField):
     def validate(self, url):
