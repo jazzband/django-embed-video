@@ -1,22 +1,23 @@
-import os
-
 from setuptools import setup, find_packages
 
+README = open('README.rst').read()
+CHANGES = open('CHANGES.rst').read()
+
 setup(
-    name = 'django-embed-video',
-    packages = find_packages(),
-    version = '0.0.1',
-    author = 'Juda Kaleta',
-    author_email = 'juda.kaleta@gmail.com',
-    url = '',
-    description = 'Django template tags for YouTube and Vimeo',
-    long_description = open('README').read(),
-    classifiers = [
+    name='django-embed-video',
+    packages=find_packages(),
+    version='0.1.0',
+    author='Juda Kaleta',
+    author_email='juda.kaleta@gmail.com',
+    url='https://github.com/yetty/django-embed-video',
+    description='Django template tags for YouTube and Vimeo',
+    long_description='\n\n'.join([README, CHANGES]),
+    classifiers=[
         'Framework :: Django',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
-        'Topis :: Internet :: WWW/HTTP',
+        'Topic :: Internet :: WWW/HTTP',
     ],
-    keywords = ['youtube', 'vimeo', 'video'],
-    test_suite = 'embed_video.tests.tests',
+    keywords=['youtube', 'vimeo', 'video'],
+    test_suite='embed_video.tests.tests',
 )
