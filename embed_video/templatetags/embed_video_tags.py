@@ -1,9 +1,10 @@
-from django.template import Library, Node, NodeList, TemplateSyntaxError
+from django.template import Library, Node, TemplateSyntaxError
 from django.utils.safestring import mark_safe
 
 from ..base import detect_backend
 
 register = Library()
+
 
 @register.tag('video')
 class VideoNode(Node):
@@ -40,10 +41,11 @@ class VideoNode(Node):
 @register.filter(is_safe=True)
 def embed(backend, _size='small'):
     sizes = {
-        'tiny': (560, 315),
-        'small': (640, 360),
-        'medium': (853, 480),
-        'large': (1280, 720),
+        'tiny': (420, 315),
+        'small': (480, 360),
+        'medium': (640, 480),
+        'large': (960, 720),
+        'huge': (1280, 960),
     }
 
     if _size in sizes:
