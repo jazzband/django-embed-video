@@ -1,7 +1,13 @@
 from setuptools import setup, find_packages
 
-README = open('README.rst').read()
-CHANGES = open('CHANGES.rst').read()
+import os
+
+
+def read(fname):
+    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+
+README = read('README.rst')
+CHANGES = read('CHANGES.rst')
 
 setup(
     name='django-embed-video',
