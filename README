@@ -13,8 +13,7 @@ Installation
 Examples
 ---------
 
-Template examples
-*****************
+### Template examples
 
 First you have to load the `embed_video_tags` template tags in your template:
 
@@ -39,8 +38,7 @@ Usage of variables:
     {% endvideo %}
 
 
-Model examples
-***************
+### Model examples
 
 Using the EmbedVideoField you provide validation of correct URL.
 
