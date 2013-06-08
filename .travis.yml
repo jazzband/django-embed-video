@@ -1,10 +1,9 @@
 language: python
 python:
-    - "2.6"
     - "2.7"
 env:
     - DJANGO_VERSION=1.4.5
     - DJANGO_VERSION=1.5.1
 install:
-    - pip install -q Django==$DJANGO_VERSION
+    - pip install -q Django==$DJANGO_VERSION --use-mirrors
 script: python setup.py test
