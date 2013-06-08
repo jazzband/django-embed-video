@@ -41,7 +41,7 @@ class EmbedVideoTestCase(TestCase):
                 {{ ytb|embed:'large' }}
             {% endvideo %}
         """)
-        rendered = '<iframe width="1280" height="720" src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" frameborder="0" allowfullscreen></iframe>'
+        rendered = u'<iframe width="960" height="720" src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" frameborder="0" allowfullscreen></iframe>'
 
         self.assertEqual(template.render(self._grc()).strip(), rendered)
 
@@ -52,10 +52,9 @@ class EmbedVideoTestCase(TestCase):
                 {{ ytb|embed:'800x800' }}
             {% endvideo %}
         """)
-        rendered = '<iframe width="800" height="800" src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" frameborder="0" allowfullscreen></iframe>'
+        rendered = u'<iframe width="800" height="800" src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" frameborder="0" allowfullscreen></iframe>'
 
         self.assertEqual(template.render(self._grc()).strip(), rendered)
-
 
     def test_tag_youtube(self):
         template = Template("""
