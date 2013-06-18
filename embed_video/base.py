@@ -1,5 +1,5 @@
 import re
-
+import urlparse
 DETECT_YOUTUBE = re.compile(
     '^(http(s)?://(www\.)?)?youtu(\.?)be(\.com)?.*', re.I
 )
@@ -8,7 +8,8 @@ DETECT_VIMEO = re.compile('^(http(s)?://(www\.)?)?vimeo\.com.*', re.I)
 
 class UnknownBackendException(Exception):
     pass
-
+class NoIdVideoFound(Exception):
+    pass
 
 def detect_backend(url):
     if DETECT_YOUTUBE.match(url):
@@ -31,6 +32,14 @@ class VideoBackend(object):
         match = self.re_code.search(self._url)
         if match:
             return match.group('code')
+        else:
+            parse_data = urlparse.urlparse(self._url)
+            try:
+                return urlparse.parse_qs(parse_data.query)["v"][0]
+            except KeyError:
+                pass
+            raise NoIdVideoFound
+            
 
     def get_url(self):
         return self.pattern_url % self.code
