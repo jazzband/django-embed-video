@@ -6,7 +6,8 @@ from django.http import HttpRequest
 from django.template.base import Template
 from django.template.context import RequestContext
 
-from ..base import detect_backend, YoutubeBackend, VimeoBackend
+from ..base import detect_backend, YoutubeBackend, VimeoBackend, \
+        SoundCloundBackend
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'embed_video.tests.django_settings'
 
@@ -25,6 +26,12 @@ class EmbedVideoTestCase(TestCase):
     vimeo_urls = (
         ('http://vimeo.com/66577491', '66577491'),
         ('http://www.vimeo.com/66577491', '66577491'),
+    )
+
+    soundcloud_urls = (
+        ('https://soundcloud.com/glassnote/mumford-sons-i-will-wait', '67129237'),
+        ('https://soundcloud.com/matej-roman/jaromir-nohavica-karel-plihal-mikymauz', '7834701'),
+        ('https://soundcloud.com/beny97/sets/jaromir-nohavica-prazska', '960591'),
     )
 
     def setUp(self):
@@ -88,6 +95,11 @@ class EmbedVideoTestCase(TestCase):
             backend = detect_backend(url[0])
             self.assertIsInstance(backend, VimeoBackend)
 
+    def test_detect_soundcloud(self):
+        for url in self.soundcloud_urls:
+            backend = detect_backend(url[0])
+            self.assertIsInstance(backend, SoundCloundBackend)
+
     def test_code_youtube(self):
         for url in self.youtube_urls:
             backend = YoutubeBackend(url[0])
@@ -97,6 +109,12 @@ class EmbedVideoTestCase(TestCase):
     def test_code_vimeo(self):
         for url in self.vimeo_urls:
             backend = VimeoBackend(url[0])
+            code = backend.get_code()
+            self.assertEqual(code, url[1])
+
+    def test_code_soundcloud(self):
+        for url in self.soundcloud_urls:
+            backend = SoundCloundBackend(url[0])
             code = backend.get_code()
             self.assertEqual(code, url[1])
 

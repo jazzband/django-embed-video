@@ -48,8 +48,6 @@ def embed(backend, _size='small'):
         'huge': (1280, 960),
     }
 
-
-
     if _size in sizes:
         size = sizes[_size]
     elif 'x' in _size:
@@ -60,10 +58,10 @@ def embed(backend, _size='small'):
         'width': int(size[0]),
         'height': int(size[1]),
     }
-    if isinstance(backend,SoundCloundBackend):
-	# max height of soundcloud
-	params.update({'height':backend.height})
-    
+
+    if isinstance(backend, SoundCloundBackend):
+        params.update({'height': backend.height})
+
     return mark_safe(
         '<iframe width="%(width)d" height="%(height)d" '
         'src="%(url)s" frameborder="0" allowfullscreen>'

@@ -2,7 +2,7 @@ from django.db import models
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from .base import detect_backend, NoIdVideoFound, UnknownBackendException
+from .base import detect_backend, NoIdFound, UnknownBackendException
 
 __all__ = ('EmbedVideoField', 'EmbedVideoFormField')
 
@@ -30,7 +30,7 @@ class EmbedVideoFormField(forms.URLField):
             detect_backend(url)
         except UnknownBackendException:
             raise forms.ValidationError(_(u'URL could not be recognized.'))
-        except NoIdVideoFound:
+        except NoIdFound:
             raise forms.ValidationError(_(u'Video Id not found .'))
 
         return url
