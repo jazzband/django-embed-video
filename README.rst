@@ -1,7 +1,7 @@
 django-embed-video
 ==================
 
-Django app for easy embeding YouTube and Vimeo videos.
+Django app for easy embeding YouTube and Vimeo videos and music from SoundCLoud.
 
 
 Installation
