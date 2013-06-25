@@ -4,7 +4,8 @@ DETECT_YOUTUBE = re.compile(
     '^(http(s)?://(www\.)?)?youtu(\.?)be(\.com)?.*', re.I
 )
 DETECT_VIMEO = re.compile('^(http(s)?://(www\.)?)?vimeo\.com.*', re.I)
-
+DETECT_SOUNDCLOUD = re.compile('^(http(s)?://(www\.)?)?soundcloud\.com.*', re.I)
+import requests
 
 class UnknownBackendException(Exception):
     pass
@@ -12,10 +13,13 @@ class NoIdVideoFound(Exception):
     pass
 
 def detect_backend(url):
+    assert False, DETECT_SOUNDCLOUD.match(url)
     if DETECT_YOUTUBE.match(url):
         return YoutubeBackend(url)
     elif DETECT_VIMEO.match(url):
         return VimeoBackend(url)
+    elif DETECT_SOUNDCLOUD.match(url)
+        return SoundCloundBackend(url)
     else:
         raise UnknownBackendException
 
@@ -39,7 +43,6 @@ class VideoBackend(object):
             except KeyError:
                 pass
             raise NoIdVideoFound
-            
 
     def get_url(self):
         return self.pattern_url % self.code
@@ -47,6 +50,30 @@ class VideoBackend(object):
     def get_thumbnail_url(self):
         return self.pattern_thumbnail_url % self.code
 
+
+class SoundCloundBackend(VideoBackend):
+    _base_url = "http://soundcloud.com/oembed"
+    def __init__(self, url):
+        import requests
+        params = {
+            'format':'json',
+            'url': url,
+        }
+        r = requests.get(self._base_url, params)
+        json_response = r.json()
+        self.thumbnail = json_response.get("thumbnail_url") 
+        match = re.search(r'src="(.*?)"', json_response.get("html"))
+        self.url = match[0]
+        assert False,match
+        
+    def get_thumbnail_url(self):
+        pass
+    def get_url(self):
+        return self.url
+    def get_code(self):
+        return self.url
+        
+    
 
 class YoutubeBackend(VideoBackend):
     re_code = re.compile(

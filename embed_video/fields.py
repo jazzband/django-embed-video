@@ -26,7 +26,7 @@ class EmbedVideoField(models.URLField):
 class EmbedVideoFormField(forms.URLField):
     def validate(self, url):
         super(EmbedVideoFormField, self).validate(url)
-
+        detect_backend(url)
         try:
             detect_backend(url)
         except UnknownBackendException:
