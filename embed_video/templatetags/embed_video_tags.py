@@ -62,7 +62,7 @@ def embed(backend, _size='small'):
     }
     if isinstance(backend,SoundCloundBackend):
 	# max height of soundcloud
-	params.update({'height':81})
+	params.update({'height':backend.height})
     
     return mark_safe(
         '<iframe width="%(width)d" height="%(height)d" '

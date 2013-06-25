@@ -67,6 +67,8 @@ class SoundCloundBackend(VideoBackend):
         match = re.search(r'src="(.*?)"', json_response.get("html"))
         if match:
             self.url = match.groups()[0]
+        self.width = json_response.get("width")
+        self.height = json_response.get("height")
         super(SoundCloundBackend,self).__init__(url)
  
     def get_thumbnail_url(self):
