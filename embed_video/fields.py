@@ -26,12 +26,11 @@ class EmbedVideoField(models.URLField):
 class EmbedVideoFormField(forms.URLField):
     def validate(self, url):
         super(EmbedVideoFormField, self).validate(url)
-        detect_backend(url)
         try:
             detect_backend(url)
         except UnknownBackendException:
             raise forms.ValidationError(_(u'URL could not be recognized.'))
-	except NoIdVideoFound:
+        except NoIdVideoFound:
             raise forms.ValidationError(_(u'Video Id not found .'))
 
         return url
