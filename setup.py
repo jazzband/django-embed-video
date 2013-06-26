@@ -26,5 +26,5 @@ setup(
     ],
     keywords=['youtube', 'vimeo', 'video'],
     test_suite='embed_video.tests.tests',
-    requires=['requests (>=1.2.3)'],
+    install_requires=['requests >= 1.2.3', ],
 )
