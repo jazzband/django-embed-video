@@ -21,6 +21,7 @@ class EmbedVideoTestCase(TestCase):
         ('http://youtu.be/n17B_uFF4cA', 'n17B_uFF4cA'),
         ('http://www.youtube.com/watch?v=t-ZRX8984sc', 't-ZRX8984sc'),
         ('http://youtu.be/t-ZRX8984sc', 't-ZRX8984sc'),
+        ('http://www.youtube.com/watch?feature=player_embedded&v=2NpZbaAIXag', '2NpZbaAIXag'),
     )
 
     vimeo_urls = (
