@@ -40,8 +40,8 @@ Simple embeding of video:
 
 ::
 
-    {% video item.video as video %}
-        {{ video|embed:'small' }}
+    {% video item.video as my_video %}
+        {{ my_video|embed:'small' }}
     {% endvideo %}
 
 Default sizes are ``tiny`` (420x315), ``small`` (480x360), ``medium`` (640x480),
@@ -49,7 +49,7 @@ Default sizes are ``tiny`` (420x315), ``small`` (480x360), ``medium`` (640x480),
 
 ::
 
-    {{ video|embed:'800x600' }}
+    {{ my_video|embed:'800x600' }}
 
 Usage of variables:
 
