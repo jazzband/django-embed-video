@@ -4,6 +4,7 @@ django-embed-video
 Django app for easy embeding YouTube and Vimeo videos and music from SoundCloud.
 
 .. image:: https://travis-ci.org/yetty/django-embed-video.png?branch=master
+    :target: https://travis-ci.org/yetty/django-embed-video
 
 
 Installation
