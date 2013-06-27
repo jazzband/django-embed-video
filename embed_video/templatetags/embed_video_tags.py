@@ -1,5 +1,5 @@
 from django.template import Library, Node, TemplateSyntaxError
-from django.utils.safestring import mark_safe
+from django.utils.safestring import mark_safe, SafeText
 
 from ..base import detect_backend, SoundCloundBackend
 
@@ -40,6 +40,9 @@ class VideoNode(Node):
 
 @register.filter(is_safe=True)
 def embed(backend, _size='small'):
+    if isinstance(backend, SafeText):
+        backend = detect_backend(backend)
+
     sizes = {
         'tiny': (420, 315),
         'small': (480, 360),

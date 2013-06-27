@@ -53,6 +53,15 @@ class EmbedVideoTestCase(TestCase):
 
         self.assertEqual(template.render(self._grc()).strip(), rendered)
 
+    def test_direct_embed(self):
+        template = Template("""
+            {% load embed_video_tags %}
+            {{ 'http://www.youtube.com/watch?v=jsrRJyHBvzw'|embed:'large' }}
+        """)
+        rendered = u'<iframe width="960" height="720" src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" frameborder="0" allowfullscreen></iframe>'
+
+        self.assertEqual(template.render(self._grc()).strip(), rendered)
+
     def test_embed_user_size(self):
         template = Template("""
             {% load embed_video_tags %}

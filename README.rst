@@ -55,10 +55,21 @@ Usage of variables:
 
 ::
 
-    {% video item.video as video %}
-        URL: {{ video.url }}
-        Thumbnail: {{ video.thumbnail }}
+    {% video item.video as my_video %}
+        URL: {{ my_video.url }}
+        Thumbnail: {{ my_video.thumbnail }}
     {% endvideo %}
+
+
+There is a simplier way, if you don't need work with parameters as
+``my_video.url`` or ``my_video.thumbnail`` and you want to use just ``embed``
+tag.
+
+::
+
+    {{ 'http://www.youtube.com/watch?v=guXyvo2FfLs'|embed:'large' }}
+
+
 
 
 Model examples
@@ -82,6 +93,7 @@ TODO
 - Vimeo thumbnail
 
 
+.. vim: set tw=80:
 
 
 
