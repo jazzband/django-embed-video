@@ -24,7 +24,7 @@ class NoIdFound(Exception):
 
 
 def detect_backend(url):
-    if DETECT_YOUTUBE.match(url):
+    if DETECT_YOUTUBE.search(url):
         return YoutubeBackend(url)
     elif DETECT_VIMEO.match(url):
         return VimeoBackend(url)
