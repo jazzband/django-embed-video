@@ -94,7 +94,8 @@ class SoundCloundBackend(VideoBackend):
 
 class YoutubeBackend(VideoBackend):
     re_code = re.compile(
-        r'youtu(?:be\.com/watch\?v=|\.be/)(?P<code>[\w-]*)(&(amp;)?[\w\?=]*)?',
+        r'(?:http|https|)(?::\/\/|)(?:www.|)(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))(?P<code>[\w\-]{11})[a-z0-9;:@?&%=+\/\$_.-]*',
+        # r'youtu(?:be\.com/watch\?v=|\.be/)(?P<code>[\w-]*)(&(amp;)?[\w\?=]*)?',
         re.I
     )
     pattern_url = 'http://www.youtube.com/embed/%s?wmode=opaque'
