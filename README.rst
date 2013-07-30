@@ -76,7 +76,7 @@ tag.
 Model examples
 ---------------
 
-Using the EmbedVideoField you provide validation of correct URL.
+Using the EmbedVideoField provides you validation of URLs.
 
 ::
 
@@ -85,6 +85,17 @@ Using the EmbedVideoField you provide validation of correct URL.
 
     class Item(models.Model):
         video = EmbedVideoField()  # same like models.URLField()
+
+
+
+
+Contributing
+*************
+
+I will be really pleased if you will provide patch to this Django app. Feel free
+in changing source code, but please keep `PEP8 <http://www.python.org/dev/peps/pep-0008/>`_
+rules and `Zen <http://www.python.org/dev/peps/pep-0020/>`_.
+
 
 
 TODO
