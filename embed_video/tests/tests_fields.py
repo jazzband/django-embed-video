@@ -43,6 +43,3 @@ class EmbedVideoFormFieldTestCase(TestCase):
             mock_detect_backend.side_effect = UnknownIdException
             self.assertRaises(ValidationError, self.formfield.validate,
                               ('http://youtube.com/v/123/',))
-
-if __name__ == '__main__':
-    main()

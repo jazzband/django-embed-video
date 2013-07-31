@@ -128,7 +128,3 @@ class EmbedVideoTestCase(TestCase):
             backend = SoundCloundBackend(url[0])
             code = backend.get_code()
             self.assertEqual(code, url[1])
-
-
-if __name__ == '__main__':
-    main()
