@@ -1,13 +1,9 @@
-import os
-
 from mock import patch
-from unittest import main, TestCase
+from unittest import TestCase
 
 from django.forms import ValidationError
 from ..fields import EmbedVideoField, EmbedVideoFormField
 from ..base import UnknownBackendException, UnknownIdException
-
-os.environ['DJANGO_SETTINGS_MODULE'] = 'embed_video.tests.django_settings'
 
 
 class EmbedVideoFieldTestCase(TestCase):

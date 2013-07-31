@@ -1,6 +1,4 @@
-import os
-
-from unittest import main, TestCase
+from unittest import TestCase
 
 from django.http import HttpRequest
 from django.template.base import Template
@@ -8,8 +6,6 @@ from django.template.context import RequestContext
 
 from ..base import detect_backend, YoutubeBackend, VimeoBackend, \
         SoundCloundBackend
-
-os.environ['DJANGO_SETTINGS_MODULE'] = 'embed_video.tests.django_settings'
 
 
 class EmbedVideoTestCase(TestCase):
