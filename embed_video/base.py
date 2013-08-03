@@ -19,7 +19,7 @@ class UnknownBackendException(Exception):
     pass
 
 
-class NoIdFound(Exception):
+class UnknownIdException(Exception):
     pass
 
 
@@ -46,13 +46,6 @@ class VideoBackend(object):
         match = self.re_code.search(self._url)
         if match:
             return match.group('code')
-        else:
-            parse_data = urlparse.urlparse(self._url)
-            try:
-                return urlparse.parse_qs(parse_data.query)['v'][0]
-            except KeyError:
-                pass
-            raise NoIdFound
 
     def get_url(self):
         return self.pattern_url % self.code
@@ -102,6 +95,18 @@ class YoutubeBackend(VideoBackend):
     )
     pattern_url = 'http://www.youtube.com/embed/%s?wmode=opaque'
     pattern_thumbnail_url = 'http://img.youtube.com/vi/%s/hqdefault.jpg'
+
+    def get_code(self):
+        code = super(YoutubeBackend, self).get_code()
+
+        if not code:
+            parse_data = urlparse.urlparse(self._url)
+            try:
+                code = urlparse.parse_qs(parse_data.query)['v'][0]
+            except KeyError:
+                raise UnknownIdException
+
+        return code
 
 
 class VimeoBackend(VideoBackend):

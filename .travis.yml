@@ -6,4 +6,10 @@ env:
     - DJANGO_VERSION=1.5.1
 install:
     - pip install -q Django==$DJANGO_VERSION --use-mirrors
-script: python setup.py test
+    - pip install coveralls --use-mirrors
+    - pip install mock --use-mirrors
+    - pip install south --use-mirrors
+script:
+    - coverage run --source=embed_video setup.py test
+after_success:
+    - coveralls

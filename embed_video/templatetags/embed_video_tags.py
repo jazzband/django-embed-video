@@ -35,7 +35,7 @@ class VideoNode(Node):
             yield node
 
     def __repr__(self):
-        return '<VideoNode>'
+        return '<VideoNode "%s">' % (self.url)
 
 
 @register.filter(is_safe=True)
