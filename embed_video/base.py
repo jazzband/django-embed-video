@@ -4,7 +4,8 @@ import requests
 import json
 
 DETECT_YOUTUBE = re.compile(
-    r'^(http(s)?://(www\.)?)?youtu(\.?)be(\.com)?.*', re.I
+    # r'^(http(s)?://(www\.)?)?youtu(\.?)be(\.com)?.*', re.I
+    r'(?:www.|)?youtu(\.?)be(\.com)?.*', re.I
 )
 DETECT_VIMEO = re.compile(
     r'^(http(s)?://(www\.)?)?vimeo\.com.*', re.I
@@ -23,7 +24,7 @@ class UnknownIdException(Exception):
 
 
 def detect_backend(url):
-    if DETECT_YOUTUBE.match(url):
+    if DETECT_YOUTUBE.search(url):
         return YoutubeBackend(url)
     elif DETECT_VIMEO.match(url):
         return VimeoBackend(url)
@@ -87,7 +88,9 @@ class SoundCloundBackend(VideoBackend):
 
 class YoutubeBackend(VideoBackend):
     re_code = re.compile(
-        r'youtu(?:be\.com/watch\?v=|\.be/)(?P<code>[\w-]*)(&(amp;)?[\w\?=]*)?',
+        r'(?:http|https|)(?::\/\/|)(?:www.|)(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))(?P<code>[\w\-]{11})[a-z0-9;:@?&%=+\/\$_.-]*',
+        # r'(?:http|https|)(?::\/\/|)(?:www.|)(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))(?P<code>[\w\-]{11})[a-z0-9;:@?&%=+\/\$_.-]*',
+        # r'youtu(?:be\.com/watch\?v=|\.be/)(?P<code>[\w-]*)(&(amp;)?[\w\?=]*)?',
         re.I
     )
     pattern_url = 'http://www.youtube.com/embed/%s?wmode=opaque'
