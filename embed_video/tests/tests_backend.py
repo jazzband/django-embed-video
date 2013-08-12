@@ -5,10 +5,17 @@ from django.template.base import Template
 from django.template.context import RequestContext
 
 from ..base import detect_backend, YoutubeBackend, VimeoBackend, \
-        SoundCloundBackend
+        SoundCloundBackend, UnknownBackendException
 
 
 class EmbedVideoTestCase(TestCase):
+    unknown_backend_urls = (
+        'http://myurl.com/?video=http://www.youtube.com/watch?v=jsrRJyHBvzw',
+        'http://myurl.com/?video=www.youtube.com/watch?v=jsrRJyHBvzw',
+        'http://youtube.com.myurl.com/watch?v=jsrRJyHBvzw',
+        'http://vimeo.com.myurl.com/66577491',
+    )
+
     youtube_urls = (
         ('http://www.youtube.com/watch?v=jsrRJyHBvzw', 'jsrRJyHBvzw'),
         ('http://youtube.com/watch?v=jsrRJyHBvzw', 'jsrRJyHBvzw'),
@@ -91,6 +98,15 @@ class EmbedVideoTestCase(TestCase):
         rendered = 'http://player.vimeo.com/video/66577491'
 
         self.assertEqual(template.render(self._grc()).strip(), rendered)
+
+    def test_detect_bad_urls(self):
+        for url in self.unknown_backend_urls:
+            try:
+                backend = detect_backend(url)
+                self.assertEqual(backend, False)
+            except UnknownBackendException:
+                assert True
+
 
     def test_detect_youtube(self):
         for url in self.youtube_urls:

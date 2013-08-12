@@ -4,13 +4,13 @@ import requests
 import json
 
 DETECT_YOUTUBE = re.compile(
-    r'^(http(s)?://(www\.)?)?youtu(\.?)be(\.com)?.*', re.I
+    r'^(http(s)?://(www\.)?)?youtu(\.?)be(\.com)?/.*', re.I
 )
 DETECT_VIMEO = re.compile(
-    r'^(http(s)?://(www\.)?)?vimeo\.com.*', re.I
+    r'^(http(s)?://(www\.)?)?vimeo\.com/.*', re.I
 )
 DETECT_SOUNDCLOUD = re.compile(
-    r'^(http(s)?://(www\.)?)?soundcloud\.com.*', re.I
+    r'^(http(s)?://(www\.)?)?soundcloud\.com/.*', re.I
 )
 
 
