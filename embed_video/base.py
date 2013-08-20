@@ -67,10 +67,7 @@ class YoutubeBackend(VideoBackend):
 
         if not code:
             parse_data = urlparse.urlparse(self._url)
-            try:
-                code = urlparse.parse_qs(parse_data.query)['v'][0]
-            except KeyError:
-                raise UnknownIdException
+            code = urlparse.parse_qs(parse_data.query)['v'][0]
 
         return code
 
