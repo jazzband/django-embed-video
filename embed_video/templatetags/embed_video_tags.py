@@ -1,7 +1,7 @@
 from django.template import Library, Node, TemplateSyntaxError
 from django.utils.safestring import mark_safe, SafeText
 
-from ..base import detect_backend, SoundCloundBackend
+from ..base import detect_backend, SoundCloudBackend
 
 register = Library()
 
@@ -43,6 +43,17 @@ def embed(backend, _size='small'):
     if isinstance(backend, SafeText):
         backend = detect_backend(backend)
 
+    size = _embed_get_size(_size)
+    params = _embed_get_params(backend, size)
+
+    return mark_safe(
+        '<iframe width="%(width)d" height="%(height)d" '
+        'src="%(url)s" frameborder="0" allowfullscreen>'
+        '</iframe>' % params
+    )
+
+
+def _embed_get_size(size):
     sizes = {
         'tiny': (420, 315),
         'small': (480, 360),
@@ -51,22 +62,22 @@ def embed(backend, _size='small'):
         'huge': (1280, 960),
     }
 
-    if _size in sizes:
-        size = sizes[_size]
-    elif 'x' in _size:
-        size = _size.split('x')
+    if size in sizes:
+        return sizes[size]
+    elif 'x' in size:
+        return [int(x) for x in size.split('x')]
 
+
+def _embed_get_params(backend, size):
     params = {
         'url': backend.url,
-        'width': int(size[0]),
-        'height': int(size[1]),
+        'width': size[0],
+        'height': size[1],
     }
 
-    if isinstance(backend, SoundCloundBackend):
+    if isinstance(backend, SoundCloudBackend):
         params.update({'height': backend.height})
 
-    return mark_safe(
-        '<iframe width="%(width)d" height="%(height)d" '
-        'src="%(url)s" frameborder="0" allowfullscreen>'
-        '</iframe>' % params
-    )
+    return params
+
+

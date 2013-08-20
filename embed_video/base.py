@@ -28,7 +28,7 @@ def detect_backend(url):
     elif DETECT_VIMEO.match(url):
         return VimeoBackend(url)
     elif DETECT_SOUNDCLOUD.match(url):
-        return SoundCloundBackend(url)
+        return SoundCloudBackend(url)
     else:
         raise UnknownBackendException
 
@@ -37,6 +37,7 @@ class VideoBackend(object):
     def __init__(self, url):
         self._url = url
 
+        self.backend = self.__class__.__name__
         self.code = self.get_code()
         self.url = self.get_url()
         self.thumbnail = self.get_thumbnail_url()
@@ -51,38 +52,6 @@ class VideoBackend(object):
 
     def get_thumbnail_url(self):
         return self.pattern_thumbnail_url % self.code
-
-
-class SoundCloundBackend(VideoBackend):
-    base_url = 'http://soundcloud.com/oembed'
-
-    re_code = re.compile(r'src=".*%2F(?P<code>\d+)&show_artwork.*"', re.I)
-    re_url = re.compile(r'src="(?P<url>.*?)"', re.I)
-
-    def __init__(self, url):
-        params = {
-            'format': 'json',
-            'url': url,
-        }
-
-        r = requests.get(self.base_url, data=params)
-        self.response = json.loads(r.text)
-
-        self.width = self.response.get('width')
-        self.height = self.response.get('height')
-
-        super(SoundCloundBackend, self).__init__(url)
-
-    def get_thumbnail_url(self):
-        return self.response.get('thumbnail_url')
-
-    def get_url(self):
-        match = self.re_url.search(self.response.get('html'))
-        return match.group('url')
-
-    def get_code(self):
-        match = self.re_code.search(self.response.get('html'))
-        return match.group('code')
 
 
 class YoutubeBackend(VideoBackend):
@@ -112,3 +81,35 @@ class VimeoBackend(VideoBackend):
 
     def get_thumbnail_url(self):
         pass  # not implemented
+
+
+class SoundCloudBackend(VideoBackend):
+    base_url = 'http://soundcloud.com/oembed'
+
+    re_code = re.compile(r'src=".*%2F(?P<code>\d+)&show_artwork.*"', re.I)
+    re_url = re.compile(r'src="(?P<url>.*?)"', re.I)
+
+    def __init__(self, url):
+        params = {
+            'format': 'json',
+            'url': url,
+        }
+
+        r = requests.get(self.base_url, data=params)
+        self.response = json.loads(r.text)
+
+        self.width = self.response.get('width')
+        self.height = self.response.get('height')
+
+        super(SoundCloudBackend, self).__init__(url)
+
+    def get_thumbnail_url(self):
+        return self.response.get('thumbnail_url')
+
+    def get_url(self):
+        match = self.re_url.search(self.response.get('html'))
+        return match.group('url')
+
+    def get_code(self):
+        match = self.re_code.search(self.response.get('html'))
+        return match.group('code')

@@ -65,6 +65,7 @@ Usage of variables:
     {% video item.video as my_video %}
         URL: {{ my_video.url }}
         Thumbnail: {{ my_video.thumbnail }}
+        Backend: {{ my_video.backend }}
     {% endvideo %}
 
 
