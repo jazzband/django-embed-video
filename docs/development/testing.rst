@@ -1,6 +1,21 @@
 Testing
 ==============================================
 
+Requirements
+-------------
+
+You need ``nose``, ``mock`` and ``south`` libraries to run tests.
+
+:: 
+
+  pip install nose
+  pip install mock
+  pip install south
+
+
+Running tests
+------------------
+
 Run tests with this command:
 
 ::
