@@ -1,8 +1,8 @@
 Changes
 *******
 
-0.3
-------
+Release 0.3 (Aug. 20, 2013)
+----------------------------
 
 - Security fix: faked urls are treated as invalid. See `this page
   <https://github.com/yetty/django-embed-video/commit/d0d357b767e324a7cc21b5035357fdfbc7c8ce8e>`_
@@ -27,12 +27,12 @@ Changes
     {% endvideo %}
 
 
-0.2
------
+Release 0.2 (June 25, 2013) 
+----------------------------
 
 - Support of SoundCloud
 
-0.1
------
+Release 0.1 (June 1, 2013)
+----------------------------
 
 - Initial release
