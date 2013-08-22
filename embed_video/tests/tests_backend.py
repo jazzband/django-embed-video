@@ -13,19 +13,31 @@ class EmbedVideoTestCase(TestCase):
     )
 
     youtube_urls = (
-        ('http://www.youtube.com/watch?v=jsrRJyHBvzw', 'jsrRJyHBvzw'),
-        ('http://youtube.com/watch?v=jsrRJyHBvzw', 'jsrRJyHBvzw'),
         ('http://youtu.be/jsrRJyHBvzw', 'jsrRJyHBvzw'),
-        ('http://www.youtube.com/watch?v=iwGFalTRHDA&feature=related', 'iwGFalTRHDA'),
         ('http://youtu.be/n17B_uFF4cA', 'n17B_uFF4cA'),
-        ('http://www.youtube.com/watch?v=t-ZRX8984sc', 't-ZRX8984sc'),
         ('http://youtu.be/t-ZRX8984sc', 't-ZRX8984sc'),
+        ('https://youtu.be/t-ZRX8984sc', 't-ZRX8984sc'),
+        ('http://youtube.com/watch?v=jsrRJyHBvzw', 'jsrRJyHBvzw'),
+        ('https://youtube.com/watch?v=jsrRJyHBvzw', 'jsrRJyHBvzw'),
+        ('http://www.youtube.com/v/0zM3nApSvMg?rel=0', '0zM3nApSvMg'),
+        ('https://www.youtube.com/v/0zM3nApSvMg?rel=0', '0zM3nApSvMg'),
+        ('http://www.youtube.com/embed/0zM3nApSvMg?rel=0', '0zM3nApSvMg'),
+        ('https://www.youtube.com/embed/0zM3nApSvMg?rel=0', '0zM3nApSvMg'),
+        ('http://www.youtube.com/watch?v=jsrRJyHBvzw', 'jsrRJyHBvzw'),
+        ('https://www.youtube.com/watch?v=t-ZRX8984sc', 't-ZRX8984sc'),
+        ('http://www.youtube.com/watch?v=iwGFalTRHDA&feature=related', 'iwGFalTRHDA'),
+        ('https://www.youtube.com/watch?v=iwGFalTRHDA&feature=related', 'iwGFalTRHDA'),
         ('http://www.youtube.com/watch?feature=player_embedded&v=2NpZbaAIXag', '2NpZbaAIXag'),
+        ('https://www.youtube.com/watch?feature=player_embedded&v=2NpZbaAIXag', '2NpZbaAIXag'),
     )
 
     vimeo_urls = (
         ('http://vimeo.com/66577491', '66577491'),
+        ('https://vimeo.com/66577491', '66577491'),
         ('http://www.vimeo.com/66577491', '66577491'),
+        ('https://www.vimeo.com/66577491', '66577491'),
+        ('http://player.vimeo.com/video/66577491', '66577491'),
+        ('https://player.vimeo.com/video/66577491', '66577491'),
     )
 
     soundcloud_urls = (

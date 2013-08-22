@@ -10,10 +10,10 @@ import requests
 import json
 
 DETECT_YOUTUBE = re.compile(
-    r'^(http(s)?://(www\.)?)?youtu(\.?)be(\.com)?/.*', re.I
+    r'^(http(s)?://)?(www\.)?youtu(\.?)be(\.com)?/.*', re.I
 )
 DETECT_VIMEO = re.compile(
-    r'^(http(s)?://(www\.)?)?vimeo\.com/.*', re.I
+    r'^(http(s)?://)?(www\.)?(player\.)?vimeo\.com/.*', re.I
 )
 DETECT_SOUNDCLOUD = re.compile(
     r'^(http(s)?://(www\.)?)?soundcloud\.com/.*', re.I
@@ -100,8 +100,17 @@ class YoutubeBackend(VideoBackend):
     Backend for YouTube URLs.
     """
     re_code = re.compile(
-        r'youtu(?:be\.com/watch\?v=|\.be/)(?P<code>[\w-]*)(&(amp;)?[\w\?=]*)?',
-        re.I
+        r'''youtu(\.?)be(\.com)?/  # match youtube's domains
+            (embed/)?  # match the embed url syntax
+            (v/)?
+            (watch\?v=)?  # match the youtube page url
+            (ytscreeningroom\?v=)?
+            (feeds/api/videos/)?
+            (user\S*[^\w\-\s])?
+            (\S*[^\w\-\s])?
+            (?P<code>[\w\-]{11})[a-z0-9;:@?&%=+/\$_.-]*  # match and extract
+        ''',
+        re.I|re.X
     )
     pattern_url = 'http://www.youtube.com/embed/%s?wmode=opaque'
     pattern_thumbnail_url = 'http://img.youtube.com/vi/%s/hqdefault.jpg'
@@ -120,7 +129,8 @@ class VimeoBackend(VideoBackend):
     """
     Backend for Vimeo URLs.
     """
-    re_code = re.compile(r'vimeo\.com/(?P<code>[0-9]+)', re.I)
+
+    re_code = re.compile(r'''vimeo\.com/(video/)?(?P<code>[0-9]+)''', re.I)
     pattern_url = 'http://player.vimeo.com/video/%s'
 
     def get_thumbnail_url(self):
