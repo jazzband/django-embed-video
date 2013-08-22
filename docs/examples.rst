@@ -76,6 +76,37 @@ Admin examples
 
 
 
+Custom backends
+###############################################
+
+If you have specific needs and default backends don't suits you, you can write
+your custom backend. 
+
+``my_project/my_app/backends.py``::
+
+  from embed_video.backends import VideoBackend
+
+  class CustomBackend(VideoBackend):
+      re_detect = re.compile(r'http://myvideo\.com/[0-9]+')
+      re_code = re.compile(r'http://myvideo\.com/(?P<code>[0-9]+)')
+
+      pattern_url = 'http://play.myvideo.com/c/%s/'
+      pattern_thumbnail_url = 'http://thumb.myvideo.com/c/%s/'
+
+You can also overwrite :py:class:`~embed_video.backends.VideoBackend` methods,
+if using regular expressions isn't good enough for you.
+
+``my_project/my_project/settings.py``::
+
+  EMBED_VIDEO_BACKENDS = (
+      'embed_video.backends.YoutubeBackend',
+      'embed_video.backends.VimeoBackend',
+      'embed_video.backends.SoundCloudBackend',
+      'my_app.backends.CustomBackend',
+  )
+
+
+
 Low level API examples
 ###############################################
 
