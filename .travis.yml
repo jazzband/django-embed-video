@@ -10,6 +10,6 @@ install:
     - pip install mock --use-mirrors
     - pip install south --use-mirrors
 script:
-    - coverage run --source=embed_video setup.py test
+    - coverage run setup.py test
 after_success:
     - coveralls
