@@ -23,6 +23,10 @@ class UnknownIdException(Exception):
 
 
 def detect_backend(url):
+    """
+    Detect the right backend for given URL.
+    """
+
     if DETECT_YOUTUBE.match(url):
         return YoutubeBackend(url)
     elif DETECT_VIMEO.match(url):
@@ -34,6 +38,31 @@ def detect_backend(url):
 
 
 class VideoBackend(object):
+    """
+    Base backend, good to inherit.
+    """
+
+    re_code = None
+    """
+    Compiled regex (:py:func:`re.compile`) to search code in URL.
+
+    Example: ``re.compile(r'myvideo\.com/\?code=(?P<code>\w+)')``
+    """
+
+    pattern_url = None
+    """
+    Pattern in which the code is inserted.
+
+    Example: ``http://myvideo.com?code=%s``
+    """
+
+    pattern_thumbnail_url = None
+    """
+    Pattern in which the code is inserted to get thumbnail url.
+
+    Example: ``http://static.myvideo.com/thumbs/%s``
+    """
+
     def __init__(self, url):
         self._url = url
 
@@ -43,11 +72,17 @@ class VideoBackend(object):
         self.thumbnail = self.get_thumbnail_url()
 
     def get_code(self):
+        """
+        Returns searched code from URL by :py:data:`re_code`.
+        """
         match = self.re_code.search(self._url)
         if match:
             return match.group('code')
 
     def get_url(self):
+        """
+        Returns URL folded from :py:data:`pattern_url` and parsed code.
+        """
         return self.pattern_url % self.code
 
     def get_thumbnail_url(self):
@@ -55,6 +90,9 @@ class VideoBackend(object):
 
 
 class YoutubeBackend(VideoBackend):
+    """
+    Backend for YouTube URLs.
+    """
     re_code = re.compile(
         r'youtu(?:be\.com/watch\?v=|\.be/)(?P<code>[\w-]*)(&(amp;)?[\w\?=]*)?',
         re.I
@@ -73,6 +111,9 @@ class YoutubeBackend(VideoBackend):
 
 
 class VimeoBackend(VideoBackend):
+    """
+    Backend for Vimeo URLs.
+    """
     re_code = re.compile(r'vimeo\.com/(?P<code>[0-9]+)', re.I)
     pattern_url = 'http://player.vimeo.com/video/%s'
 
@@ -81,6 +122,9 @@ class VimeoBackend(VideoBackend):
 
 
 class SoundCloudBackend(VideoBackend):
+    """
+    Backend for SoundCloud URLs.
+    """
     base_url = 'http://soundcloud.com/oembed'
 
     re_code = re.compile(r'src=".*%2F(?P<code>\d+)&show_artwork.*"', re.I)

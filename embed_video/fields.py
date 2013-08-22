@@ -9,6 +9,12 @@ __all__ = ('EmbedVideoField', 'EmbedVideoFormField')
 
 
 class EmbedVideoField(models.URLField):
+    """
+
+    Model field for embeded video. Descendant of
+    :py:class:`django.db.models.URLField`.
+    """
+
     def formfield(self, **kwargs):
         defaults = {'form_class': EmbedVideoFormField}
         defaults.update(kwargs)
@@ -25,6 +31,12 @@ class EmbedVideoField(models.URLField):
 
 
 class EmbedVideoFormField(forms.URLField):
+    """
+
+    Form field for embeded video. Descendant of
+    :py:class:`django.forms.URLField`
+    """
+
     def validate(self, url):
         super(EmbedVideoFormField, self).validate(url)
 
