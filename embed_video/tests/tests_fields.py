@@ -39,3 +39,9 @@ class EmbedVideoFormFieldTestCase(TestCase):
             mock_detect_backend.side_effect = UnknownIdException
             self.assertRaises(ValidationError, self.formfield.validate,
                               ('http://youtube.com/v/123/',))
+
+    def test_validation_correct(self):
+        url = 'http://my-testing.url.com'
+        with patch('embed_video.fields.detect_backend') as mock_detect_backend:
+            mock_detect_backend.return_value = True
+            self.assertEqual(url, self.formfield.validate(url))

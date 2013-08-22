@@ -4,14 +4,13 @@ import requests
 import json
 
 DETECT_YOUTUBE = re.compile(
-    # r'^(http(s)?://(www\.)?)?youtu(\.?)be(\.com)?.*', re.I
-    r'(?:www.|)?youtu(\.?)be(\.com)?.*', re.I
+    r'^(http(s)?://(www\.)?)?youtu(\.?)be(\.com)?/.*', re.I
 )
 DETECT_VIMEO = re.compile(
-    r'^(http(s)?://(www\.)?)?vimeo\.com.*', re.I
+    r'^(http(s)?://(www\.)?)?vimeo\.com/.*', re.I
 )
 DETECT_SOUNDCLOUD = re.compile(
-    r'^(http(s)?://(www\.)?)?soundcloud\.com.*', re.I
+    r'^(http(s)?://(www\.)?)?soundcloud\.com/.*', re.I
 )
 
 
@@ -29,7 +28,7 @@ def detect_backend(url):
     elif DETECT_VIMEO.match(url):
         return VimeoBackend(url)
     elif DETECT_SOUNDCLOUD.match(url):
-        return SoundCloundBackend(url)
+        return SoundCloudBackend(url)
     else:
         raise UnknownBackendException
 
@@ -38,6 +37,7 @@ class VideoBackend(object):
     def __init__(self, url):
         self._url = url
 
+        self.backend = self.__class__.__name__
         self.code = self.get_code()
         self.url = self.get_url()
         self.thumbnail = self.get_thumbnail_url()
@@ -54,7 +54,33 @@ class VideoBackend(object):
         return self.pattern_thumbnail_url % self.code
 
 
-class SoundCloundBackend(VideoBackend):
+class YoutubeBackend(VideoBackend):
+    re_code = re.compile(
+        r'youtu(?:be\.com/watch\?v=|\.be/)(?P<code>[\w-]*)(&(amp;)?[\w\?=]*)?',
+        re.I
+    )
+    pattern_url = 'http://www.youtube.com/embed/%s?wmode=opaque'
+    pattern_thumbnail_url = 'http://img.youtube.com/vi/%s/hqdefault.jpg'
+
+    def get_code(self):
+        code = super(YoutubeBackend, self).get_code()
+
+        if not code:
+            parse_data = urlparse.urlparse(self._url)
+            code = urlparse.parse_qs(parse_data.query)['v'][0]
+
+        return code
+
+
+class VimeoBackend(VideoBackend):
+    re_code = re.compile(r'vimeo\.com/(?P<code>[0-9]+)', re.I)
+    pattern_url = 'http://player.vimeo.com/video/%s'
+
+    def get_thumbnail_url(self):
+        pass  # not implemented
+
+
+class SoundCloudBackend(VideoBackend):
     base_url = 'http://soundcloud.com/oembed'
 
     re_code = re.compile(r'src=".*%2F(?P<code>\d+)&show_artwork.*"', re.I)
@@ -72,7 +98,7 @@ class SoundCloundBackend(VideoBackend):
         self.width = self.response.get('width')
         self.height = self.response.get('height')
 
-        super(SoundCloundBackend, self).__init__(url)
+        super(SoundCloudBackend, self).__init__(url)
 
     def get_thumbnail_url(self):
         return self.response.get('thumbnail_url')
@@ -84,34 +110,3 @@ class SoundCloundBackend(VideoBackend):
     def get_code(self):
         match = self.re_code.search(self.response.get('html'))
         return match.group('code')
-
-
-class YoutubeBackend(VideoBackend):
-    re_code = re.compile(
-        r'(?:http|https|)(?::\/\/|)(?:www.|)(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))(?P<code>[\w\-]{11})[a-z0-9;:@?&%=+\/\$_.-]*',
-        # r'(?:http|https|)(?::\/\/|)(?:www.|)(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))(?P<code>[\w\-]{11})[a-z0-9;:@?&%=+\/\$_.-]*',
-        # r'youtu(?:be\.com/watch\?v=|\.be/)(?P<code>[\w-]*)(&(amp;)?[\w\?=]*)?',
-        re.I
-    )
-    pattern_url = 'http://www.youtube.com/embed/%s?wmode=opaque'
-    pattern_thumbnail_url = 'http://img.youtube.com/vi/%s/hqdefault.jpg'
-
-    def get_code(self):
-        code = super(YoutubeBackend, self).get_code()
-
-        if not code:
-            parse_data = urlparse.urlparse(self._url)
-            try:
-                code = urlparse.parse_qs(parse_data.query)['v'][0]
-            except KeyError:
-                raise UnknownIdException
-
-        return code
-
-
-class VimeoBackend(VideoBackend):
-    re_code = re.compile(r'vimeo\.com/(?P<code>[0-9]+)', re.I)
-    pattern_url = 'http://player.vimeo.com/video/%s'
-
-    def get_thumbnail_url(self):
-        pass  # not implemented
