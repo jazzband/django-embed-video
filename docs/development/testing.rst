@@ -15,5 +15,5 @@ Run tests with coverage:
 
 ::
   
-  coverage run --source=embed_video setup.py test 
+  coverage run setup.py test 
   coverage report
