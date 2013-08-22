@@ -2,12 +2,19 @@ from django.db import models
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from .base import detect_backend, UnknownIdException, UnknownBackendException
+from .backends import detect_backend, UnknownIdException, \
+                      UnknownBackendException
 
 __all__ = ('EmbedVideoField', 'EmbedVideoFormField')
 
 
 class EmbedVideoField(models.URLField):
+    """
+
+    Model field for embeded video. Descendant of
+    :py:class:`django.db.models.URLField`.
+    """
+
     def formfield(self, **kwargs):
         defaults = {'form_class': EmbedVideoFormField}
         defaults.update(kwargs)
@@ -24,6 +31,12 @@ class EmbedVideoField(models.URLField):
 
 
 class EmbedVideoFormField(forms.URLField):
+    """
+
+    Form field for embeded video. Descendant of
+    :py:class:`django.forms.URLField`
+    """
+
     def validate(self, url):
         super(EmbedVideoFormField, self).validate(url)
 

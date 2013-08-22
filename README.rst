@@ -12,115 +12,57 @@ Django app for easy embeding YouTube and Vimeo videos and music from SoundCloud.
 .. image:: https://pypip.in/d/django-embed-video/badge.png
     :target: https://crate.io/packages/django-embed-video/
 
+Documentation
+*************
 
-Installation
+Documentation is here: http://django-embed-video.rtfd.org/
+
+
+Quick start
 ************
 
-::
+#. Install ``django-embed-video``:
 
-    pip install django-embed-video
+   ::
 
-
-or from sources
-
-::
-
-    pip install git+https://github.com/yetty/django-embed-video.git
+      pip install django-embed-video
 
 
-Add ``embed_video`` to ``INSTALLED_APPS`` in your Django settings.
+   or from sources
+
+   ::
+
+      pip install git+https://github.com/yetty/django-embed-video.git
 
 
-Examples
-********
+#. Add ``embed_video`` to ``INSTALLED_APPS`` in your Django settings.
 
-Template examples
------------------
 
-First you have to load the `embed_video_tags` template tags in your template:
+#. Use template tags:
 
-::
+   ::
 
-    {% load embed_video_tags %}
+      {% load embed_video_tags %}
 
-Simple embeding of video:
-
-::
-
-    {% video item.video as my_video %}
-        {{ my_video|embed:'small' }}
-    {% endvideo %}
-
-Default sizes are ``tiny`` (420x315), ``small`` (480x360), ``medium`` (640x480),
-``large`` (960x720) and ``huge`` (1280x960). You can set your own size:
-
-::
-
-    {{ my_video|embed:'800x600' }}
-
-Usage of variables:
-
-::
-
-    {% video item.video as my_video %}
+      The video tag:
+      {% video item.video as my_video %}
         URL: {{ my_video.url }}
         Thumbnail: {{ my_video.thumbnail }}
         Backend: {{ my_video.backend }}
-    {% endvideo %}
+      {% endvideo %}
 
+      Or embed shortcut:
+      {{ my_video|embed:'800x600' }}
 
-There is a simplier way, if you don't need work with parameters as
-``my_video.url`` or ``my_video.thumbnail`` and you want to use just ``embed``
-tag.
+#. Use model fields
 
-::
+   ::
 
-    {{ 'http://www.youtube.com/watch?v=guXyvo2FfLs'|embed:'large' }}
+      from django.db import models
+      from embed_video.fields import EmbedVideoField
 
-
-
-
-Model examples
----------------
-
-Using the EmbedVideoField provides you validation of URLs.
-
-::
-
-    from django.db import models
-    from embed_video.fields import EmbedVideoField
-
-    class Item(models.Model):
-        video = EmbedVideoField()  # same like models.URLField()
-
-
-
-
-Contributing
-*************
-
-I will be really pleased if you will provide patch to this Django app. Feel free
-in changing source code, but please keep `PEP8 <http://www.python.org/dev/peps/pep-0008/>`_
-rules and `Zen <http://www.python.org/dev/peps/pep-0020/>`_.
-
-
-
-TODO
-*****
-
-- provide AdminEmbedVideoMixin
-- Vimeo thumbnail
-
-
-
-Websites using django-embed-video
-*********************************
-
-- `Tchorici.cz <http://www.tchorici.cz>`_ (`sources
-  <https://github.com/yetty/Tchorici/>`_)
-
-*Are you using django-embed-video? Send pull request!*
-
+      class Item(models.Model):
+          video = EmbedVideoField()  # same like models.URLField()
 
 
 .. vim: set tw=80:

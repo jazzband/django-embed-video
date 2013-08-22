@@ -1,6 +1,7 @@
 from setuptools import setup, find_packages
 
 import os
+import sys
 
 
 def read(fname):
@@ -8,6 +9,11 @@ def read(fname):
 
 README = read('README.rst')
 CHANGES = read('CHANGES.rst')
+
+extra_kwargs = {}
+
+if sys.version_info >= (3,):
+    extra_kwargs = {'use_2to3': True}
 
 setup(
     name='django-embed-video',
@@ -26,5 +32,6 @@ setup(
     ],
     keywords=['youtube', 'vimeo', 'video'],
     test_suite='embed_video.tests.tests',
-    install_requires=['requests >= 1.2.3', ],
+    install_requires=['requests >= 1.2.3',],
+    **extra_kwargs
 )

@@ -6,7 +6,7 @@ from django.http import HttpRequest
 from django.template.base import Template
 from django.template.context import RequestContext
 
-from embed_video.base import YoutubeBackend, SoundCloudBackend
+from embed_video.backends import YoutubeBackend, SoundCloudBackend
 from embed_video.templatetags.embed_video_tags import VideoNode, \
         _embed_get_size, _embed_get_params
 
