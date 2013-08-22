@@ -120,11 +120,11 @@ class EmbedVideoNodeTestCase(TestCase):
         self.assertEqual(str(node), '<VideoNode "some_url">')
 
     def test_embed_get_params(self):
-        url = 'http://youtu.be/13456'
+        url = 'http://youtu.be/jsrRJyHBvzw'
         backend = YoutubeBackend(url)
         params = _embed_get_params(backend, (3, 8))
 
-        self.assertEqual('http://www.youtube.com/embed/13456?wmode=opaque', params['url'])
+        self.assertEqual('http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque', params['url'])
         self.assertEqual(3, params['width'])
         self.assertEqual(8, params['height'])
 
