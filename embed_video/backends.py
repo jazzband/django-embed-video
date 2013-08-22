@@ -94,7 +94,6 @@ class YoutubeBackend(VideoBackend):
     Backend for YouTube URLs.
     """
     re_code = re.compile(
-        # r'youtu(?:be\.com/watch\?v=|\.be/)(?P<code>[\w-]*)(&(amp;)?[\w\?=]*)?',
         r'''youtu(\.?)be(\.com)?/  # match youtube's domains
             (embed/)?  # match the embed url syntax
             (v/)?
