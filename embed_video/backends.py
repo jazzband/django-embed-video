@@ -1,5 +1,11 @@
+import sys
 import re
-import urlparse
+
+if sys.version_info >= (3, ):
+    import urllib.parse as urlparse
+else:
+    import urlparse
+
 import requests
 import json
 

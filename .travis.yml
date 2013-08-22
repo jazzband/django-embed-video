@@ -9,7 +9,9 @@ install:
     - pip install coveralls --use-mirrors
     - pip install mock --use-mirrors
     - pip install south --use-mirrors
+    - pip install nose
 script:
-    - coverage run setup.py test
+    - python setup.py build
+    - nosetests --with-coverage --cover-package=embed_video --cover-tests --cover-erase
 after_success:
     - coveralls
