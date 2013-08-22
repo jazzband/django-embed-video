@@ -1,23 +1,18 @@
 import sys
 import re
+import requests
+import json
+
+from importlib import import_module
 
 if sys.version_info >= (3, ):
     import urllib.parse as urlparse
 else:
     import urlparse
 
-import requests
-import json
+from django.core.exceptions import ImproperlyConfigured
 
-DETECT_YOUTUBE = re.compile(
-    r'^(http(s)?://)?(www\.)?youtu(\.?)be(\.com)?/.*', re.I
-)
-DETECT_VIMEO = re.compile(
-    r'^(http(s)?://)?(www\.)?(player\.)?vimeo\.com/.*', re.I
-)
-DETECT_SOUNDCLOUD = re.compile(
-    r'^(http(s)?://(www\.)?)?soundcloud\.com/.*', re.I
-)
+from .settings import EMBED_VIDEO_BACKENDS
 
 
 class UnknownBackendException(Exception):
@@ -28,19 +23,53 @@ class UnknownIdException(Exception):
     pass
 
 
+def import_by_path(dotted_path, error_prefix=''):
+    """
+    Import a dotted module path and return the attribute/class designated by
+    the last name in the path. Raise ImproperlyConfigured if something goes
+    wrong.
+
+    .. warning::
+        .. deprecated:: Django 1.6
+
+        Function :py:func:`~django.utils.module_loading.import_by_path`) has
+        been added in Django 1.6.
+    """
+    try:
+        module_path, class_name = dotted_path.rsplit('.', 1)
+    except ValueError:
+        raise ImproperlyConfigured("%s%s doesn't look like a module path" % (
+            error_prefix, dotted_path))
+    try:
+        module = import_module(module_path)
+    except ImportError as e:
+        msg = '%sError importing module %s: "%s"' % (
+            error_prefix, module_path, e)
+        raise ImproperlyConfigured(msg)
+    try:
+        attr = getattr(module, class_name)
+    except AttributeError:
+        raise ImproperlyConfigured('%sModule "%s" does not define a "%s" \
+                                   attribute/class' %
+                                   (error_prefix, module_path, class_name))
+    return attr
+
+
 def detect_backend(url):
     """
     Detect the right backend for given URL.
+
+    .. todo::
+
+
     """
 
-    if DETECT_YOUTUBE.match(url):
-        return YoutubeBackend(url)
-    elif DETECT_VIMEO.match(url):
-        return VimeoBackend(url)
-    elif DETECT_SOUNDCLOUD.match(url):
-        return SoundCloudBackend(url)
-    else:
-        raise UnknownBackendException
+    for backend_name in EMBED_VIDEO_BACKENDS:
+        backend = import_by_path(backend_name)
+        if backend.re_detect.match(url):
+            return backend(url)
+
+    raise UnknownBackendException
 
 
 class VideoBackend(object):
@@ -53,6 +82,14 @@ class VideoBackend(object):
     Compiled regex (:py:func:`re.compile`) to search code in URL.
 
     Example: ``re.compile(r'myvideo\.com/\?code=(?P<code>\w+)')``
+    """
+
+    re_detect = None
+    """
+    Compilede regec (:py:func:`re.compile`) to detect, if input URL is valid
+    for current backend.
+
+    Example: ``re.compile(r'^http://myvideo\.com/.*')``
     """
 
     pattern_url = None
@@ -99,6 +136,10 @@ class YoutubeBackend(VideoBackend):
     """
     Backend for YouTube URLs.
     """
+    re_detect = re.compile(
+        r'^(http(s)?://)?(www\.)?youtu(\.?)be(\.com)?/.*', re.I
+    )
+
     re_code = re.compile(
         r'''youtu(\.?)be(\.com)?/  # match youtube's domains
             (embed/)?  # match the embed url syntax
@@ -112,6 +153,7 @@ class YoutubeBackend(VideoBackend):
         ''',
         re.I|re.X
     )
+
     pattern_url = 'http://www.youtube.com/embed/%s?wmode=opaque'
     pattern_thumbnail_url = 'http://img.youtube.com/vi/%s/hqdefault.jpg'
 
@@ -129,7 +171,9 @@ class VimeoBackend(VideoBackend):
     """
     Backend for Vimeo URLs.
     """
-
+    re_detect = re.compile(
+        r'^(http(s)?://)?(www\.)?(player\.)?vimeo\.com/.*', re.I
+    )
     re_code = re.compile(r'''vimeo\.com/(video/)?(?P<code>[0-9]+)''', re.I)
     pattern_url = 'http://player.vimeo.com/video/%s'
 
@@ -143,6 +187,7 @@ class SoundCloudBackend(VideoBackend):
     """
     base_url = 'http://soundcloud.com/oembed'
 
+    re_detect = re.compile(r'^(http(s)?://(www\.)?)?soundcloud\.com/.*', re.I)
     re_code = re.compile(r'src=".*%2F(?P<code>\d+)&show_artwork.*"', re.I)
     re_url = re.compile(r'src="(?P<url>.*?)"', re.I)
 
