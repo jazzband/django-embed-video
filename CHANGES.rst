@@ -1,3 +1,19 @@
+Release 0.4 (Aug. 22, 2013)
+----------------------------
+
+- Documentation was rewrited and moved to http://django-embed-video.rtfd.org/ .
+
+- Custom backends
+  (http://django-embed-video.rtfd.org/en/latest/examples.html#custom-backends).
+
+- Improved YouTube and Vimeo regex.
+
+- Support for Python 3.
+
+- Renamed ``base`` to ``backends``.
+
+
+
 Release 0.3 (Aug. 20, 2013)
 ----------------------------
 

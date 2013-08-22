@@ -1,7 +1,6 @@
 from setuptools import setup, find_packages
 
 import os
-import sys
 
 
 def read(fname):
@@ -13,7 +12,7 @@ CHANGES = read('CHANGES.rst')
 setup(
     name='django-embed-video',
     packages=find_packages(),
-    version='0.3',
+    version='0.4',
     author='Juda Kaleta',
     author_email='juda.kaleta@gmail.com',
     url='https://github.com/yetty/django-embed-video',
