@@ -10,7 +10,6 @@ __all__ = ('EmbedVideoField', 'EmbedVideoFormField')
 
 class EmbedVideoField(models.URLField):
     """
-
     Model field for embeded video. Descendant of
     :py:class:`django.db.models.URLField`.
     """
@@ -32,7 +31,6 @@ class EmbedVideoField(models.URLField):
 
 class EmbedVideoFormField(forms.URLField):
     """
-
     Form field for embeded video. Descendant of
     :py:class:`django.forms.URLField`
     """
