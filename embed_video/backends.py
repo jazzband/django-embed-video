@@ -29,7 +29,7 @@ def detect_backend(url):
 
     for backend_name in EMBED_VIDEO_BACKENDS:
         backend = import_by_path(backend_name)
-        if backend.re_detect.match(url):
+        if backend.is_valid(url):
             return backend(url)
 
     raise UnknownBackendException
@@ -77,6 +77,14 @@ class VideoBackend(object):
         self.url = self.get_url()
         self.thumbnail = self.get_thumbnail_url()
 
+    @classmethod
+    def is_valid(klass, url):
+        """
+        Class method to control if passed url is valid for current backend. By
+        default it is done by :py:data:`re_detect` regex.
+        """
+        return True if klass.re_detect.match(url) else False
+
     def get_code(self):
         """
         Returns searched code from URL by :py:data:`re_code`.
@@ -92,6 +100,10 @@ class VideoBackend(object):
         return self.pattern_url % self.code
 
     def get_thumbnail_url(self):
+        """
+        Returns thumbnail URL folded from :py:data:`pattern_thumbnail_url` and
+        parsed code.
+        """
         return self.pattern_thumbnail_url % self.code
 
 
