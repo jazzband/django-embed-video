@@ -19,10 +19,10 @@ class EmbedVideoTestCase(TestCase):
         ('https://youtu.be/t-ZRX8984sc', 't-ZRX8984sc'),
         ('http://youtube.com/watch?v=jsrRJyHBvzw', 'jsrRJyHBvzw'),
         ('https://youtube.com/watch?v=jsrRJyHBvzw', 'jsrRJyHBvzw'),
-        ('http://www.youtube.com/v/0zM3nApSvMg?rel=0', '0zM3nApSvMg')
-        ('https://www.youtube.com/v/0zM3nApSvMg?rel=0', '0zM3nApSvMg')
-        ('http://www.youtube.com/embed/0zM3nApSvMg?rel=0', '0zM3nApSvMg')
-        ('https://www.youtube.com/embed/0zM3nApSvMg?rel=0', '0zM3nApSvMg')
+        ('http://www.youtube.com/v/0zM3nApSvMg?rel=0', '0zM3nApSvMg'),
+        ('https://www.youtube.com/v/0zM3nApSvMg?rel=0', '0zM3nApSvMg'),
+        ('http://www.youtube.com/embed/0zM3nApSvMg?rel=0', '0zM3nApSvMg'),
+        ('https://www.youtube.com/embed/0zM3nApSvMg?rel=0', '0zM3nApSvMg'),
         ('http://www.youtube.com/watch?v=jsrRJyHBvzw', 'jsrRJyHBvzw'),
         ('https://www.youtube.com/watch?v=t-ZRX8984sc', 't-ZRX8984sc'),
         ('http://www.youtube.com/watch?v=iwGFalTRHDA&feature=related', 'iwGFalTRHDA'),
