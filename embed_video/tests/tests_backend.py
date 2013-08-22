@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from ..base import detect_backend, YoutubeBackend, VimeoBackend, \
+from ..backends import detect_backend, YoutubeBackend, VimeoBackend, \
         SoundCloudBackend, UnknownBackendException
 
 

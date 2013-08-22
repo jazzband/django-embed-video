@@ -3,7 +3,7 @@ from unittest import TestCase
 
 from django.forms import ValidationError
 from ..fields import EmbedVideoField, EmbedVideoFormField
-from ..base import UnknownBackendException, UnknownIdException
+from ..backends import UnknownBackendException, UnknownIdException
 
 
 class EmbedVideoFieldTestCase(TestCase):
