@@ -1,13 +1,12 @@
-import sys
 import re
 import requests
 import json
 
 
-if sys.version_info >= (3, ):
-    import urllib.parse as urlparse
-else:
-    import urlparse
+try:
+    import urlparse  # py2
+except:
+    import urllib.parse as urlparse  # py3
 
 
 from .utils import import_by_path

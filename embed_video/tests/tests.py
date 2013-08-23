@@ -1,4 +1,13 @@
-import os
+from unittest import TestCase
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'embed_video.tests.django_settings'
+import embed_video
 
+
+class EmbedVideoTestCase(TestCase):
+    def test_release(self):
+        embed_video.VERSION = ('a', 'b', 'c', 'd')
+        self.assertEqual('a.b.c', embed_video.get_release())
+
+    def test_version(self):
+        embed_video.VERSION = ('a', 'b', 'c', 'd')
+        self.assertEqual('a.b', embed_video.get_version())

@@ -5,7 +5,9 @@ SoundCloud.
 
 VERSION = (0, 5, 'dev')
 
-__version__ = '.'.join(str(i) for i in VERSION[:3])
+
+def get_release():
+    return '.'.join(str(i) for i in VERSION[:3])
 
 
 def get_version():
@@ -13,3 +15,6 @@ def get_version():
     Returns only digit parts of version.
     """
     return '.'.join(str(i) for i in VERSION[:2])
+
+
+__version__ = get_release()
