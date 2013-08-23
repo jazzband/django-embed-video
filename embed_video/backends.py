@@ -2,7 +2,6 @@ import re
 import requests
 import json
 
-
 try:
     import urlparse  # py2
 except:
@@ -10,7 +9,13 @@ except:
 
 
 from .utils import import_by_path
-from .settings import EMBED_VIDEO_BACKENDS
+from .settings import EMBED_VIDEO_BACKENDS, EMBED_VIDEO_CACHE, \
+                      EMBED_VIDEO_CACHE_TIMEOUT
+
+cache = None
+if EMBED_VIDEO_CACHE:
+    from django.core.cache import cache
+
 
 class VideoDoesntExistException(Exception):
     pass
@@ -71,8 +76,36 @@ class VideoBackend(object):
     """
 
     def __init__(self, url):
-        self._url = url
+        """
+        First it tries to load data from cache and if it don't succeed, run
+        :py:meth:`init` and then save it to cache.
+        """
+        if not self._restore_cache(url):
+            self.init(url)
+            self._set_cache(url)
 
+    def _restore_cache(self, url):
+        """
+        Restore data from cache if cache is enabled.
+        """
+        if cache:
+            data = cache.get(url)
+            if data:
+                self.__dict__ = data
+                return True
+
+    def _set_cache(self, url):
+        """
+        Set data to cache if cache is enabled.
+        """
+        if cache:
+            cache.set(url, self.__dict__)
+
+    def init(self, url):
+        """
+        Load all data (:py:meth:`get_code`, :py:meth:`get_url` etc.)
+        """
+        self._url = url
         self.backend = self.__class__.__name__
         self.code = self.get_code()
         self.url = self.get_url()
@@ -156,12 +189,12 @@ class VimeoBackend(VideoBackend):
 
     info = None
 
-    def __init__(self, url):
+    def init(self, url):
         self._url = url
         self.code = self.get_code()
         self.info = self.get_info()
 
-        super(VimeoBackend, self).__init__(url)
+        super(VimeoBackend, self).init(url)
 
     def get_info(self):
         try:
@@ -184,7 +217,7 @@ class SoundCloudBackend(VideoBackend):
     re_code = re.compile(r'src=".*%2F(?P<code>\d+)&show_artwork.*"', re.I)
     re_url = re.compile(r'src="(?P<url>.*?)"', re.I)
 
-    def __init__(self, url):
+    def init(self, url):
         params = {
             'format': 'json',
             'url': url,
@@ -196,7 +229,7 @@ class SoundCloudBackend(VideoBackend):
         self.width = self.response.get('width')
         self.height = self.response.get('height')
 
-        super(SoundCloudBackend, self).__init__(url)
+        super(SoundCloudBackend, self).init(url)
 
     def get_thumbnail_url(self):
         return self.response.get('thumbnail_url')
