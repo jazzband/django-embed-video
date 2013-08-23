@@ -1,7 +1,7 @@
 from django.template import Library, Node, TemplateSyntaxError
 from django.utils.safestring import mark_safe, SafeText
 
-from ..backends import detect_backend, SoundCloudBackend
+from ..backends import detect_backend, SoundCloudBackend, VideoBackend
 
 register = Library()
 
@@ -95,7 +95,7 @@ def embed(backend, size='small'):
 
     """
 
-    if isinstance(backend, SafeText):
+    if not isinstance(backend, VideoBackend):
         backend = detect_backend(backend)
 
     _size = _embed_get_size(size)
