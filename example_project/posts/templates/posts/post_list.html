@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load embed_video_tags %}
+
+{% block content %}
+  <h1>Posts</h1>
+
+  <table class="table">
+    {% for post in object_list %}
+    <tr>
+      {% video post.video as video %}
+        <td><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></td>
+        <td><img src="{{ video.thumbnail }}" width=60 height=45 class="img-rounded"></td>
+      {% endvideo %}
+    </tr>
+    {% endfor %}
+  </table>
+
+  <ul class="pager">
+    {% if page_obj.has_previous %}
+    <li class="previous"><a href="?page={{ page_obj.previous_page_number }}">&larr; Older</a></li>
+    {% endif %}
+    {% if page_obj.has_next %}
+      <li class="next"><a href="?page={{ page_obj.next_page_number }}">Newer &rarr;</a></li>
+    {% endif %}
+  </ul>
+{% endblock %}

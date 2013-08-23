@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% load embed_video_tags %}
+
+{% block content %}
+
+<h1>
+  {{ object.title }}
+  <a href="{% url "posts:list" %}" class="pull-right"><small>Back to list</small></a>
+</h1>
+
+{{ object.video|embed:"large" }}
+{% endblock %}
