@@ -47,6 +47,13 @@ tag.
     {{ 'http://www.youtube.com/watch?v=guXyvo2FfLs'|embed:'large' }}
 
 
+.. note::
+
+  We recommend to use `sorl-thumbnail
+  <http://sorl-thumbnail.readthedocs.org/en/latest/>`_ to `change
+  <http://sorl-thumbnail.readthedocs.org/en/latest/examples.html#template-examples>`_
+  thumbnail size.
+
 
 
 Model examples

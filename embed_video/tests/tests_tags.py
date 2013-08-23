@@ -64,18 +64,18 @@ class EmbedVideoNodeTestCase(TestCase):
     def test_tag_vimeo(self):
         template = Template("""
             {% load embed_video_tags %}
-            {% video 'https://vimeo.com/66577491' as vimeo %}
+            {% video 'https://vimeo.com/72304002' as vimeo %}
                 {{ vimeo.url }}
             {% endvideo %}
         """)
-        rendered = 'http://player.vimeo.com/video/66577491'
+        rendered = 'http://player.vimeo.com/video/72304002'
 
         self.assertEqual(template.render(self._grc()).strip(), rendered)
 
     def test_tag_backend_variable_vimeo(self):
         template = Template("""
             {% load embed_video_tags %}
-            {% video 'https://vimeo.com/66577491' as vimeo %}
+            {% video 'https://vimeo.com/72304002' as vimeo %}
                 {{ vimeo.backend }}
             {% endvideo %}
         """)

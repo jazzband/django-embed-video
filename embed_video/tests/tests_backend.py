@@ -1,15 +1,15 @@
 from unittest import TestCase
 
 from ..backends import detect_backend, YoutubeBackend, VimeoBackend, \
-        SoundCloudBackend, UnknownBackendException
+        SoundCloudBackend, UnknownBackendException, VideoDoesntExistException
 
 
-class EmbedVideoTestCase(TestCase):
+class BackendsTestCase(TestCase):
     unknown_backend_urls = (
         'http://myurl.com/?video=http://www.youtube.com/watch?v=jsrRJyHBvzw',
         'http://myurl.com/?video=www.youtube.com/watch?v=jsrRJyHBvzw',
         'http://youtube.com.myurl.com/watch?v=jsrRJyHBvzw',
-        'http://vimeo.com.myurl.com/66577491',
+        'http://vimeo.com.myurl.com/72304002',
     )
 
     youtube_urls = (
@@ -32,12 +32,12 @@ class EmbedVideoTestCase(TestCase):
     )
 
     vimeo_urls = (
-        ('http://vimeo.com/66577491', '66577491'),
-        ('https://vimeo.com/66577491', '66577491'),
-        ('http://www.vimeo.com/66577491', '66577491'),
-        ('https://www.vimeo.com/66577491', '66577491'),
-        ('http://player.vimeo.com/video/66577491', '66577491'),
-        ('https://player.vimeo.com/video/66577491', '66577491'),
+        ('http://vimeo.com/72304002', '72304002'),
+        ('https://vimeo.com/72304002', '72304002'),
+        ('http://www.vimeo.com/72304002', '72304002'),
+        ('https://www.vimeo.com/72304002', '72304002'),
+        ('http://player.vimeo.com/video/72304002', '72304002'),
+        ('https://player.vimeo.com/video/72304002', '72304002'),
     )
 
     soundcloud_urls = (
@@ -87,3 +87,7 @@ class EmbedVideoTestCase(TestCase):
             backend = SoundCloudBackend(url[0])
             code = backend.get_code()
             self.assertEqual(code, url[1])
+
+    def test_vimeo_get_info_exception(self):
+        self.assertRaises(VideoDoesntExistException, VimeoBackend,
+                           'http://vimeo.com/123')

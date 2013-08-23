@@ -13,6 +13,8 @@ else:
 from .utils import import_by_path
 from .settings import EMBED_VIDEO_BACKENDS
 
+class VideoDoesntExistException(Exception):
+    pass
 
 class UnknownBackendException(Exception):
     pass
@@ -151,9 +153,26 @@ class VimeoBackend(VideoBackend):
     )
     re_code = re.compile(r'''vimeo\.com/(video/)?(?P<code>[0-9]+)''', re.I)
     pattern_url = 'http://player.vimeo.com/video/%s'
+    pattern_info = 'http://vimeo.com/api/v2/video/%s.json'
+
+    info = None
+
+    def __init__(self, url):
+        self._url = url
+        self.code = self.get_code()
+        self.info = self.get_info()
+
+        super(VimeoBackend, self).__init__(url)
+
+    def get_info(self):
+        try:
+            response = requests.get(self.pattern_info % self.code)
+            return json.loads(response.text)[0]
+        except ValueError:
+            raise VideoDoesntExistException()
 
     def get_thumbnail_url(self):
-        pass  # not implemented
+        return self.info['thumbnail_large']
 
 
 class SoundCloudBackend(VideoBackend):
