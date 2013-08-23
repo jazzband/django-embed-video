@@ -23,6 +23,7 @@ Repository is located on GitHub: https://github.com/yetty/django-embed-video
 
    installation
    examples
+   example-project
 
    development/index 
 
