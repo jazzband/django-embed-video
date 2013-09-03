@@ -1,3 +1,19 @@
+
+Release 0.5 (Sep. 03, 2013)
+---------------------------
+
+- Added Vimeo thumbnails support
+
+- Added caching of results
+
+- Added example project
+
+- Fixed template tag embed 
+
+- Fixed raising UnknownIdException in YouTube detecting.
+
+
+
 Release 0.4 (Aug. 22, 2013)
 ----------------------------
 
