@@ -1,7 +1,8 @@
 from unittest import TestCase
 
 from ..backends import detect_backend, YoutubeBackend, VimeoBackend, \
-        SoundCloudBackend, UnknownBackendException, VideoDoesntExistException
+        SoundCloudBackend, UnknownBackendException, \
+        VideoDoesntExistException, UnknownIdException
 
 
 class BackendsTestCase(TestCase):
@@ -91,3 +92,9 @@ class BackendsTestCase(TestCase):
     def test_vimeo_get_info_exception(self):
         self.assertRaises(VideoDoesntExistException, VimeoBackend,
                            'http://vimeo.com/123')
+
+    def test_youtube_keyerror(self):
+        """ Test for issue #7 """
+        self.assertRaises(UnknownIdException, YoutubeBackend,
+                          'http://youtube.com/watch?id=5')
+

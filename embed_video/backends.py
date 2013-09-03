@@ -20,6 +20,7 @@ if EMBED_VIDEO_CACHE:
 class VideoDoesntExistException(Exception):
     pass
 
+
 class UnknownBackendException(Exception):
     pass
 
@@ -160,7 +161,7 @@ class YoutubeBackend(VideoBackend):
             (\S*[^\w\-\s])?
             (?P<code>[\w\-]{11})[a-z0-9;:@?&%=+/\$_.-]*  # match and extract
         ''',
-        re.I|re.X
+        re.I | re.X
     )
 
     pattern_url = 'http://www.youtube.com/embed/%s?wmode=opaque'
@@ -171,7 +172,11 @@ class YoutubeBackend(VideoBackend):
 
         if not code:
             parse_data = urlparse.urlparse(self._url)
-            code = urlparse.parse_qs(parse_data.query)['v'][0]
+
+            try:
+                code = urlparse.parse_qs(parse_data.query)['v'][0]
+            except KeyError:
+                raise UnknownIdException
 
         return code
 
