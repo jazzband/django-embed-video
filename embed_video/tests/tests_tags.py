@@ -8,7 +8,7 @@ from django.template.context import RequestContext
 
 from embed_video.backends import YoutubeBackend, SoundCloudBackend
 from embed_video.templatetags.embed_video_tags import VideoNode, \
-        _embed_get_size, _embed_get_params
+        _embed_get_size
 
 
 class EmbedVideoNodeTestCase(TestCase):
@@ -118,22 +118,6 @@ class EmbedVideoNodeTestCase(TestCase):
 
         node = VideoNode(self.parser, self.token)
         self.assertEqual(str(node), '<VideoNode "some_url">')
-
-    def test_embed_get_params(self):
-        url = 'http://youtu.be/jsrRJyHBvzw'
-        backend = YoutubeBackend(url)
-        params = _embed_get_params(backend, (3, 8))
-
-        self.assertEqual('http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque', params['url'])
-        self.assertEqual(3, params['width'])
-        self.assertEqual(8, params['height'])
-
-    def test_embed_get_params_soundcloud_height(self):
-        url = 'https://soundcloud.com/glassnote/mumford-sons-i-will-wait'
-        backend = SoundCloudBackend(url)
-        params = _embed_get_params(backend, (1, 2))
-
-        self.assertEqual(backend.height, params['height'])
 
     def test_videonode_iter(self):
         out = ['a', 'b', 'c', 'd']
