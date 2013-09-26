@@ -9,8 +9,7 @@ except:
 
 
 from .utils import import_by_path
-from .settings import EMBED_VIDEO_BACKENDS, EMBED_VIDEO_CACHE, \
-                      EMBED_VIDEO_CACHE_TIMEOUT
+from .settings import EMBED_VIDEO_BACKENDS, EMBED_VIDEO_CACHE
 
 cache = None
 if EMBED_VIDEO_CACHE:
@@ -141,6 +140,18 @@ class VideoBackend(object):
         """
         return self.pattern_thumbnail_url % self.code
 
+    def get_embed_code(self, width, height):
+        """
+        Returns embed code.
+        """
+        return '<iframe width="%(width)d" height="%(height)d" ' \
+                'src="%(url)s" frameborder="0" allowfullscreen>' \
+                '</iframe>' % {
+                    'url': self.url,
+                    'width': width,
+                    'height': height,
+                }
+
 
 class YoutubeBackend(VideoBackend):
     """
@@ -246,3 +257,6 @@ class SoundCloudBackend(VideoBackend):
     def get_code(self):
         match = self.re_code.search(self.response.get('html'))
         return match.group('code')
+
+    def get_embed_code(self, width, height):
+        return super(SoundCloudBackend, self).get_embed_code(width=width, height=self.height)
