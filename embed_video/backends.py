@@ -9,8 +9,7 @@ except:
 
 
 from .utils import import_by_path
-from .settings import EMBED_VIDEO_BACKENDS, EMBED_VIDEO_CACHE, \
-                      EMBED_VIDEO_CACHE_TIMEOUT
+from .settings import EMBED_VIDEO_BACKENDS, EMBED_VIDEO_CACHE
 
 cache = None
 if EMBED_VIDEO_CACHE:

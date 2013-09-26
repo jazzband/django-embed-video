@@ -1,7 +1,7 @@
 from django.template import Library, Node, TemplateSyntaxError
-from django.utils.safestring import mark_safe, SafeText
+from django.utils.safestring import mark_safe
 
-from ..backends import detect_backend, SoundCloudBackend, VideoBackend
+from ..backends import detect_backend, VideoBackend
 
 register = Library()
 
