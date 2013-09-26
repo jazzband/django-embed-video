@@ -7,6 +7,7 @@ try:
 except:
     import urllib.parse as urlparse  # py3
 
+from django.utils.functional import cached_property
 
 from .utils import import_by_path
 from .settings import EMBED_VIDEO_BACKENDS, EMBED_VIDEO_CACHE
@@ -109,7 +110,14 @@ class VideoBackend(object):
         self.backend = self.__class__.__name__
         self.code = self.get_code()
         self.url = self.get_url()
-        self.thumbnail = self.get_thumbnail_url()
+
+    @cached_property
+    def thumbnail(self):
+        return self.get_thumbnail_url()
+
+    @cached_property
+    def info(self):
+        return self.get_info()
 
     @classmethod
     def is_valid(klass, url):
@@ -208,7 +216,6 @@ class VimeoBackend(VideoBackend):
     def init(self, url):
         self._url = url
         self.code = self.get_code()
-        self.info = self.get_info()
 
         super(VimeoBackend, self).init(url)
 
@@ -233,29 +240,31 @@ class SoundCloudBackend(VideoBackend):
     re_code = re.compile(r'src=".*%2F(?P<code>\d+)&show_artwork.*"', re.I)
     re_url = re.compile(r'src="(?P<url>.*?)"', re.I)
 
-    def init(self, url):
+    @cached_property
+    def width(self):
+        return self.info.get('width')
+
+    @cached_property
+    def height(self):
+        return self.info.get('height')
+
+    def get_info(self):
         params = {
             'format': 'json',
-            'url': url,
+            'url': self._url,
         }
-
         r = requests.get(self.base_url, data=params)
-        self.response = json.loads(r.text)
-
-        self.width = self.response.get('width')
-        self.height = self.response.get('height')
-
-        super(SoundCloudBackend, self).init(url)
+        return json.loads(r.text)
 
     def get_thumbnail_url(self):
-        return self.response.get('thumbnail_url')
+        return self.info.get('thumbnail_url')
 
     def get_url(self):
-        match = self.re_url.search(self.response.get('html'))
+        match = self.re_url.search(self.info.get('html'))
         return match.group('url')
 
     def get_code(self):
-        match = self.re_code.search(self.response.get('html'))
+        match = self.re_code.search(self.info.get('html'))
         return match.group('code')
 
     def get_embed_code(self, width, height):
