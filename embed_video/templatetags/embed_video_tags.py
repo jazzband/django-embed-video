@@ -99,13 +99,9 @@ def embed(backend, size='small'):
         backend = detect_backend(backend)
 
     _size = _embed_get_size(size)
-    params = _embed_get_params(backend, _size)
 
-    return mark_safe(
-        '<iframe width="%(width)d" height="%(height)d" '
-        'src="%(url)s" frameborder="0" allowfullscreen>'
-        '</iframe>' % params
-    )
+    return mark_safe(backend.get_embed_code(width=_size[0],
+                                            height=_size[1]))
 
 
 def _embed_get_size(size):
@@ -121,18 +117,4 @@ def _embed_get_size(size):
         return sizes[size]
     elif 'x' in size:
         return [int(x) for x in size.split('x')]
-
-
-def _embed_get_params(backend, size):
-    params = {
-        'url': backend.url,
-        'width': size[0],
-        'height': size[1],
-    }
-
-    if isinstance(backend, SoundCloudBackend):
-        params.update({'height': backend.height})
-
-    return params
-
 
