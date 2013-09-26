@@ -90,8 +90,9 @@ class BackendsTestCase(TestCase):
             self.assertEqual(code, url[1])
 
     def test_vimeo_get_info_exception(self):
-        self.assertRaises(VideoDoesntExistException, VimeoBackend,
-                           'http://vimeo.com/123')
+        with self.assertRaises(VideoDoesntExistException):
+            backend = VimeoBackend('http://vimeo.com/123')
+            backend.get_info()
 
     def test_youtube_keyerror(self):
         """ Test for issue #7 """
