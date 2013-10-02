@@ -22,6 +22,7 @@ TEMPLATE_LOADERS = (
 
 ROOT_URLCONF = 'example_project.urls'
 
+STATIC_URL = '/static/'
 
 DJANGO_APPS = (
     'django.contrib.auth',
