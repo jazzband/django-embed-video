@@ -76,6 +76,11 @@ class VimeoBackendTestCase(BackendTestMixin, TestCase):
             backend = VimeoBackend('http://vimeo.com/123')
             backend.get_info()
 
+    def test_get_thumbnail_url(self):
+        backend = VimeoBackend('http://vimeo.com/72304002')
+        self.assertEqual(backend.get_thumbnail_url(),
+                         'http://b.vimeocdn.com/ts/446/150/446150690_640.jpg')
+
 
 class SoundCloudBackendTestCase(BackendTestMixin, TestCase):
     urls = (

@@ -211,8 +211,6 @@ class VimeoBackend(VideoBackend):
     pattern_url = 'http://player.vimeo.com/video/%s'
     pattern_info = 'http://vimeo.com/api/v2/video/%s.json'
 
-    info = None
-
     def init(self, url):
         self._url = url
         self.code = self.get_code()
@@ -227,7 +225,7 @@ class VimeoBackend(VideoBackend):
             raise VideoDoesntExistException()
 
     def get_thumbnail_url(self):
-        return self.info['thumbnail_large']
+        return self.info.get('thumbnail_large')
 
 
 class SoundCloudBackend(VideoBackend):
