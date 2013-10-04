@@ -6,6 +6,18 @@ from .fields import EmbedVideoField
 
 
 class AdminVideoWidget(forms.TextInput):
+    """
+    Widget for video input in administration. If empty it works just like
+    :py:class:`django.forms.TextInput`. Otherwise it renders embedded video
+    together with input field.
+
+    .. todo::
+
+        Django 1.6 provides better parent for this widget -
+        :py:class:`django.forms.URLInput`.
+
+    """
+
     output_format = u'<div style="float:left" class="video">' \
                     u'{video}<br />{input}</div>' \
                     u'<hr style="visibility: hidden; clear:both">'
@@ -36,6 +48,23 @@ class AdminVideoWidget(forms.TextInput):
 
 
 class AdminVideoMixin(object):
+    """
+    Mixin using :py:class:`AdminVideoWidget` for fields with
+    :py:class:`~embed_video.fields.EmbedVideoField`.
+
+    Usage::
+
+        from django.contrib import admin
+        from embed_video.admin import AdminVideoMixin
+        from .models import MyModel
+
+        class MyModelAdmin(AdminVideoMixin, admin.ModelAdmin):
+            pass
+
+        admin.site.register(MyModel, MyModelAdmin)
+
+    """
+
     def formfield_for_dbfield(self, db_field, **kwargs):
         if isinstance(db_field, EmbedVideoField):
             return db_field.formfield(widget=AdminVideoWidget)
