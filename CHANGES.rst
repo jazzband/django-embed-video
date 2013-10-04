@@ -1,3 +1,14 @@
+Release 0.6 (Oct. 04, 2013)
+---------------------------
+
+- Ability to overwrite embed code of backend 
+
+- Caching backends properties 
+
+- PyPy compatibility
+
+- Admin video mixin and video widget
+
 
 Release 0.5 (Sep. 03, 2013)
 ---------------------------
