@@ -5,6 +5,19 @@ from ..backends import detect_backend, YoutubeBackend, VimeoBackend, \
         VideoDoesntExistException, UnknownIdException
 
 
+class BackendTestMixin(object):
+    def test_detect(self):
+        for url in self.urls:
+            backend = detect_backend(url[0])
+            self.assertIsInstance(backend, self.instance)
+
+    def test_code(self):
+        for url in self.urls:
+            backend = self.instance(url[0])
+            code = backend.get_code()
+            self.assertEqual(code, url[1])
+
+
 class VideoBackendTestCase(TestCase):
     unknown_backend_urls = (
         'http://myurl.com/?video=http://www.youtube.com/watch?v=jsrRJyHBvzw',
@@ -18,8 +31,8 @@ class VideoBackendTestCase(TestCase):
             self.assertRaises(UnknownBackendException, detect_backend, url)
 
 
-class YoutubeBackendTestCase(TestCase):
-    youtube_urls = (
+class YoutubeBackendTestCase(BackendTestMixin, TestCase):
+    urls = (
         ('http://youtu.be/jsrRJyHBvzw', 'jsrRJyHBvzw'),
         ('http://youtu.be/n17B_uFF4cA', 'n17B_uFF4cA'),
         ('http://youtu.be/t-ZRX8984sc', 't-ZRX8984sc'),
@@ -38,16 +51,7 @@ class YoutubeBackendTestCase(TestCase):
         ('https://www.youtube.com/watch?feature=player_embedded&v=2NpZbaAIXag', '2NpZbaAIXag'),
     )
 
-    def test_detect_youtube(self):
-        for url in self.youtube_urls:
-            backend = detect_backend(url[0])
-            self.assertIsInstance(backend, YoutubeBackend)
-
-    def test_code_youtube(self):
-        for url in self.youtube_urls:
-            backend = YoutubeBackend(url[0])
-            code = backend.get_code()
-            self.assertEqual(code, url[1])
+    instance = YoutubeBackend
 
     def test_youtube_keyerror(self):
         """ Test for issue #7 """
@@ -55,8 +59,8 @@ class YoutubeBackendTestCase(TestCase):
                           'http://youtube.com/watch?id=5')
 
 
-class VimeoBackendTestCase(TestCase):
-    vimeo_urls = (
+class VimeoBackendTestCase(BackendTestMixin, TestCase):
+    urls = (
         ('http://vimeo.com/72304002', '72304002'),
         ('https://vimeo.com/72304002', '72304002'),
         ('http://www.vimeo.com/72304002', '72304002'),
@@ -65,16 +69,7 @@ class VimeoBackendTestCase(TestCase):
         ('https://player.vimeo.com/video/72304002', '72304002'),
     )
 
-    def test_detect_vimeo(self):
-        for url in self.vimeo_urls:
-            backend = detect_backend(url[0])
-            self.assertIsInstance(backend, VimeoBackend)
-
-    def test_code_vimeo(self):
-        for url in self.vimeo_urls:
-            backend = VimeoBackend(url[0])
-            code = backend.get_code()
-            self.assertEqual(code, url[1])
+    instance = VimeoBackend
 
     def test_vimeo_get_info_exception(self):
         with self.assertRaises(VideoDoesntExistException):
@@ -82,21 +77,12 @@ class VimeoBackendTestCase(TestCase):
             backend.get_info()
 
 
-class SoundCloudBackendTestCase(TestCase):
-    soundcloud_urls = (
+class SoundCloudBackendTestCase(BackendTestMixin, TestCase):
+    urls = (
         ('https://soundcloud.com/glassnote/mumford-sons-i-will-wait', '67129237'),
         ('https://soundcloud.com/matej-roman/jaromir-nohavica-karel-plihal-mikymauz', '7834701'),
         ('https://soundcloud.com/beny97/sets/jaromir-nohavica-prazska', '960591'),
         ('https://soundcloud.com/corbel-keep/norah-jones-come-away-with', '22485933'),
     )
 
-    def test_detect_soundcloud(self):
-        for url in self.soundcloud_urls:
-            backend = detect_backend(url[0])
-            self.assertIsInstance(backend, SoundCloudBackend)
-
-    def test_code_soundcloud(self):
-        for url in self.soundcloud_urls:
-            backend = SoundCloudBackend(url[0])
-            code = backend.get_code()
-            self.assertEqual(code, url[1])
+    instance = SoundCloudBackend
