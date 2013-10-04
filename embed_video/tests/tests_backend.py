@@ -86,3 +86,33 @@ class SoundCloudBackendTestCase(BackendTestMixin, TestCase):
     )
 
     instance = SoundCloudBackend
+
+    def setUp(self):
+        class FooBackend(SoundCloudBackend):
+            url = 'foobar'
+
+            def init(self, *args, **kwargs):
+                return
+
+            def get_info(self):
+                return {
+                    'width': 123,
+                    'height': 321,
+                    'thumbnail_url': 'xyz'
+                }
+
+        self.foo = FooBackend('abcd')
+
+    def test_width(self):
+        self.assertEqual(self.foo.width, 123)
+
+    def test_height(self):
+        self.assertEqual(self.foo.height, 321)
+
+    def test_get_thumbnail_url(self):
+        self.assertEqual(self.foo.get_thumbnail_url(), 'xyz')
+
+    def test_get_embed_code(self):
+        self.assertEqual(self.foo.get_embed_code(100, 200),
+                         '<iframe width="100" height="321" src="foobar" '
+                         'frameborder="0" allowfullscreen></iframe>')
