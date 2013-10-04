@@ -73,13 +73,22 @@ Using the EmbedVideoField provides you validation of URLs.
 
 
 
-Admin examples
+Admin mixin examples
 ###############################################
 
-.. todo::
+Use AdminVideoMixin in admin.py.
 
-  Admin mixins are on TODO list. Be patient or send :doc:`pull request
-  </development/contributing>` :).
+::
+
+    from django.contrib import admin
+    from embed_video.admin import AdminVideoMixin
+    from .models import MyModel
+
+    class MyModelAdmin(AdminVideoMixin, admin.ModelAdmin):
+        pass
+
+    admin.site.register(MyModel, MyModelAdmin)
+
 
 
 
