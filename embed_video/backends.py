@@ -268,4 +268,5 @@ class SoundCloudBackend(VideoBackend):
         return match.group('code')
 
     def get_embed_code(self, width, height):
-        return super(SoundCloudBackend, self).get_embed_code(width=width, height=self.height)
+        return super(SoundCloudBackend, self). \
+                get_embed_code(width=width, height=self.height)
