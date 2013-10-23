@@ -177,7 +177,6 @@ class YoutubeBackend(VideoBackend):
             (ytscreeningroom\?v=)?
             (feeds/api/videos/)?
             (user\S*[^\w\-\s])?
-            (\S*[^\w\-\s])?
             (?P<code>[\w\-]{11})[a-z0-9;:@?&%=+/\$_.-]*  # match and extract
         ''',
         re.I | re.X
