@@ -207,7 +207,7 @@ class VimeoBackend(VideoBackend):
         r'^(http(s)?://)?(www\.)?(player\.)?vimeo\.com/.*', re.I
     )
     re_code = re.compile(r'''vimeo\.com/(video/)?(?P<code>[0-9]+)''', re.I)
-    pattern_url = 'http://player.vimeo.com/video/%s'
+    pattern_url = '//player.vimeo.com/video/%s'
     pattern_info = 'http://vimeo.com/api/v2/video/%s.json'
 
     def init(self, url):
