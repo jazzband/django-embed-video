@@ -1,9 +1,10 @@
 How to run it?
 **************
 
-#. Install Django::
+#. Install Django and PyYAML::
 
      pip install Django
+     pip install pyyaml
 
 #. Create database (you can create admin account)::
 
