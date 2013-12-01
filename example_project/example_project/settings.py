@@ -19,6 +19,7 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.Loader',
 )
 
+APPEND_SLASH = True
 
 ROOT_URLCONF = 'example_project.urls'
 
