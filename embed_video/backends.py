@@ -204,7 +204,7 @@ class VimeoBackend(VideoBackend):
     Backend for Vimeo URLs.
     """
     re_detect = re.compile(
-        r'^(http(s)?://)?(www\.)?(player\.)?vimeo\.com/.*', re.I
+        r'^((http(s)?:)?//)?(www\.)?(player\.)?vimeo\.com/.*', re.I
     )
     re_code = re.compile(r'''vimeo\.com/(video/)?(?P<code>[0-9]+)''', re.I)
     pattern_url = '//player.vimeo.com/video/%s'
