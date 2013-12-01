@@ -1,0 +1,15 @@
+- fields:
+    date_joined: 2013-12-01 05:25:05.084549
+    email: admin@example.com
+    first_name: 'John'
+    groups: []
+    is_active: true
+    is_staff: true
+    is_superuser: true
+    last_login: 2013-12-01 05:25:09.185561
+    last_name: 'Smith'
+    password: pbkdf2_sha256$12000$scfDItXHnci7$ZloMPgY2YAhaFelKGqZ7eJB3mCYbxwua8TxNnCerwP8=
+    user_permissions: []
+    username: admin
+  model: auth.user
+  pk: 1

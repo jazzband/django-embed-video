@@ -6,12 +6,13 @@ How to run it?
      pip install Django
      pip install pyyaml
 
-#. Create database (you can create admin account)::
+#. Create database::
 
-     python manage.py syncdb
+     python manage.py syncdb --noinput
 
 #. Run testing server::
 
      python manage.py runserver
 
-#. Take a look at http://localhost:8000
+#. Take a look at http://localhost:8000 . You can log in to administration with username ``admin``
+   and password ``admin``.
