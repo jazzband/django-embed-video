@@ -5,6 +5,7 @@ python:
     - "pypy"
 env:
     - DJANGO_VERSION=1.5.2
+    - DJANGO_VERSION=1.6
 install:
     - pip install -q Django==$DJANGO_VERSION --use-mirrors
     - pip install coveralls --use-mirrors
