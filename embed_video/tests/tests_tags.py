@@ -68,7 +68,7 @@ class EmbedVideoNodeTestCase(TestCase):
                 {{ vimeo.url }}
             {% endvideo %}
         """)
-        rendered = 'http://player.vimeo.com/video/72304002'
+        rendered = '//player.vimeo.com/video/72304002'
 
         self.assertEqual(template.render(self._grc()).strip(), rendered)
 
