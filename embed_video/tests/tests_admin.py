@@ -33,11 +33,20 @@ class AdminVideoWidgetTestCase(TestCase):
 
         self.assertEqual(
             widget.render('foo', backend.url, size=(100, 100)),
-            backend.get_embed_code(100, 100)
-            + '<input name="foo" size="0" type="text" value="%s" />'
+            '<input name="foo" size="0" type="text" value="%s" />'
                 % backend.url
         )
 
+    def test_get_embed_code(self):
+        backend = VimeoBackend('https://vimeo.com/1')
+        widget = AdminVideoWidget(attrs={'size': '0'})
+        widget.output_format = '{video}{input}'
+
+        self.assertEqual(
+            backend.get_embed_code(100, 100),
+            '<iframe width="100" height="100" src="%s" frameborder="0" allowfullscreen></iframe>'
+                % backend.url
+        )
     def test_incorrect_value(self):
         widget = AdminVideoWidget()
         self.assertEqual(widget.render('foo', 'abcd'),
