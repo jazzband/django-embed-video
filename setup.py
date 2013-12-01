@@ -29,5 +29,5 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
     ],
     keywords=['youtube', 'vimeo', 'video', 'soundcloud'],
-    install_requires=['requests >= 1.2.3', ],
+    install_requires=['requests >= 1.2.3', 'Django >= 1.5'],
 )
