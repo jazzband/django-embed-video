@@ -95,7 +95,7 @@ class EmbedVideoNodeTestCase(TestCase):
     def test_tag_backend_variable_soundcloud(self):
         template = Template("""
             {% load embed_video_tags %}
-            {% video 'https://soundcloud.com/glassnote/mumford-sons-i-will-wait' as soundcloud %}
+            {% video 'https://soundcloud.com/community/soundcloud-case-study-wildlife' as soundcloud %}
                 {{ soundcloud.backend }}
             {% endvideo %}
         """)

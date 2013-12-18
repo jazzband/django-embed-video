@@ -85,7 +85,7 @@ class VimeoBackendTestCase(BackendTestMixin, TestCase):
 
 class SoundCloudBackendTestCase(BackendTestMixin, TestCase):
     urls = (
-        ('https://soundcloud.com/glassnote/mumford-sons-i-will-wait', '67129237'),
+        ('https://soundcloud.com/community/soundcloud-case-study-wildlife', '82244706'),
         ('https://soundcloud.com/matej-roman/jaromir-nohavica-karel-plihal-mikymauz', '7834701'),
         ('https://soundcloud.com/beny97/sets/jaromir-nohavica-prazska', '960591'),
         ('https://soundcloud.com/corbel-keep/norah-jones-come-away-with', '22485933'),
