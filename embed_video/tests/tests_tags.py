@@ -1,4 +1,5 @@
 from unittest import TestCase
+from django.test.client import RequestFactory
 from mock import Mock
 
 from django.template import TemplateSyntaxError
@@ -6,9 +7,7 @@ from django.http import HttpRequest
 from django.template.base import Template
 from django.template.context import RequestContext
 
-from embed_video.backends import YoutubeBackend, SoundCloudBackend
-from embed_video.templatetags.embed_video_tags import VideoNode, \
-        _embed_get_size
+from embed_video.templatetags.embed_video_tags import VideoNode
 
 
 class EmbedVideoNodeTestCase(TestCase):
@@ -16,7 +15,8 @@ class EmbedVideoNodeTestCase(TestCase):
         self.parser = Mock()
         self.token = Mock(methods=['split_contents'])
 
-    def _grc(self):
+    @staticmethod
+    def _grc():
         return RequestContext(HttpRequest())
 
     def test_embed(self):
@@ -130,5 +130,22 @@ class EmbedVideoNodeTestCase(TestCase):
 
         node = FooNode()
         self.assertEqual(out, [x for x in node])
+
+    def test_get_backend_secure(self):
+        class SecureRequest(RequestFactory):
+            is_secure = lambda x: True
+
+        context = {'request': SecureRequest()}
+        backend = VideoNode.get_backend('http://www.youtube.com/watch?v=jsrRJyHBvzw', context)
+        self.assertTrue(backend.is_secure)
+
+    def test_get_backend_insecure(self):
+        class InsecureRequest(RequestFactory):
+            is_secure = lambda x: False
+
+        context = {'request': InsecureRequest()}
+        backend = VideoNode.get_backend('http://www.youtube.com/watch?v=jsrRJyHBvzw', context)
+        self.assertFalse(backend.is_secure)
+
 
 

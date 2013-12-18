@@ -48,17 +48,25 @@ class VideoNode(Node):
     def render(self, context):
         url = self.url.resolve(context)
         context.push()
-        context[self.as_var] = detect_backend(url)
+        context[self.as_var] = self.get_backend(url)
         output = self.nodelist_file.render(context)
         context.pop()
         return output
+
+    @staticmethod
+    def get_backend(url, context=None):
+        backend = detect_backend(url)
+        if context and 'request' in context:
+            backend.is_secure = context['request'].is_secure()
+
+        return backend
 
     def __iter__(self):
         for node in self.nodelist_file:
             yield node
 
     def __repr__(self):
-        return '<VideoNode "%s">' % (self.url)
+        return '<VideoNode "%s">' % self.url
 
 
 @register.filter(is_safe=True)
@@ -94,14 +102,12 @@ def embed(backend, size='small'):
     (eg. ``500x400``).
 
     """
-
     if not isinstance(backend, VideoBackend):
         backend = detect_backend(backend)
 
     _size = _embed_get_size(size)
 
-    return mark_safe(backend.get_embed_code(width=_size[0],
-                                            height=_size[1]))
+    return mark_safe(backend.get_embed_code(width=_size[0], height=_size[1]))
 
 
 def _embed_get_size(size):
