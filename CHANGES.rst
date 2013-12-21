@@ -1,3 +1,15 @@
+Release 0.7 (Dec. 21, 2013)
+---------------------------
+
+- Support for sites running on HTTPS
+
+- ``embed`` filter is deprecated and replaced by ``video`` filter.
+
+- caching for whole backends was removed and replaced by caching properties
+
+- minor improvements on example project (fixtures, urls)
+
+
 Release 0.6 (Oct. 04, 2013)
 ---------------------------
 
