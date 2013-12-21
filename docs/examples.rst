@@ -12,39 +12,28 @@ First you have to load the `embed_video_tags` template tags in your template:
 
     {% load embed_video_tags %}
 
-Simple embeding of video:
+Embedding of video:
 
 ::
 
+    {# you can just embed #}
+    {% video item.video 'small' %}
+
+    {# or use variables (with embedding, too) #}
     {% video item.video as my_video %}
-        {{ my_video|embed:'small' }}
+        URL: {{ my_video.url }}
+        Thumbnail: {{ my_video.thumbnail }}
+        Backend: {{ my_video.backend }}
+        {% video my_video 'small' %}
     {% endvideo %}
+
 
 Default sizes are ``tiny`` (420x315), ``small`` (480x360), ``medium`` (640x480),
 ``large`` (960x720) and ``huge`` (1280x960). You can set your own size:
 
 ::
 
-    {{ my_video|embed:'800x600' }}
-
-Usage of variables:
-
-::
-
-    {% video item.video as my_video %}
-        URL: {{ my_video.url }}
-        Thumbnail: {{ my_video.thumbnail }}
-        Backend: {{ my_video.backend }}
-    {% endvideo %}
-
-
-There is a simplier way, if you don't need work with parameters as
-``my_video.url`` or ``my_video.thumbnail`` and you want to use just ``embed``
-tag.
-
-::
-
-    {{ 'http://www.youtube.com/watch?v=guXyvo2FfLs'|embed:'large' }}
+    {% video my_video '800x600' %}
 
 
 .. note::
@@ -106,11 +95,12 @@ your custom backend.
       re_detect = re.compile(r'http://myvideo\.com/[0-9]+')
       re_code = re.compile(r'http://myvideo\.com/(?P<code>[0-9]+)')
 
-      pattern_url = 'http://play.myvideo.com/c/%s/'
-      pattern_thumbnail_url = 'http://thumb.myvideo.com/c/%s/'
+      allow_https = False
+      pattern_url = '{protocol}://play.myvideo.com/c/{code}/'
+      pattern_thumbnail_url = '{protocol}://thumb.myvideo.com/c/{code}/'
 
 You can also overwrite :py:class:`~embed_video.backends.VideoBackend` methods,
-if using regular expressions isn't good enough for you.
+if using regular expressions isn't well enough.
 
 ``my_project/my_project/settings.py``::
 

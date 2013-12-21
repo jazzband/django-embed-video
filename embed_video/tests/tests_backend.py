@@ -14,8 +14,7 @@ class BackendTestMixin(object):
     def test_code(self):
         for url in self.urls:
             backend = self.instance(url[0])
-            code = backend.get_code()
-            self.assertEqual(code, url[1])
+            self.assertEqual(backend.code, url[1])
 
 
 class VideoBackendTestCase(TestCase):
@@ -56,8 +55,13 @@ class YoutubeBackendTestCase(BackendTestMixin, TestCase):
 
     def test_youtube_keyerror(self):
         """ Test for issue #7 """
-        self.assertRaises(UnknownIdException, YoutubeBackend,
-                          'http://youtube.com/watch?id=5')
+        backend = self.instance('http://youtube.com/watch?id=5')
+        self.assertRaises(UnknownIdException, backend.get_code)
+
+    def test_thumbnail(self):
+        for url in self.urls:
+            backend = self.instance(url[0])
+            self.assertIn(url[1], backend.thumbnail)
 
 
 class VimeoBackendTestCase(BackendTestMixin, TestCase):

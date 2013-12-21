@@ -3,18 +3,15 @@ import requests
 import json
 
 try:
-    import urlparse  # py2
-except:
-    import urllib.parse as urlparse  # py3
+    import urlparse
+except ImportError:
+    # support for py3
+    import urllib.parse as urlparse
 
 from django.utils.functional import cached_property
 
 from .utils import import_by_path
-from .settings import EMBED_VIDEO_BACKENDS, EMBED_VIDEO_CACHE
-
-cache = None
-if EMBED_VIDEO_CACHE:
-    from django.core.cache import cache
+from .settings import EMBED_VIDEO_BACKENDS
 
 
 class VideoDoesntExistException(Exception):
@@ -76,40 +73,32 @@ class VideoBackend(object):
     Example: ``http://static.myvideo.com/thumbs/%s``
     """
 
+    allow_https = True
+    """
+    Sets if HTTPS version allowed for specific backend.
+    """
+
+    is_secure = False
+
     def __init__(self, url):
         """
         First it tries to load data from cache and if it don't succeed, run
         :py:meth:`init` and then save it to cache.
         """
-        if not self._restore_cache(url):
-            self.init(url)
-            self._set_cache(url)
-
-    def _restore_cache(self, url):
-        """
-        Restore data from cache if cache is enabled.
-        """
-        if cache:
-            data = cache.get(url)
-            if data:
-                self.__dict__ = data
-                return True
-
-    def _set_cache(self, url):
-        """
-        Set data to cache if cache is enabled.
-        """
-        if cache:
-            cache.set(url, self.__dict__)
-
-    def init(self, url):
-        """
-        Load all data (:py:meth:`get_code`, :py:meth:`get_url` etc.)
-        """
-        self._url = url
         self.backend = self.__class__.__name__
-        self.code = self.get_code()
-        self.url = self.get_url()
+        self._url = url
+
+    @cached_property
+    def code(self):
+        return self.get_code()
+
+    @cached_property
+    def url(self):
+        return self.get_url()
+
+    @cached_property
+    def protocol(self):
+        return 'https' if self.allow_https and self.is_secure else 'http'
 
     @cached_property
     def thumbnail(self):
@@ -128,9 +117,6 @@ class VideoBackend(object):
         return True if klass.re_detect.match(url) else False
 
     def get_code(self):
-        """
-        Returns searched code from URL by :py:data:`re_code`.
-        """
         match = self.re_code.search(self._url)
         if match:
             return match.group('code')
@@ -139,14 +125,15 @@ class VideoBackend(object):
         """
         Returns URL folded from :py:data:`pattern_url` and parsed code.
         """
-        return self.pattern_url % self.code
+        return self.pattern_url.format(code=self.code, protocol=self.protocol)
 
     def get_thumbnail_url(self):
         """
         Returns thumbnail URL folded from :py:data:`pattern_thumbnail_url` and
         parsed code.
         """
-        return self.pattern_thumbnail_url % self.code
+        return self.pattern_thumbnail_url.format(code=self.code,
+                                                 protocol=self.protocol)
 
     def get_embed_code(self, width, height):
         """
@@ -182,8 +169,8 @@ class YoutubeBackend(VideoBackend):
         re.I | re.X
     )
 
-    pattern_url = 'http://www.youtube.com/embed/%s?wmode=opaque'
-    pattern_thumbnail_url = 'http://img.youtube.com/vi/%s/hqdefault.jpg'
+    pattern_url = '{protocol}://www.youtube.com/embed/{code}?wmode=opaque'
+    pattern_thumbnail_url = '{protocol}://img.youtube.com/vi/{code}/hqdefault.jpg'
 
     def get_code(self):
         code = super(YoutubeBackend, self).get_code()
@@ -207,18 +194,14 @@ class VimeoBackend(VideoBackend):
         r'^((http(s)?:)?//)?(www\.)?(player\.)?vimeo\.com/.*', re.I
     )
     re_code = re.compile(r'''vimeo\.com/(video/)?(?P<code>[0-9]+)''', re.I)
-    pattern_url = '//player.vimeo.com/video/%s'
-    pattern_info = 'http://vimeo.com/api/v2/video/%s.json'
-
-    def init(self, url):
-        self._url = url
-        self.code = self.get_code()
-
-        super(VimeoBackend, self).init(url)
+    pattern_url = '{protocol}://player.vimeo.com/video/{code}'
+    pattern_info = '{protocol}://vimeo.com/api/v2/video/{code}.json'
 
     def get_info(self):
         try:
-            response = requests.get(self.pattern_info % self.code)
+            response = requests.get(
+                self.pattern_info.format(code=self.code, protocol=self.protocol)
+            )
             return json.loads(response.text)[0]
         except ValueError:
             raise VideoDoesntExistException()

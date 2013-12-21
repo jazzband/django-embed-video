@@ -17,18 +17,3 @@ Default::
   )
 
 
-EMBED_VIDEO_CACHE
-------------------
-
-Allows to cache backends data in cache
-
-Default: ``True``
-
-
-EMBED_VIDEO_CACHE_TIMEOUT
--------------------------
-
-To set how long backends data stay in the cache.
-
-Default: ``3600``
-

@@ -23,11 +23,10 @@ class EmbedVideoNodeTestCase(TestCase):
         template = Template("""
             {% load embed_video_tags %}
             {% video 'http://www.youtube.com/watch?v=jsrRJyHBvzw' as ytb %}
-                {{ ytb|embed:'large' }}
+                {% video ytb 'large' %}
             {% endvideo %}
         """)
         rendered = u'<iframe width="960" height="720" src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" frameborder="0" allowfullscreen></iframe>'
-
         self.assertEqual(template.render(self._grc()).strip(), rendered)
 
     def test_direct_embed(self):
@@ -36,19 +35,32 @@ class EmbedVideoNodeTestCase(TestCase):
             {{ 'http://www.youtube.com/watch?v=jsrRJyHBvzw'|embed:'large' }}
         """)
         rendered = u'<iframe width="960" height="720" src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" frameborder="0" allowfullscreen></iframe>'
-
         self.assertEqual(template.render(self._grc()).strip(), rendered)
 
-    def test_embed_user_size(self):
+    def test_direct_embed_tag(self):
+        template = Template("""
+            {% load embed_video_tags %}
+            {% video "http://www.youtube.com/watch?v=jsrRJyHBvzw" "large" %}
+        """)
+        rendered = u'<iframe width="960" height="720" src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" frameborder="0" allowfullscreen></iframe>'
+        self.assertEqual(template.render(self._grc()).strip(), rendered)
+
+    def test_user_size(self):
         template = Template("""
             {% load embed_video_tags %}
             {% video 'http://www.youtube.com/watch?v=jsrRJyHBvzw' as ytb %}
-                {{ ytb|embed:'800x800' }}
+                {% video ytb '800x800' %}
             {% endvideo %}
         """)
         rendered = u'<iframe width="800" height="800" src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" frameborder="0" allowfullscreen></iframe>'
-
         self.assertEqual(template.render(self._grc()).strip(), rendered)
+
+    def test_wrong_size(self):
+        template = Template("""
+            {% load embed_video_tags %}
+            {% video 'http://www.youtube.com/watch?v=jsrRJyHBvzw' 'so x huge' %}
+        """)
+        self.assertRaises(TemplateSyntaxError, template.render, self._grc())
 
     def test_tag_youtube(self):
         template = Template("""
@@ -58,7 +70,6 @@ class EmbedVideoNodeTestCase(TestCase):
             {% endvideo %}
         """)
         rendered = 'http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque'
-
         self.assertEqual(template.render(self._grc()).strip(), rendered)
 
     def test_tag_vimeo(self):
@@ -68,8 +79,7 @@ class EmbedVideoNodeTestCase(TestCase):
                 {{ vimeo.url }}
             {% endvideo %}
         """)
-        rendered = '//player.vimeo.com/video/72304002'
-
+        rendered = 'http://player.vimeo.com/video/72304002'
         self.assertEqual(template.render(self._grc()).strip(), rendered)
 
     def test_tag_backend_variable_vimeo(self):
@@ -104,11 +114,7 @@ class EmbedVideoNodeTestCase(TestCase):
 
     def test_syntax_error(self):
         self.token.split_contents.return_value = []
-
-        try:
-            VideoNode(self.parser, self.token)
-        except TemplateSyntaxError:
-            assert True
+        self.assertRaises(TemplateSyntaxError, VideoNode, self.parser, self.token)
 
     def test_repr(self):
         self.token.split_contents.return_value = (

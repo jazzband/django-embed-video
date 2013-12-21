@@ -9,5 +9,5 @@
   <a href="{% url "posts:list" %}" class="pull-right"><small>Back to list</small></a>
 </h1>
 
-{{ object.video|embed:"large" }}
+{% video object.video "large" %}
 {% endblock %}

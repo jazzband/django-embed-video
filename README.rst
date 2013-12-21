@@ -52,7 +52,7 @@ Quick start
       {% endvideo %}
 
       Or embed shortcut:
-      {{ my_video|embed:'800x600' }}
+      {% video my_video '800x600' %}
 
 #. Use model fields
 

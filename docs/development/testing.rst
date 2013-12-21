@@ -31,3 +31,10 @@ Run tests with coverage:
 ::
  
   nosetests --with-coverage --cover-package=embed_video
+
+
+Testing HTTPS
+-------------
+
+To test HTTPS on development server, `follow this instructions
+<http://www.ianlewis.org/en/testing-https-djangos-development-server>`_.

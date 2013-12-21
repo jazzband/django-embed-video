@@ -19,6 +19,11 @@ class CustomBackendTestCase(TestCase):
         self.assertEqual(self.backend.get_url(),
                          'http://play.myvideo.com/c/1530/')
 
+    def test_url_https(self):
+        self.backend.is_secure = True
+        self.assertEqual(self.backend.get_url(),
+                         'https://play.myvideo.com/c/1530/')
+
     def test_thumbnail(self):
         self.assertEqual(self.backend.get_thumbnail_url(),
                          'http://thumb.myvideo.com/c/1530/')
