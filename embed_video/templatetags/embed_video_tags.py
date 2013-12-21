@@ -137,7 +137,7 @@ class VideoNode(Node):
         except AttributeError:
             raise TemplateSyntaxError(
                 'Incorrect size.\nPossible format is WIDTHxHEIGHT or using '
-                'predefined size ({sizes}).'.format(sizes=', '.join(sizes.iterkeys()))
+                'predefined size ({sizes}).'.format(sizes=', '.join(sizes.keys()))
             )
 
     def __iter__(self):
