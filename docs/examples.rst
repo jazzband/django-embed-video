@@ -6,7 +6,7 @@ Template examples
 
 .. highlight:: html+django
 
-First you have to load the `embed_video_tags` template tags in your template:
+First you have to load the ``embed_video_tags`` template tags in your template:
 
 ::
 
@@ -36,13 +36,17 @@ Default sizes are ``tiny`` (420x315), ``small`` (480x360), ``medium`` (640x480),
     {% video my_video '800x600' %}
 
 
-.. note::
+.. tip::
 
   We recommend to use `sorl-thumbnail
   <http://sorl-thumbnail.readthedocs.org/en/latest/>`_ to `change
   <http://sorl-thumbnail.readthedocs.org/en/latest/examples.html#template-examples>`_
   thumbnail size.
 
+.. tip::
+
+  To speed up your pages, consider `template fragment caching
+  <https://docs.djangoproject.com/en/dev/topics/cache/#template-fragment-caching>`_.
 
 
 Model examples
@@ -50,7 +54,7 @@ Model examples
 
 .. highlight:: python
 
-Using the EmbedVideoField provides you validation of URLs.
+Using the ``EmbedVideoField`` provides you validation of URLs.
 
 ::
 
@@ -65,7 +69,7 @@ Using the EmbedVideoField provides you validation of URLs.
 Admin mixin examples
 ###############################################
 
-Use AdminVideoMixin in admin.py.
+Use ``AdminVideoMixin`` in ``admin.py``.
 
 ::
 

@@ -1,5 +1,5 @@
-How to run it?
-**************
+Running example project
+***********************
 
 #. Install Django and PyYAML::
 
@@ -16,3 +16,10 @@ How to run it?
 
 #. Take a look at http://localhost:8000 . You can log in to administration with username ``admin``
    and password ``admin``.
+
+
+Testing HTTPS
+*************
+
+To test HTTPS on development server, `follow this instructions
+<http://www.ianlewis.org/en/testing-https-djangos-development-server>`_.
