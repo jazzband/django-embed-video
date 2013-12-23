@@ -37,8 +37,17 @@ Quick start
 
 #. Add ``embed_video`` to ``INSTALLED_APPS`` in your Django settings.
 
+#. If you want to detect HTTP/S in template tags, you have to set ``request``
+   context processor in ``settings.TEMPLATE_CONTEXT_PROCESSORS``:
 
-#. Use template tags:
+   ::
+
+       TEMPLATE_CONTEXT_PROCESSORS = (
+           ...
+           'django.core.context_processors.request',
+       )
+
+#. Usage of template tags:
 
    ::
 
@@ -49,12 +58,14 @@ Quick start
         URL: {{ my_video.url }}
         Thumbnail: {{ my_video.thumbnail }}
         Backend: {{ my_video.backend }}
+
+        {% vide my_video "large" %}
       {% endvideo %}
 
       Or embed shortcut:
       {% video my_video '800x600' %}
 
-#. Use model fields
+#. Usage of model fields
 
    ::
 
