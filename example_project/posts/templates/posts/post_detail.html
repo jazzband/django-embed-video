@@ -9,5 +9,15 @@
   <a href="{% url "posts:list" %}" class="pull-right"><small>Back to list</small></a>
 </h1>
 
-{% video object.video "large" %}
+{% video object.video as my_video %}
+  <pre>
+    Backend: {{ my_video.backend }}
+    URL: {{ my_video.url }}
+    Code: {{ my_video.code }}
+    Thumbnail: {{ my_video.thumbnail }}
+    HTTPS: {% if my_video.is_secure %}Yes{% else %}No{% endif %}</pre>
+
+  {% video my_video "large" %}
+{% endvideo %}
+
 {% endblock %}
