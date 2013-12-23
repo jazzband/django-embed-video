@@ -78,13 +78,12 @@ class VideoBackend(object):
     Sets if HTTPS version allowed for specific backend.
     """
 
-    is_secure = False
-
-    def __init__(self, url):
+    def __init__(self, url, is_secure=False):
         """
         First it tries to load data from cache and if it don't succeed, run
         :py:meth:`init` and then save it to cache.
         """
+        self.is_secure = is_secure
         self.backend = self.__class__.__name__
         self._url = url
 
@@ -109,12 +108,12 @@ class VideoBackend(object):
         return self.get_info()
 
     @classmethod
-    def is_valid(klass, url):
+    def is_valid(cls, url):
         """
         Class method to control if passed url is valid for current backend. By
         default it is done by :py:data:`re_detect` regex.
         """
-        return True if klass.re_detect.match(url) else False
+        return True if cls.re_detect.match(url) else False
 
     def get_code(self):
         match = self.re_code.search(self._url)
@@ -140,12 +139,15 @@ class VideoBackend(object):
         Returns embed code.
         """
         return '<iframe width="%(width)d" height="%(height)d" ' \
-                'src="%(url)s" frameborder="0" allowfullscreen>' \
-                '</iframe>' % {
-                    'url': self.url,
-                    'width': width,
-                    'height': height,
-                }
+               'src="%(url)s" frameborder="0" allowfullscreen>' \
+               '</iframe>' % {
+                   'url': self.url,
+                   'width': width,
+                   'height': height,
+               }
+
+    def get_info(self):
+        raise NotImplementedError
 
 
 class YoutubeBackend(VideoBackend):
@@ -249,4 +251,4 @@ class SoundCloudBackend(VideoBackend):
 
     def get_embed_code(self, width, height):
         return super(SoundCloudBackend, self). \
-                get_embed_code(width=width, height=self.height)
+            get_embed_code(width=width, height=self.height)
