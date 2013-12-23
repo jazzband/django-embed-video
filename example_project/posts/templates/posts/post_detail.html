@@ -15,7 +15,7 @@
     URL: {{ my_video.url }}
     Code: {{ my_video.code }}
     Thumbnail: {{ my_video.thumbnail }}
-    HTTPS: {% if my_video.is_secure %}Yes{% else %}No{% endif %}</pre>
+    HTTPS: {% if my_video.protocol == 'https' %}Yes{% else %}No{% endif %}</pre>
 
   {% video my_video "large" %}
 {% endvideo %}
