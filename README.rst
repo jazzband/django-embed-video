@@ -59,7 +59,7 @@ Quick start
         Thumbnail: {{ my_video.thumbnail }}
         Backend: {{ my_video.backend }}
 
-        {% vide my_video "large" %}
+        {% video my_video "large" %}
       {% endvideo %}
 
       Or embed shortcut:
