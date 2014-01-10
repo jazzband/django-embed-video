@@ -4,7 +4,7 @@ Installation & Setup
 Installation
 ##############################################
 
-Use pip to install package:
+The simpliest way is to use pip to install package:
 
 .. code-block:: bash
 
@@ -32,7 +32,7 @@ settings.
       'embed_video',
   )
 
-To detect HTTP/S you have to use :py:class:`~django.core.context_processors.request`
+To detect HTTP/S you must use :py:class:`~django.core.context_processors.request`
 context processor:
 
 .. code-block:: python
