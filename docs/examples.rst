@@ -31,9 +31,11 @@ Embedding of video:
 Default sizes are ``tiny`` (420x315), ``small`` (480x360), ``medium`` (640x480),
 ``large`` (960x720) and ``huge`` (1280x960). You can set your own size:
 
-::
+.. versionadded:: 0.7
 
-    {% video my_video '800x600' %}
+  ::
+
+      {% video my_video '800x600' %}
 
 
 .. tip::
