@@ -11,7 +11,7 @@ except ImportError:
 from django.utils.functional import cached_property
 
 from .utils import import_by_path
-from .settings import EMBED_VIDEO_BACKENDS
+from .settings import EMBED_VIDEO_BACKENDS, EMBED_VIDEO_TIMEOUT
 
 
 class VideoDoesntExistException(Exception):
@@ -202,7 +202,8 @@ class VimeoBackend(VideoBackend):
     def get_info(self):
         try:
             response = requests.get(
-                self.pattern_info.format(code=self.code, protocol=self.protocol)
+                self.pattern_info.format(code=self.code, protocol=self.protocol),
+                timeout=EMBED_VIDEO_TIMEOUT
             )
             return json.loads(response.text)[0]
         except ValueError:
@@ -235,7 +236,9 @@ class SoundCloudBackend(VideoBackend):
             'format': 'json',
             'url': self._url,
         }
-        r = requests.get(self.base_url, data=params)
+        r = requests.get(self.base_url, data=params,
+                         timeout=EMBED_VIDEO_TIMEOUT)
+        
         return json.loads(r.text)
 
     def get_thumbnail_url(self):

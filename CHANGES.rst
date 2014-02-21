@@ -1,3 +1,9 @@
+Release 0.8 (dev)
+-----------------
+
+- Add ``EMBED_VIDEO_TIMEOUT`` to settings.
+
+
 Release 0.7 (Dec. 21, 2013)
 ---------------------------
 
@@ -13,9 +19,9 @@ Release 0.7 (Dec. 21, 2013)
 Release 0.6 (Oct. 04, 2013)
 ---------------------------
 
-- Ability to overwrite embed code of backend 
+- Ability to overwrite embed code of backend
 
-- Caching backends properties 
+- Caching backends properties
 
 - PyPy compatibility
 
@@ -31,14 +37,14 @@ Release 0.5 (Sep. 03, 2013)
 
 - Added example project
 
-- Fixed template tag embed 
+- Fixed template tag embed
 
 - Fixed raising UnknownIdException in YouTube detecting.
 
 
 
 Release 0.4 (Aug. 22, 2013)
-----------------------------
+---------------------------
 
 - Documentation was rewrited and moved to http://django-embed-video.rtfd.org/ .
 
@@ -54,14 +60,14 @@ Release 0.4 (Aug. 22, 2013)
 
 
 Release 0.3 (Aug. 20, 2013)
-----------------------------
+---------------------------
 
 - Security fix: faked urls are treated as invalid. See `this page
   <https://github.com/yetty/django-embed-video/commit/d0d357b767e324a7cc21b5035357fdfbc7c8ce8e>`_
-  for more details. 
+  for more details.
 
 - Fixes:
-  
+
   - allow of empty video field.
 
   - requirements in setup.py
@@ -73,18 +79,18 @@ Release 0.3 (Aug. 20, 2013)
 - ``backend`` variable in ``video`` template tag.
 
   Usage::
-      
+
     {% video item.video as my_video %}
         Backend: {{ my_video.backend }}
     {% endvideo %}
 
 
-Release 0.2 (June 25, 2013) 
-----------------------------
+Release 0.2 (June 25, 2013)
+---------------------------
 
 - Support of SoundCloud
 
 Release 0.1 (June 1, 2013)
-----------------------------
+--------------------------
 
 - Initial release

@@ -1,4 +1,6 @@
 from unittest import TestCase
+from mock import patch
+import requests
 
 from ..backends import detect_backend, YoutubeBackend, VimeoBackend, \
         SoundCloudBackend, UnknownBackendException, \
@@ -87,6 +89,11 @@ class VimeoBackendTestCase(BackendTestMixin, TestCase):
         self.assertEqual(backend.get_thumbnail_url(),
                          'http://b.vimeocdn.com/ts/446/150/446150690_640.jpg')
 
+    @patch('embed_video.backends.EMBED_VIDEO_TIMEOUT', 0.000001)
+    def test_timeout_in_get_info(self):
+        backend = VimeoBackend('http://vimeo.com/72304002')
+        self.assertRaises(requests.Timeout, backend.get_info)
+
 
 class SoundCloudBackendTestCase(BackendTestMixin, TestCase):
     urls = (
@@ -127,3 +134,8 @@ class SoundCloudBackendTestCase(BackendTestMixin, TestCase):
         self.assertEqual(self.foo.get_embed_code(100, 200),
                          '<iframe width="100" height="321" src="foobar" '
                          'frameborder="0" allowfullscreen></iframe>')
+
+    @patch('embed_video.backends.EMBED_VIDEO_TIMEOUT', 0.000001)
+    def test_timeout_in_get_info(self):
+        backend = SoundCloudBackend('https://soundcloud.com/community/soundcloud-case-study-wildlife')
+        self.assertRaises(requests.Timeout, backend.get_info)
