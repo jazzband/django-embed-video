@@ -82,7 +82,8 @@ class VideoNode(Node):
             return self.__render_block(url, context)
 
     def __render_embed(self, url, context):
-        size = self.size.resolve(context)
+        size = self.size.resolve(context) \
+            if hasattr(self.size, 'resolve') else self.size
         return self.embed(url, size, context=context)
 
     def __render_block(self, url, context):

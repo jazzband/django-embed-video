@@ -9,6 +9,9 @@ Release 0.8 (dev)
 - If ``EMBED_VIDEO_TIMEOUT`` timeout is reached in templates, no exception is
   raised, error is just logged.
 
+- Fix default size in template tag.
+  (`See more... <https://github.com/yetty/django-embed-video/commit/6cd3567197d6fdc31bc63fb799815e8368128b90>`_)
+
 
 Release 0.7 (Dec. 21, 2013)
 ---------------------------
