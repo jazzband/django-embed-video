@@ -238,7 +238,7 @@ class SoundCloudBackend(VideoBackend):
         }
         r = requests.get(self.base_url, data=params,
                          timeout=EMBED_VIDEO_TIMEOUT)
-        
+
         return json.loads(r.text)
 
     def get_thumbnail_url(self):

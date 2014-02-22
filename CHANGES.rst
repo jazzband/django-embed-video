@@ -3,7 +3,11 @@ Release 0.8 (dev)
 
 - Add ``EMBED_VIDEO_TIMEOUT`` to settings.
 
-- Fix renderering template tag if no url is provided (`#18 <https://github.com/yetty/django-embed-video/issues/18>`_)
+- Fix renderering template tag if no url is provided
+  (`#18 <https://github.com/yetty/django-embed-video/issues/18>`_)
+
+- If ``EMBED_VIDEO_TIMEOUT`` timeout is reached in templates, no exception is
+  raised, error is just logged.
 
 
 Release 0.7 (Dec. 21, 2013)

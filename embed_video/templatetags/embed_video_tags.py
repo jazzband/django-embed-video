@@ -1,10 +1,14 @@
 from django.template import Library, Node, TemplateSyntaxError
 from django.utils.safestring import mark_safe
 import re
+import logging
+import requests
 
 from ..backends import detect_backend, VideoBackend
 
 register = Library()
+
+logger = logging.getLogger(__name__)
 
 
 @register.tag('video')
@@ -82,11 +86,18 @@ class VideoNode(Node):
         return self.embed(url, size, context=context)
 
     def __render_block(self, url, context):
+        output = ''
         as_var = self.bits[-1]
-        context.push()
-        context[as_var] = self.get_backend(url, context=context)
-        output = self.nodelist_file.render(context)
-        context.pop()
+
+        try:
+            context.push()
+            context[as_var] = self.get_backend(url, context=context)
+            output = self.nodelist_file.render(context)
+            context.pop()
+        except requests.Timeout:
+            logger.exception('Timeout reached during rendering embed '
+                             'video (`{0}`)'.format(url))
+
         return output
 
     @staticmethod

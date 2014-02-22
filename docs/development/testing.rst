@@ -4,8 +4,8 @@ Testing
 Requirements
 ------------
 
-The library needs ``Django`` and ``requests`` and ``nose``, ``mock`` and
-``south`` libraries to run tests.
+The library needs ``Django`` and ``requests`` and ``nose``, ``mock``,
+``south`` and ``textfixtures`` libraries to run tests.
 
 ::
 
@@ -14,6 +14,7 @@ The library needs ``Django`` and ``requests`` and ``nose``, ``mock`` and
   pip install nose
   pip install mock
   pip install south
+  pip install textfixtures
 
 
 Running tests

@@ -1,11 +1,12 @@
 from unittest import TestCase
 from django.test.client import RequestFactory
-from mock import Mock
+from mock import Mock, patch
 
 from django.template import TemplateSyntaxError
 from django.http import HttpRequest
 from django.template.base import Template
 from django.template.context import RequestContext
+from testfixtures import LogCapture
 
 from embed_video.templatetags.embed_video_tags import VideoNode
 
@@ -160,4 +161,16 @@ class EmbedVideoNodeTestCase(TestCase):
         """)
         self.assertEqual(template.render(self._grc()).strip(), '')
 
-
+    @patch('embed_video.backends.EMBED_VIDEO_TIMEOUT', 0.000001)
+    def test_empty_if_timeout(self):
+        template = Template("""
+            {% load embed_video_tags %}
+            {% video "http://vimeo.com/72304002" as my_video %}
+                {{ my_video.thumbnail }}
+            {% endvideo %}
+        """)
+        with LogCapture() as logs:
+            self.assertEqual(template.render(self._grc()).strip(), '')
+            log = logs.records[-1]
+            self.assertEqual(log.name, 'embed_video.templatetags.embed_video_tags')
+            self.assertEqual(log.msg, 'Timeout reached during rendering embed video (`http://vimeo.com/72304002`)')
