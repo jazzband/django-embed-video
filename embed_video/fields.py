@@ -3,7 +3,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 
 from .backends import detect_backend, UnknownIdException, \
-                      UnknownBackendException
+    UnknownBackendException
 
 __all__ = ('EmbedVideoField', 'EmbedVideoFormField')
 

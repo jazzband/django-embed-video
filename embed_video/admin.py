@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.safestring import mark_safe
 
-from .backends import detect_backend
+from .backends import detect_backend, UnknownBackendException
 from .fields import EmbedVideoField
 
 
@@ -36,7 +36,7 @@ class AdminVideoWidget(forms.TextInput):
         if value:
             try:
                 backend = detect_backend(value)
-            except:
+            except UnknownBackendException:
                 pass
             else:
                 output = self.output_format.format(
@@ -70,4 +70,4 @@ class AdminVideoMixin(object):
             return db_field.formfield(widget=AdminVideoWidget)
 
         return super(AdminVideoMixin, self) \
-                .formfield_for_dbfield(db_field, **kwargs)
+            .formfield_for_dbfield(db_field, **kwargs)
