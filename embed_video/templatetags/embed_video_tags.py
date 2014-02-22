@@ -172,7 +172,7 @@ def embed(backend, size='small'):
         .. deprecated:: 0.7
             Use :py:func:`VideoNode.embed` instead.
 
-    Same like :py:func:`VideoNode.embed` tag but **always uses in secure
+    Same like :py:func:`VideoNode.embed` tag but **always uses insecure
     HTTP protocol**.
 
     Usage:
