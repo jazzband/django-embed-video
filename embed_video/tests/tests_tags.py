@@ -153,3 +153,11 @@ class EmbedVideoNodeTestCase(TestCase):
         backend = VideoNode.get_backend('http://www.youtube.com/watch?v=jsrRJyHBvzw', context)
         self.assertFalse(backend.is_secure)
 
+    def test_no_video_provided(self):
+        template = Template("""
+            {% load embed_video_tags %}
+            {% video '' 'large' %}
+        """)
+        self.assertEqual(template.render(self._grc()).strip(), '')
+
+

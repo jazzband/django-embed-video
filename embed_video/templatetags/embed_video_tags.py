@@ -67,6 +67,11 @@ class VideoNode(Node):
     def render(self, context):
         url = self.url.resolve(context)
 
+        # Fixes #18. If no video url is provided it should return an empty
+        # string instead raising UnknownBackendException.
+        if not url:
+            return ''
+
         if self.size:
             return self.__render_embed(url, context)
         else:
