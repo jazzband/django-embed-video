@@ -4,7 +4,7 @@ import requests
 
 from ..backends import detect_backend, YoutubeBackend, VimeoBackend, \
         SoundCloudBackend, UnknownBackendException, \
-        VideoDoesntExistException, UnknownIdException
+        VideoDoesntExistException, UnknownIdException, VideoBackend
 
 
 class BackendTestMixin(object):
@@ -30,6 +30,10 @@ class VideoBackendTestCase(TestCase):
     def test_detect_bad_urls(self):
         for url in self.unknown_backend_urls:
             self.assertRaises(UnknownBackendException, detect_backend, url)
+
+    def test_not_implemented_get_info(self):
+        backend = VideoBackend('http://www.example.com')
+        self.assertRaises(NotImplementedError, backend.get_info)
 
 
 class YoutubeBackendTestCase(BackendTestMixin, TestCase):
