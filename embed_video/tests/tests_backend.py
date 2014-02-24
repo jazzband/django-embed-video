@@ -117,7 +117,10 @@ class SoundCloudBackendTestCase(BackendTestMixin, TestCase):
                 return {
                     'width': 123,
                     'height': 321,
-                    'thumbnail_url': 'xyz'
+                    'thumbnail_url': 'xyz',
+                    'html': u'\u003Ciframe width=\"100%\" height=\"400\" '
+                            u'scrolling=\"no\" frameborder=\"no\" '
+                            u'src=\"{0}\"\u003E\u003C/iframe\u003E'.format(self.url)
                 }
 
         self.foo = FooBackend('abcd')
@@ -130,6 +133,9 @@ class SoundCloudBackendTestCase(BackendTestMixin, TestCase):
 
     def test_get_thumbnail_url(self):
         self.assertEqual(self.foo.get_thumbnail_url(), 'xyz')
+
+    def test_get_url(self):
+        self.assertEqual(self.foo.get_url(), self.foo.url)
 
     def test_get_embed_code(self):
         self.assertEqual(self.foo.get_embed_code(100, 200),
