@@ -138,8 +138,9 @@ class VideoBackend(object):
         """
         Returns embed code.
         """
-        return '<iframe width="%(width)d" height="%(height)d" ' \
-               'src="%(url)s" frameborder="0" allowfullscreen>' \
+        return '<iframe width="%(width)s" height="%(height)s" ' \
+               'frameborder="0" scrolling="no" ' \
+               'src="%(url)s" allowfullscreen>' \
                '</iframe>' % {
                    'url': self.url,
                    'width': width,
