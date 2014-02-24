@@ -109,9 +109,6 @@ class SoundCloudBackendTestCase(BackendTestMixin, TestCase):
         class FooBackend(SoundCloudBackend):
             url = 'foobar'
 
-            def init(self, *args, **kwargs):
-                return
-
             def get_info(self):
                 return {
                     'width': 123,
