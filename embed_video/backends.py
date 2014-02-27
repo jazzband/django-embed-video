@@ -1,5 +1,4 @@
 import re
-from django.template.loader import render_to_string
 import requests
 import json
 
@@ -9,6 +8,7 @@ except ImportError:
     # support for py3
     import urllib.parse as urlparse
 
+from django.template.loader import render_to_string
 from django.utils.functional import cached_property
 
 from .utils import import_by_path
