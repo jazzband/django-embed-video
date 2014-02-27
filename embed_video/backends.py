@@ -82,6 +82,9 @@ class VideoBackend(object):
     template_name = 'embed_video/embed_code.html'
     """
     Name of embed code template used by :py:meth:`get_embed_code`.
+
+    Passed template variables: ``{{ backend }}`` (instance of VideoBackend),
+    ``{{ width }}``, ``{{ height }}``
     """
 
     def __init__(self, url, is_secure=False):
@@ -142,11 +145,7 @@ class VideoBackend(object):
 
     def get_embed_code(self, width, height):
         """
-        Returns embed code rendered from template.
-
-        Template variables: ``{{ backend }}`` (instance of VideoBackend),
-        ``{{ width }}``, ``{{ height }}``
-
+        Returns embed code rendered from template :py:data:`template_name`.
         """
         return render_to_string(self.template_name, {
             'backend': self,

@@ -1,8 +1,8 @@
 Examples
-==============================================
+========
 
 Template examples
-##############################################
+#################
 
 .. highlight:: html+django
 
@@ -31,12 +31,12 @@ Embedding of video:
 Default sizes are ``tiny`` (420x315), ``small`` (480x360), ``medium`` (640x480),
 ``large`` (960x720) and ``huge`` (1280x960). You can set your own size:
 
+::
+
+    {% video my_video '800x600' %}
+
 .. versionadded:: 0.7
-
-  ::
-
-      {% video my_video '800x600' %}
-
+    This usage has been added in version 0.7.
 
 .. tip::
 
@@ -50,9 +50,18 @@ Default sizes are ``tiny`` (420x315), ``small`` (480x360), ``medium`` (640x480),
   To speed up your pages, consider `template fragment caching
   <https://docs.djangoproject.com/en/dev/topics/cache/#template-fragment-caching>`_.
 
+.. tip::
+
+    You can overwrite default template of embed code located in
+    ``templates/embed_video/embed_code.html`` or set own file for custom
+    backend (:py:data:`~embed_video.backends.VideoBackend.template_name`).
+
+    .. versionadded:: 0.9
+        ``template_name`` has been added in version 0.9.
+
 
 Model examples
-###############################################
+##############
 
 .. highlight:: python
 
@@ -69,7 +78,7 @@ Using the ``EmbedVideoField`` provides you validation of URLs.
 
 
 Admin mixin examples
-###############################################
+####################
 
 Use ``AdminVideoMixin`` in ``admin.py``.
 
@@ -88,10 +97,10 @@ Use ``AdminVideoMixin`` in ``admin.py``.
 
 
 Custom backends
-###############################################
+###############
 
 If you have specific needs and default backends don't suits you, you can write
-your custom backend. 
+your custom backend.
 
 ``my_project/my_app/backends.py``::
 
@@ -104,6 +113,8 @@ your custom backend.
       allow_https = False
       pattern_url = '{protocol}://play.myvideo.com/c/{code}/'
       pattern_thumbnail_url = '{protocol}://thumb.myvideo.com/c/{code}/'
+
+      template_name = 'embed_video/custombackend_embed_code.html'  # added in v0.9
 
 You can also overwrite :py:class:`~embed_video.backends.VideoBackend` methods,
 if using regular expressions isn't well enough.
@@ -120,7 +131,7 @@ if using regular expressions isn't well enough.
 
 
 Low level API examples
-###############################################
+######################
 
 You can get instance of :py:class:`~embed_video.backends.VideoBackend` in your
 python code thanks to :py:func:`~embed_video.backends.detect_backend`:
