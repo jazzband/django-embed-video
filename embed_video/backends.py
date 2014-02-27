@@ -1,4 +1,5 @@
 import re
+from django.template.loader import render_to_string
 import requests
 import json
 
@@ -78,6 +79,11 @@ class VideoBackend(object):
     Sets if HTTPS version allowed for specific backend.
     """
 
+    template_name = 'embed_video/embed_code.html'
+    """
+    Name of embed code template used by :py:meth:`get_embed_code`.
+    """
+
     def __init__(self, url, is_secure=False):
         """
         First it tries to load data from cache and if it don't succeed, run
@@ -136,15 +142,17 @@ class VideoBackend(object):
 
     def get_embed_code(self, width, height):
         """
-        Returns embed code.
+        Returns embed code rendered from template.
+
+        Template variables: ``{{ backend }}`` (instance of VideoBackend),
+        ``{{ width }}``, ``{{ height }}``
+
         """
-        return '<iframe width="%(width)d" height="%(height)d" ' \
-               'src="%(url)s" frameborder="0" allowfullscreen>' \
-               '</iframe>' % {
-                   'url': self.url,
-                   'width': width,
-                   'height': height,
-               }
+        return render_to_string(self.template_name, {
+            'backend': self,
+            'width': width,
+            'height': height,
+        })
 
     def get_info(self):
         raise NotImplementedError

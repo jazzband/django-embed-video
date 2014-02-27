@@ -139,8 +139,9 @@ class SoundCloudBackendTestCase(BackendTestMixin, TestCase):
 
     def test_get_embed_code(self):
         self.assertEqual(self.foo.get_embed_code(100, 200),
-                         '<iframe width="100" height="321" src="foobar" '
-                         'frameborder="0" allowfullscreen></iframe>')
+                         u'<iframe width="100" height="321" src="foobar"'
+                         u'\n        frameborder="0" allowfullscreen>'
+                         u'</iframe>\n')
 
     @patch('embed_video.backends.EMBED_VIDEO_TIMEOUT', 0.000001)
     def test_timeout_in_get_info(self):

@@ -27,7 +27,8 @@ class EmbedVideoNodeTestCase(TestCase):
                 {% video ytb 'large' %}
             {% endvideo %}
         """)
-        rendered = u'<iframe width="960" height="720" src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" frameborder="0" allowfullscreen></iframe>'
+        rendered = u'''<iframe width="960" height="720" src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque"
+        frameborder="0" allowfullscreen></iframe>'''
         self.assertEqual(template.render(self._grc()).strip(), rendered)
 
     def test_direct_embed(self):
@@ -35,7 +36,8 @@ class EmbedVideoNodeTestCase(TestCase):
             {% load embed_video_tags %}
             {{ 'http://www.youtube.com/watch?v=jsrRJyHBvzw'|embed:'large' }}
         """)
-        rendered = u'<iframe width="960" height="720" src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" frameborder="0" allowfullscreen></iframe>'
+        rendered = u'''<iframe width="960" height="720" src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque"
+        frameborder="0" allowfullscreen></iframe>'''
         self.assertEqual(template.render(self._grc()).strip(), rendered)
 
     def test_direct_embed_tag(self):
@@ -43,7 +45,8 @@ class EmbedVideoNodeTestCase(TestCase):
             {% load embed_video_tags %}
             {% video "http://www.youtube.com/watch?v=jsrRJyHBvzw" "large" %}
         """)
-        rendered = u'<iframe width="960" height="720" src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" frameborder="0" allowfullscreen></iframe>'
+        rendered = u'''<iframe width="960" height="720" src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque"
+        frameborder="0" allowfullscreen></iframe>'''
         self.assertEqual(template.render(self._grc()).strip(), rendered)
 
     def test_direct_embed_tag_with_default_size(self):
@@ -51,7 +54,8 @@ class EmbedVideoNodeTestCase(TestCase):
             {% load embed_video_tags %}
             {% video "http://www.youtube.com/watch?v=jsrRJyHBvzw" %}
         """)
-        rendered = u'<iframe width="480" height="360" src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" frameborder="0" allowfullscreen></iframe>'
+        rendered = u'''<iframe width="480" height="360" src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque"
+        frameborder="0" allowfullscreen></iframe>'''
         self.assertEqual(template.render(self._grc()).strip(), rendered)
 
     def test_user_size(self):
@@ -61,7 +65,8 @@ class EmbedVideoNodeTestCase(TestCase):
                 {% video ytb '800x800' %}
             {% endvideo %}
         """)
-        rendered = u'<iframe width="800" height="800" src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" frameborder="0" allowfullscreen></iframe>'
+        rendered = u'''<iframe width="800" height="800" src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque"
+        frameborder="0" allowfullscreen></iframe>'''
         self.assertEqual(template.render(self._grc()).strip(), rendered)
 
     def test_wrong_size(self):
