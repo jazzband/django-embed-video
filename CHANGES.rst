@@ -1,5 +1,11 @@
-Release 0.8 (dev)
------------------
+Release 0.9 (dev)
+---------------------------
+
+- Add ``VideoBackend.template_name`` and rendering embed code from file
+
+
+Release 0.8 (Feb. 22, 2014)
+---------------------------
 
 - Add ``EMBED_VIDEO_TIMEOUT`` to settings.
 
