@@ -38,6 +38,16 @@ Default sizes are ``tiny`` (420x315), ``small`` (480x360), ``medium`` (640x480),
       {% video my_video '800x600' %}
 
 
+.. versionadded:: 0.9
+
+  And use relative percentual size:
+
+  ::
+
+      {% video my_video '100% x 50%' %}
+
+
+
 .. tip::
 
   We recommend to use `sorl-thumbnail
@@ -91,7 +101,7 @@ Custom backends
 ###############################################
 
 If you have specific needs and default backends don't suits you, you can write
-your custom backend. 
+your custom backend.
 
 ``my_project/my_app/backends.py``::
 

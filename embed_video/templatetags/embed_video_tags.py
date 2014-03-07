@@ -37,6 +37,7 @@ class VideoNode(Node):
 
         {% video item.video "large" %}
         {% video item.video "340x200" %}
+        {% video item.video "100% x 300" %}
 
         {% video item.video as my_video %}
             URL: {{ my_video.url }}
