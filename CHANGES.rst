@@ -3,6 +3,8 @@ Release 0.9 (dev)
 
 - Add ``VideoBackend.template_name`` and rendering embed code from file
 
+- Allow relative sizes in template tag (`#19 <https://github.com/yetty/django-embed-video/pull/19>`_)
+
 
 Release 0.8 (Feb. 22, 2014)
 ---------------------------
