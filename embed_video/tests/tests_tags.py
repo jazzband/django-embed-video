@@ -182,3 +182,11 @@ class EmbedVideoNodeTestCase(TestCase):
             log = logs.records[-1]
             self.assertEqual(log.name, 'embed_video.templatetags.embed_video_tags')
             self.assertEqual(log.msg, 'Timeout reached during rendering embed video (`http://vimeo.com/72304002`)')
+
+    def test_relative_size(self):
+        template = Template("""
+            {% load embed_video_tags %}
+            {% video "http://vimeo.com/72304002" "80%x30%" %}
+        """)
+        rendered = '<iframe width="80%" height="30%" src="http://player.vimeo.com/video/72304002" frameborder="0" allowfullscreen></iframe>'
+        self.assertEqual(template.render(self._grc()).strip(), rendered)
