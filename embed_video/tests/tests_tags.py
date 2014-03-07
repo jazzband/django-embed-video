@@ -190,3 +190,11 @@ class EmbedVideoNodeTestCase(TestCase):
         """)
         rendered = '<iframe width="80%" height="30%" src="http://player.vimeo.com/video/72304002" frameborder="0" allowfullscreen></iframe>'
         self.assertEqual(template.render(self._grc()).strip(), rendered)
+
+    def test_allow_spaces_in_size(self):
+        template = Template("""
+            {% load embed_video_tags %}
+            {% video "http://vimeo.com/72304002" "80% x 300" %}
+        """)
+        rendered = '<iframe width="80%" height="300" src="http://player.vimeo.com/video/72304002" frameborder="0" allowfullscreen></iframe>'
+        self.assertEqual(template.render(self._grc()).strip(), rendered)

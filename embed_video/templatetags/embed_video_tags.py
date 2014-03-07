@@ -48,7 +48,7 @@ class VideoNode(Node):
     error_msg = 'Syntax error. Expected: ``{% video URL ... %}``'
     default_size = 'small'
 
-    re_size = re.compile('(?P<width>\d+%?)x(?P<height>\d+%?)')
+    re_size = re.compile('(?P<width>\d+%?) *x *(?P<height>\d+%?)')
 
     def __init__(self, parser, token):
         self.size = None
