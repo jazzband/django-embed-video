@@ -37,6 +37,7 @@ class VideoNode(Node):
 
         {% video item.video "large" %}
         {% video item.video "340x200" %}
+        {% video item.video "100% x 300" %}
 
         {% video item.video as my_video %}
             URL: {{ my_video.url }}
@@ -48,7 +49,7 @@ class VideoNode(Node):
     error_msg = 'Syntax error. Expected: ``{% video URL ... %}``'
     default_size = 'small'
 
-    re_size = re.compile('(?P<width>\d+)x(?P<height>\d+)')
+    re_size = re.compile('(?P<width>\d+%?) *x *(?P<height>\d+%?)')
 
     def __init__(self, parser, token):
         self.size = None
@@ -150,7 +151,7 @@ class VideoNode(Node):
 
         try:
             size = VideoNode.re_size.match(value)
-            return [int(size.group('width')), int(size.group('height'))]
+            return [size.group('width'), size.group('height')]
         except AttributeError:
             raise TemplateSyntaxError(
                 'Incorrect size.\nPossible format is WIDTHxHEIGHT or using '

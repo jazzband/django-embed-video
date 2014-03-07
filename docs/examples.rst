@@ -38,6 +38,16 @@ Default sizes are ``tiny`` (420x315), ``small`` (480x360), ``medium`` (640x480),
 .. versionadded:: 0.7
     This usage has been added in version 0.7.
 
+.. versionadded:: 0.9
+
+  And use relative percentual size:
+
+  ::
+
+      {% video my_video '100% x 50%' %}
+
+
+
 .. tip::
 
   We recommend to use `sorl-thumbnail
