@@ -15,15 +15,19 @@ from .utils import import_by_path
 from .settings import EMBED_VIDEO_BACKENDS, EMBED_VIDEO_TIMEOUT
 
 
-class VideoDoesntExistException(Exception):
+class EmbedVideoException(Exception):
     pass
 
 
-class UnknownBackendException(Exception):
+class VideoDoesntExistException(EmbedVideoException):
     pass
 
 
-class UnknownIdException(Exception):
+class UnknownBackendException(EmbedVideoException):
+    pass
+
+
+class UnknownIdException(EmbedVideoException):
     pass
 
 
