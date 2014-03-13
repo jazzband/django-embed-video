@@ -16,24 +16,33 @@ from .settings import EMBED_VIDEO_BACKENDS, EMBED_VIDEO_TIMEOUT
 
 
 class EmbedVideoException(Exception):
+    """ Parental class for all embed_video exceptions """
     pass
 
 
 class VideoDoesntExistException(EmbedVideoException):
+    """ Exception thrown if video doesn't exist """
     pass
 
 
 class UnknownBackendException(EmbedVideoException):
+    """ Exception thrown if video backend is not recognized. """
     pass
 
 
 class UnknownIdException(EmbedVideoException):
+    """
+    Exception thrown if backend is detected, but video ID cannot be parsed.
+    """
     pass
 
 
 def detect_backend(url):
     """
     Detect the right backend for given URL.
+
+    Goes over backends in ``settings.EMBED_VIDEO_BACKENDS``,
+    calls :py:func:`~VideoBackend.is_valid` and returns backend instance.
     """
 
     for backend_name in EMBED_VIDEO_BACKENDS:
@@ -46,7 +55,13 @@ def detect_backend(url):
 
 class VideoBackend(object):
     """
-    Base backend, good to inherit.
+    Base class used as parental class for backends.
+
+    .. code-block:: python
+
+        class MyBackend(VideoBackend):
+            ...
+
     """
 
     re_code = None
@@ -129,6 +144,9 @@ class VideoBackend(object):
         return True if cls.re_detect.match(url) else False
 
     def get_code(self):
+        """
+        Returns video code matched from given url by :py:data:`re_code`.
+        """
         match = self.re_code.search(self._url)
         if match:
             return match.group('code')
