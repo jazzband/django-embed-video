@@ -103,9 +103,17 @@ class VideoNode(Node):
         return output
 
     @staticmethod
-    def get_backend(backend, context=None):
-        if not isinstance(backend, VideoBackend):
-            backend = detect_backend(backend)
+    def get_backend(backend_or_url, context=None):
+        """
+        Returns instance of VideoBackend. If context is passed to the method
+        and request is secure, than the is_secure mark is set to backend.
+        
+        A string or VideoBackend instance can be passed to the method.
+        """
+        
+        backend = backend_or_url if isinstance(backend_or_url, VideoBackend) \
+                    else detect_backend(backend_or_url)
+                    
         if context and 'request' in context:
             backend.is_secure = context['request'].is_secure()
 
