@@ -45,3 +45,10 @@ class EmbedVideoFormFieldTestCase(TestCase):
         with patch('embed_video.fields.detect_backend') as mock_detect_backend:
             mock_detect_backend.return_value = True
             self.assertEqual(url, self.formfield.validate(url))
+
+    def test_validation_super(self):
+        self.assertRaises(ValidationError, self.formfield.validate, '')
+
+    def test_validation_allowed_empty(self):
+        formfield = EmbedVideoFormField(required=False)
+        self.assertIsNone(formfield.validate(''))
