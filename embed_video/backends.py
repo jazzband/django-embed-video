@@ -268,6 +268,11 @@ class SoundCloudBackend(VideoBackend):
         r = requests.get(self.base_url, data=params,
                          timeout=EMBED_VIDEO_TIMEOUT)
 
+        if r.status_code != 200:
+            raise VideoDoesntExistException(
+                'SoundCloud returned status code `{0}`.'.format(r.status_code)
+            )
+
         return json.loads(r.text)
 
     def get_thumbnail_url(self):

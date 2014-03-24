@@ -4,7 +4,8 @@ import re
 import logging
 import requests
 
-from ..backends import detect_backend, VideoBackend
+from ..backends import detect_backend, VideoBackend, \
+    VideoDoesntExistException, UnknownBackendException
 
 register = Library()
 
@@ -72,15 +73,19 @@ class VideoNode(Node):
     def render(self, context):
         url = self.url.resolve(context)
 
-        # Fixes #18. If no video url is provided it should return an empty
-        # string instead raising UnknownBackendException.
-        if not url:
-            return ''
+        try:
+            if self.size:
+                return self.__render_embed(url, context)
+            else:
+                return self.__render_block(url, context)
+        except requests.Timeout:
+            logger.exception('Timeout reached during rendering embed video (`{0}`)'.format(url))
+        except UnknownBackendException:
+            logger.exception('Backend wasn\'t recognised (`{0}`)'.format(url))
+        except VideoDoesntExistException:
+            logger.exception('Attempt to render not existing video (`{0}`)'.format(url))
 
-        if self.size:
-            return self.__render_embed(url, context)
-        else:
-            return self.__render_block(url, context)
+        return ''
 
     def __render_embed(self, url, context):
         size = self.size.resolve(context) \
@@ -88,17 +93,12 @@ class VideoNode(Node):
         return self.embed(url, size, context=context)
 
     def __render_block(self, url, context):
-        output = ''
         as_var = self.bits[-1]
 
-        try:
-            context.push()
-            context[as_var] = self.get_backend(url, context=context)
-            output = self.nodelist_file.render(context)
-            context.pop()
-        except requests.Timeout:
-            logger.exception('Timeout reached during rendering embed '
-                             'video (`{0}`)'.format(url))
+        context.push()
+        context[as_var] = self.get_backend(url, context=context)
+        output = self.nodelist_file.render(context)
+        context.pop()
 
         return output
 

@@ -5,6 +5,8 @@ Release 0.9 (dev)
 
 - Allow relative sizes in template tag (`#19 <https://github.com/yetty/django-embed-video/pull/19>`_)
 
+- Fix handling invalid urls of SoundCloud. (`#21 <https://github.com/yetty/django-embed-video/issues/21>`_)
+
 
 Release 0.8 (Feb. 22, 2014)
 ---------------------------

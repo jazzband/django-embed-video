@@ -3,8 +3,8 @@ from mock import patch
 import requests
 
 from ..backends import detect_backend, YoutubeBackend, VimeoBackend, \
-        SoundCloudBackend, UnknownBackendException, \
-        VideoDoesntExistException, UnknownIdException, VideoBackend
+    SoundCloudBackend, UnknownBackendException, VideoDoesntExistException, \
+    UnknownIdException, VideoBackend
 
 
 class BackendTestMixin(object):
@@ -147,3 +147,8 @@ class SoundCloudBackendTestCase(BackendTestMixin, TestCase):
     def test_timeout_in_get_info(self):
         backend = SoundCloudBackend('https://soundcloud.com/community/soundcloud-case-study-wildlife')
         self.assertRaises(requests.Timeout, backend.get_info)
+
+    def test_invalid_url(self):
+        """ Check if bug #21 is fixed. """
+        backend = SoundCloudBackend('https://soundcloud.com/xyz/foo')
+        self.assertRaises(VideoDoesntExistException, backend.get_info)

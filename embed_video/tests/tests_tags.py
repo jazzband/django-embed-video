@@ -205,3 +205,10 @@ class EmbedVideoNodeTestCase(TestCase):
         rendered = '<iframe width="80%" height="300" src="http://player.vimeo.com/video/72304002"' \
                    '\n        frameborder="0" allowfullscreen></iframe>'
         self.assertEqual(template.render(self._grc()).strip(), rendered)
+
+    def test_soundcloud_invalid_url(self):
+        template = Template("""
+            {% load embed_video_tags %}
+            {% video "https://soundcloud.com/xyz/foo" %}
+        """)
+        self.assertEqual(template.render(self._grc()).strip(), '')
