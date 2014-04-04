@@ -1,11 +1,24 @@
-Release 0.9 (dev)
----------------------------
+Release 0.10 (dev)
+------------------
 
-- Add ``VideoBackend.template_name`` and rendering embed code from file
+*Nothing yet.*
 
-- Allow relative sizes in template tag (`#19 <https://github.com/yetty/django-embed-video/pull/19>`_)
 
-- Fix handling invalid urls of SoundCloud. (`#21 <https://github.com/yetty/django-embed-video/issues/21>`_)
+Release 0.9 (Apr. 4, 2014)
+--------------------------
+
+- Add ``VideoBackend.template_name`` and rendering embed code from file.
+
+- Allow relative sizes in template tag
+  (`#19 <https://github.com/yetty/django-embed-video/pull/19>`_).
+
+- Fix handling invalid urls of SoundCloud.
+  (`#21 <https://github.com/yetty/django-embed-video/issues/21>`_).
+
+- Catch ``VideoDoesntExistException`` and ``UnknownBackendException`` in
+  template tags and admin widget.
+
+- Add base exception ``EmbedVideoException``.
 
 
 Release 0.8 (Feb. 22, 2014)
