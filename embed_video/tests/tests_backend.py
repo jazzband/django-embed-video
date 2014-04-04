@@ -91,7 +91,7 @@ class VimeoBackendTestCase(BackendTestMixin, TestCase):
     def test_get_thumbnail_url(self):
         backend = VimeoBackend('http://vimeo.com/72304002')
         self.assertEqual(backend.get_thumbnail_url(),
-                         'http://b.vimeocdn.com/ts/446/150/446150690_640.jpg')
+                         'http://i.vimeocdn.com/video/446150690_640.jpg')
 
     @patch('embed_video.backends.EMBED_VIDEO_TIMEOUT', 0.000001)
     def test_timeout_in_get_info(self):
