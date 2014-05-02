@@ -3,13 +3,18 @@ import requests
 import json
 
 try:
+    # Python <= 2.7
     import urlparse
+    from urllib import urlencode
 except ImportError:
     # support for py3
     import urllib.parse as urlparse
+    from urllib.parse import urlencode
 
+from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.functional import cached_property
+from django.utils.safestring import mark_safe
 
 from .utils import import_by_path
 from .settings import EMBED_VIDEO_BACKENDS, EMBED_VIDEO_TIMEOUT
@@ -106,7 +111,7 @@ class VideoBackend(object):
     ``{{ width }}``, ``{{ height }}``
     """
 
-    def __init__(self, url, is_secure=False):
+    def __init__(self, url, is_secure=False, query=None):
         """
         First it tries to load data from cache and if it don't succeed, run
         :py:meth:`init` and then save it to cache.
@@ -114,6 +119,12 @@ class VideoBackend(object):
         self.is_secure = is_secure
         self.backend = self.__class__.__name__
         self._url = url
+        self.update_query(query)
+
+    def update_query(self, query=None):
+        self._query = self.get_default_query()
+        if query is not None:
+            self._query.update(query)
 
     @cached_property
     def code(self):
@@ -155,7 +166,10 @@ class VideoBackend(object):
         """
         Returns URL folded from :py:data:`pattern_url` and parsed code.
         """
-        return self.pattern_url.format(code=self.code, protocol=self.protocol)
+        url = self.pattern_url.format(code=self.code, protocol=self.protocol)
+        if self._query:
+            url += '?' + urlencode(self._query, doseq=True)
+        return mark_safe(url)
 
     def get_thumbnail_url(self):
         """
@@ -177,6 +191,13 @@ class VideoBackend(object):
 
     def get_info(self):
         raise NotImplementedError
+
+    def get_default_query(self):
+        # Derive backend name from class name
+        backend_name = self.__class__.__name__[:-7].upper()
+        default = getattr(self, 'default_query', {})
+        settings_key = 'EMBED_VIDEO_{}_QUERY'.format(backend_name)
+        return getattr(settings, settings_key, default).copy()
 
 
 class YoutubeBackend(VideoBackend):
@@ -200,8 +221,9 @@ class YoutubeBackend(VideoBackend):
         re.I | re.X
     )
 
-    pattern_url = '{protocol}://www.youtube.com/embed/{code}?wmode=opaque'
+    pattern_url = '{protocol}://www.youtube.com/embed/{code}'
     pattern_thumbnail_url = '{protocol}://img.youtube.com/vi/{code}/hqdefault.jpg'
+    default_query = {'wmode': 'opaque'}
 
     def get_code(self):
         code = super(YoutubeBackend, self).get_code()
