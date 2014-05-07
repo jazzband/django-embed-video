@@ -1,4 +1,5 @@
 import re
+from django.utils.datastructures import SortedDict
 import requests
 import json
 
@@ -122,7 +123,7 @@ class VideoBackend(object):
         self.update_query(query)
 
     def update_query(self, query=None):
-        self._query = self.get_default_query()
+        self._query = SortedDict(self.get_default_query())
         if query is not None:
             self._query.update(query)
 
