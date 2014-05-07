@@ -1,10 +1,11 @@
-from django.template import Library, Node, TemplateSyntaxError, Variable
-from django.utils.safestring import mark_safe
-from django.utils.encoding import smart_str
 import re
 import logging
 import requests
 from collections import defaultdict
+
+from django.template import Library, Node, TemplateSyntaxError, Variable
+from django.utils.safestring import mark_safe
+from django.utils.encoding import smart_str
 
 from ..backends import detect_backend, VideoBackend, \
     VideoDoesntExistException, UnknownBackendException

@@ -1,5 +1,4 @@
 from unittest import TestCase
-from django.test.client import RequestFactory
 from mock import Mock, patch
 import re
 
@@ -15,6 +14,7 @@ from django.http import HttpRequest
 from django.template.base import Template
 from django.template.context import RequestContext
 from django.test.utils import override_settings
+from django.test.client import RequestFactory
 from testfixtures import LogCapture
 
 from embed_video.templatetags.embed_video_tags import VideoNode

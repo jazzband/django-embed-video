@@ -1,5 +1,4 @@
 import re
-from django.utils.datastructures import SortedDict
 import requests
 import json
 
@@ -16,6 +15,7 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
+from django.utils.datastructures import SortedDict
 
 from .utils import import_by_path
 from .settings import EMBED_VIDEO_BACKENDS, EMBED_VIDEO_TIMEOUT

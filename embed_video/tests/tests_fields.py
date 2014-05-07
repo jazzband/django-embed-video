@@ -2,6 +2,7 @@ from mock import patch
 from unittest import TestCase
 
 from django.forms import ValidationError
+
 from ..fields import EmbedVideoField, EmbedVideoFormField
 from ..backends import UnknownBackendException, UnknownIdException
 
