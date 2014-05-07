@@ -318,3 +318,15 @@ class EmbedVideoNodeTestCase(TestCase):
         frameborder="0" allowfullscreen></iframe>'''
         self.assertEqual(template.render(self._grc()).strip(), rendered)
 
+    def test_none_variable_passed_to_tag(self):
+        """
+        Checks issue #24.
+        """
+        template = Template("""
+            {% with None as my_video %}
+            {% load embed_video_tags %}
+            {% video my_video %}
+            {% endwith %}
+        """)
+        self.assertEqual(template.render(self._grc()).strip(), '')
+

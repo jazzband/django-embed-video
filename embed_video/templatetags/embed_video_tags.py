@@ -82,7 +82,7 @@ class VideoNode(Node):
                 self.size = parser.compile_filter(option_bits[0])
                 option_bits = option_bits[1:]
             else:
-                self.size= self.default_size
+                self.size = self.default_size
 
         # Parse arguments passed in as KEY=VALUE pairs that will be added to
         # the URL as a GET query string
@@ -146,7 +146,7 @@ class VideoNode(Node):
         """
 
         backend = backend_or_url if isinstance(backend_or_url, VideoBackend) \
-                    else detect_backend(backend_or_url)
+            else detect_backend(str(backend_or_url))
 
         if context and 'request' in context:
             backend.is_secure = context['request'].is_secure()
