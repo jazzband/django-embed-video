@@ -197,7 +197,7 @@ class VideoBackend(object):
         # Derive backend name from class name
         backend_name = self.__class__.__name__[:-7].upper()
         default = getattr(self, 'default_query', {})
-        settings_key = 'EMBED_VIDEO_{}_QUERY'.format(backend_name)
+        settings_key = 'EMBED_VIDEO_{0}_QUERY'.format(backend_name)
         return getattr(settings, settings_key, default).copy()
 
 
