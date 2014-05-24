@@ -4,6 +4,9 @@ Release 0.10 (dev)
 - ``video`` tag accepts kwargs
   (`#20 <https://github.com/yetty/django-embed-video/pull/20>`_)
 
+- ``video`` tag will not crash anymore with ``None`` passed as url
+  (`#24 <https://github.com/yetty/django-embed-video/issues/24>`_)
+
 
 Release 0.9 (Apr. 4, 2014)
 --------------------------
