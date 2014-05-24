@@ -1,7 +1,8 @@
 Release 0.10 (dev)
 ------------------
 
-*Nothing yet.*
+- ``video`` tag accepts kwargs
+  (`#20 <https://github.com/yetty/django-embed-video/pull/20>`_)
 
 
 Release 0.9 (Apr. 4, 2014)
