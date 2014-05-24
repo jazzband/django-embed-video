@@ -47,6 +47,6 @@ class EmbedVideoFormField(forms.URLField):
         except UnknownBackendException:
             raise forms.ValidationError(_(u'URL could not be recognized.'))
         except UnknownIdException:
-            raise forms.ValidationError(_(u'ID of this video could not be \
-                                            recognized.'))
+            raise forms.ValidationError(_(u'ID of this video could not be '
+                                          u'recognized.'))
         return url
