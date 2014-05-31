@@ -211,6 +211,7 @@ class YoutubeBackend(VideoBackend):
 
     re_code = re.compile(
         r'''youtu(\.?)be(\.com)?/  # match youtube's domains
+            (\#/)? # for mobile urls
             (embed/)?  # match the embed url syntax
             (v/)?
             (watch\?v=)?  # match the youtube page url
@@ -235,7 +236,8 @@ class YoutubeBackend(VideoBackend):
             try:
                 code = urlparse.parse_qs(parse_data.query)['v'][0]
             except KeyError:
-                raise UnknownIdException
+                raise UnknownIdException(
+                    'Cannot get ID from `{0}`'.format(self._url))
 
         return code
 
