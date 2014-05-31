@@ -206,7 +206,7 @@ class YoutubeBackend(VideoBackend):
     Backend for YouTube URLs.
     """
     re_detect = re.compile(
-        r'^(http(s)?://)?(www\.)?youtu(\.?)be(\.com)?/.*', re.I
+        r'^(http(s)?://)?(www\.|m\.)?youtu(\.?)be(\.com)?/.*', re.I
     )
 
     re_code = re.compile(
