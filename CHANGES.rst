@@ -1,7 +1,8 @@
 Release 0.11 (dev)
 ------------------
 
-*No changes yet.*
+- add support for YouTube mobile urls
+  (`#27 <https://github.com/yetty/django-embed-video/pull/27>`_)
 
 
 Release 0.10 (May 24, 2014)
