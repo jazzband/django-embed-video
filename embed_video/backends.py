@@ -290,7 +290,7 @@ class SoundCloudBackend(VideoBackend):
             'format': 'json',
             'url': self._url,
         }
-        r = requests.get(self.base_url, data=params,
+        r = requests.get(self.base_url, params=params,
                          timeout=EMBED_VIDEO_TIMEOUT)
 
         if r.status_code != 200:
