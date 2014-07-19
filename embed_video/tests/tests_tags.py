@@ -97,6 +97,15 @@ class EmbedVideoNodeTestCase(TestCase):
         rendered = 'http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque'
         self.assertEqual(template.render(self._grc()).strip(), rendered)
 
+    def test_tag_youtube_invalid_url(self):
+        template = Template("""
+            {% load embed_video_tags %}
+            {% video 'http://www.youtube.com/edit?abcd=efgh' as ytb %}
+                {{ ytb.url }}
+            {% endvideo %}
+        """)
+        self.assertEqual(template.render(self._grc()).strip(), '')
+
     def test_tag_vimeo(self):
         template = Template("""
             {% load embed_video_tags %}

@@ -57,7 +57,8 @@ class YoutubeBackendTestCase(BackendTestMixin, TestCase):
         ('https://www.youtube.com/watch?v=XPk521voaOE&feature=youtube_gdata_player', 'XPk521voaOE'),
         ('http://www.youtube.com/watch?v=6xu00J3-g2s&list=PLb5n6wzDlPakFKvJ69rJ9AJW24Aaaki2z', '6xu00J3-g2s'),
         ('https://m.youtube.com/#/watch?v=IAooXLAPoBQ', 'IAooXLAPoBQ'),
-        ('https://m.youtube.com/watch?v=IAooXLAPoBQ', 'IAooXLAPoBQ')
+        ('https://m.youtube.com/watch?v=IAooXLAPoBQ', 'IAooXLAPoBQ'),
+        ('http://www.youtube.com/edit?video_id=eBea01qmnOE', 'eBea01qmnOE')
     )
 
     instance = YoutubeBackend
