@@ -38,12 +38,13 @@ class EmbedVideoFormField(forms.URLField):
     def validate(self, url):
         # if empty url is not allowed throws an exception
         super(EmbedVideoFormField, self).validate(url)
-        
+
         if not url:
             return
 
         try:
-            detect_backend(url)
+            backend = detect_backend(url)
+            backend.get_code()
         except UnknownBackendException:
             raise forms.ValidationError(_(u'URL could not be recognized.'))
         except UnknownIdException:

@@ -36,7 +36,7 @@ class UnknownBackendException(EmbedVideoException):
     pass
 
 
-class UnknownIdException(EmbedVideoException):
+class UnknownIdException(VideoDoesntExistException):
     """
     Exception thrown if backend is detected, but video ID cannot be parsed.
     """
@@ -231,13 +231,15 @@ class YoutubeBackend(VideoBackend):
         code = super(YoutubeBackend, self).get_code()
 
         if not code:
-            parse_data = urlparse.urlparse(self._url)
+            parsed_url = urlparse.urlparse(self._url)
+            parsed_qs = urlparse.parse_qs(parsed_url.query)
 
-            try:
-                code = urlparse.parse_qs(parse_data.query)['v'][0]
-            except KeyError:
-                raise UnknownIdException(
-                    'Cannot get ID from `{0}`'.format(self._url))
+            if 'v' in parsed_qs:
+                code = parsed_qs['v'][0]
+            elif 'video_id' in parsed_qs:
+                code = parsed_qs['video_id'][0]
+            else:
+                raise UnknownIdException('Cannot get ID from `{0}`'.format(self._url))
 
         return code
 
