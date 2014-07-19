@@ -7,6 +7,9 @@ Release 0.11 (dev)
 - fix passing parameters in calling request library
   (`#28 <https://github.com/yetty/django-embed-video/pull/28>`_)
 
+- fix validation of urls
+  (`#31 <https://github.com/yetty/django-embed-video/issues/31>`_)
+
 
 Release 0.10 (May 24, 2014)
 ---------------------------
