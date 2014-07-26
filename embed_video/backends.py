@@ -72,6 +72,8 @@ class VideoBackend(object):
         info
         is_secure
         protocol
+        template_name
+
 
 
     .. code-block:: python
@@ -180,7 +182,7 @@ class VideoBackend(object):
     @property
     def query(self):
         """
-        QueryDict appended to url.
+        String transformed to QueryDict appended to url.
         """
         return self._query
 
