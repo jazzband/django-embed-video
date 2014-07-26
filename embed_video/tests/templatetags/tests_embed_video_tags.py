@@ -208,6 +208,54 @@ class EmbedTestCase(TestCase):
             'frameborder="0" allowfullscreen></iframe>'
         )
 
+    @override_settings(EMBED_VIDEO_YOUTUBE_QUERY={'rel': 0, 'stop': 5})
+    def test_embed_override_default_query(self):
+        template = """
+               {% load embed_video_tags %}
+               {% video 'http://www.youtube.com/watch?v=jsrRJyHBvzw' %}
+           """
+        self.assertRenderedTemplate(
+            template,
+            '<iframe width="480" height="360" '
+            'src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=transparent&rel=0&stop=5" '
+            'frameborder="0" allowfullscreen></iframe>'
+        )
+
+    def test_embed_with_query(self):
+        template = """
+               {% load embed_video_tags %}
+               {% video 'http://www.youtube.com/watch?v=jsrRJyHBvzw' query="rel=1&wmode=transparent" as ytb %}
+                   {{ ytb.url }}
+               {% endvideo %}
+           """
+        self.assertRenderedTemplate(
+            template,
+            'http://www.youtube.com/embed/jsrRJyHBvzw?wmode=transparent&rel=1'
+        )
+
+    def test_direct_embed_with_query(self):
+        template = """
+               {% load embed_video_tags %}
+               {% video 'http://www.youtube.com/watch?v=jsrRJyHBvzw' query="rel=1&wmode=transparent" %}
+           """
+        self.assertRenderedTemplate(
+            template,
+            '<iframe width="480" height="360" '
+            'src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=transparent&rel=1" '
+            'frameborder="0" allowfullscreen></iframe>'
+        )
+
+    def test_set_options(self):
+        template = """
+               {% load embed_video_tags %}
+               {% video 'http://www.youtube.com/watch?v=jsrRJyHBvzw' 300x200 is_secure=True query="rel=1" %}
+           """
+        self.assertRenderedTemplate(
+            template,
+            '<iframe width="300" height="200" '
+            'src="https://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque&rel=1" '
+            'frameborder="0" allowfullscreen></iframe>'
+        )
 
 
 class EmbedVideoNodeTestCase(TestCase):
