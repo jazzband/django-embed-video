@@ -1,9 +1,8 @@
 import re
 import logging
 import requests
-from collections import defaultdict
 
-from django.template import Library, Node, TemplateSyntaxError, Variable
+from django.template import Library, Node, TemplateSyntaxError
 from django.utils.safestring import mark_safe
 from django.utils.encoding import smart_str
 
@@ -14,8 +13,6 @@ register = Library()
 
 logger = logging.getLogger(__name__)
 
-# Used for parsing keyword arguments passed in as key-value pairs
-kw_pat = re.compile(r'^(?P<key>[\w]+)=(?P<value>.+)$')
 
 
 @register.tag('video')
@@ -28,25 +25,26 @@ class VideoNode(Node):
 
     .. code-block:: html+django
 
-        {% video URL [SIZE] %}
+        {% video URL [SIZE] [key1=value1, key2=value2...] %}
 
     Or as a block:
 
     .. code-block:: html+django
 
-        {% video URL as VAR %}
+        {% video URL [SIZE] [key1=value1, key2=value2...] as VAR %}
             ...
         {% endvideo %}
 
-    Example:
+    Examples:
 
     .. code-block:: html+django
 
+        {% video item.video %}
         {% video item.video "large" %}
         {% video item.video "340x200" %}
-        {% video item.video "100% x 300" %}
+        {% video item.video "100% x 300" query="rel=0&wmode=opaque" %}
 
-        {% video item.video as my_video %}
+        {% video item.video is_secure=True as my_video %}
             URL: {{ my_video.url }}
             Thumbnail: {{ my_video.thumbnail }}
             Backend: {{ my_video.backend }}
@@ -57,62 +55,48 @@ class VideoNode(Node):
                 '[size] [key1=val1 key2=val2 ...] [as var] %}``'
     default_size = 'small'
 
-    re_size = re.compile('(?P<width>\d+%?) *x *(?P<height>\d+%?)')
+    re_size = re.compile('[\'"]?(?P<width>\d+%?) *x *(?P<height>\d+%?)[\'"]?')
+    re_option = re.compile(r'^(?P<key>[\w]+)=(?P<value>.+)$')
 
     def __init__(self, parser, token):
-        self.size = None
-        self.bits = token.split_contents()
-        self.query = None
+        self.parser = parser
+        self.bits = list(token.split_contents())
+        self.tag_name = str(self.pop_bit())
+        self.url = self.pop_bit()
 
-        try:
-            self.url = parser.compile_filter(self.bits[1])
-        except IndexError:
-            raise TemplateSyntaxError(self.error_msg)
-
-        # Determine if the tag is being used as a context variable
-        if self.bits[-2] == 'as':
-            option_bits = self.bits[2:-2]
-            self.nodelist_file = parser.parse(('endvideo',))
+        if len(self.bits) > 1 and self.bits[-2] == 'as':
+            del self.bits[-2]
+            self.variable_name = str(self.pop_bit(-1))
+            self.nodelist_file = parser.parse(('end' + self.tag_name, ))
             parser.delete_first_token()
         else:
-            option_bits = self.bits[2:]
+            self.variable_name = None
 
-            # Size must be the first argument and is only accepted when this is
-            # used as a template tag (but not when used as a block tag)
-            if len(option_bits) != 0 and '=' not in option_bits[0]:
-                self.size = parser.compile_filter(option_bits[0])
-                option_bits = option_bits[1:]
-            else:
-                self.size = self.default_size
+        self.size = self.pop_bit() if self.bits and '=' not in self.bits[0] else None
+        self.options = self.parse_options(self.bits)
 
-        # Parse arguments passed in as KEY=VALUE pairs that will be added to
-        # the URL as a GET query string
-        if len(option_bits) != 0:
-            self.query = defaultdict(list)
+    def pop_bit(self, index=0):
+        return self.parser.compile_filter(self.bits.pop(index))
 
-        for bit in option_bits:
-            match = kw_pat.match(bit)
-            key = smart_str(match.group('key'))
-            value = Variable(smart_str(match.group('value')))
-            self.query[key].append(value)
+    def parse_options(self, bits):
+        options = {}
+        for bit in bits:
+            parsed_bit = self.re_option.match(bit)
+            key = smart_str(parsed_bit.group('key'))
+            value = self.parser.compile_filter(parsed_bit.group('value'))
+            options[key] = value
+        return options
 
     def render(self, context):
-        # Attempt to resolve any parameters passed in.
-        if self.query is not None:
-            resolved_query = defaultdict(list)
-            for key, values in self.query.items():
-                for value in values:
-                    resolved_value = value.resolve(context)
-                    resolved_query[key].append(resolved_value)
-        else:
-            resolved_query = None
-
         url = self.url.resolve(context)
+        size = self.size.resolve(context) if self.size else None
+        options = self.resolve_options(context)
+
         try:
-            if self.size:
-                return self.__render_embed(url, context, resolved_query)
-            else:
-                return self.__render_block(url, context, resolved_query)
+            if not self.variable_name:
+                return self.embed(url, size, context=context, **options)
+            backend = self.get_backend(url, context=context, **options)
+            return self.render_block(context, backend)
         except requests.Timeout:
             logger.exception('Timeout reached during rendering embed video (`{0}`)'.format(url))
         except UnknownBackendException:
@@ -122,23 +106,22 @@ class VideoNode(Node):
 
         return ''
 
-    def __render_embed(self, url, context, query):
-        size = self.size.resolve(context) \
-            if hasattr(self.size, 'resolve') else self.size
-        return self.embed(url, size, context=context, query=query)
+    def resolve_options(self, context):
+        options = {}
+        for key in self.options:
+            value = self.options[key]
+            options[key] = value.resolve(context)
+        return options
 
-    def __render_block(self, url, context, query):
-        as_var = self.bits[-1]
-
+    def render_block(self, context, backend):
         context.push()
-        context[as_var] = self.get_backend(url, context=context, query=query)
+        context[self.variable_name] = backend
         output = self.nodelist_file.render(context)
         context.pop()
-
         return output
 
     @staticmethod
-    def get_backend(backend_or_url, context=None, query=None):
+    def get_backend(backend_or_url, context=None, **options):
         """
         Returns instance of VideoBackend. If context is passed to the method
         and request is secure, than the is_secure mark is set to backend.
@@ -151,22 +134,22 @@ class VideoNode(Node):
 
         if context and 'request' in context:
             backend.is_secure = context['request'].is_secure()
-
-        backend.update_query(query)
+        if options:
+            backend.set_options(options)
 
         return backend
 
-    @staticmethod
-    def embed(url, size, GET=None, context=None, query=None):
+    @classmethod
+    def embed(cls, url, size, context=None, **options):
         """
         Direct render of embed video.
         """
-        backend = VideoNode.get_backend(url, context=context, query=query)
-        width, height = VideoNode.get_size(size)
+        backend = cls.get_backend(url, context=context, **options)
+        width, height = cls.get_size(size)
         return mark_safe(backend.get_embed_code(width=width, height=height))
 
-    @staticmethod
-    def get_size(value):
+    @classmethod
+    def get_size(cls, value):
         """
         Predefined sizes:
 
@@ -191,11 +174,12 @@ class VideoNode(Node):
             'huge': (1280, 960),
         }
 
+        value = value or cls.default_size
         if value in sizes:
             return sizes[value]
 
         try:
-            size = VideoNode.re_size.match(value)
+            size = cls.re_size.match(value)
             return [size.group('width'), size.group('height')]
         except AttributeError:
             raise TemplateSyntaxError(
@@ -209,28 +193,3 @@ class VideoNode(Node):
 
     def __repr__(self):
         return '<VideoNode "%s">' % self.url
-
-
-@register.filter(is_safe=True)
-def embed(backend, size='small'):
-    """
-    .. warning::
-        .. deprecated:: 0.7
-            Use :py:func:`VideoNode.embed` instead.
-
-    Same like :py:func:`VideoNode.embed` tag but **always uses insecure
-    HTTP protocol**.
-
-    Usage:
-
-    .. code-block:: html+django
-
-        {{ URL|embed:SIZE }}
-
-    Example:
-
-    .. code-block:: html+django
-
-        {{ 'http://www.youtube.com/watch?v=guXyvo2FfLs'|embed:'large' }}
-    """
-    return VideoNode.embed(backend, size)

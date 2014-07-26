@@ -1,8 +1,15 @@
+import re
 from unittest import TestCase
 
-from embed_video.backends import detect_backend
+from embed_video.backends import VideoBackend, detect_backend
 
-from .custom_backend import CustomBackend
+
+class CustomBackend(VideoBackend):
+    re_detect = re.compile(r'http://myvideo\.com/[0-9]+')
+    re_code = re.compile(r'http://myvideo\.com/(?P<code>[0-9]+)')
+
+    pattern_url = '{protocol}://play.myvideo.com/c/{code}/'
+    pattern_thumbnail_url = '{protocol}://thumb.myvideo.com/c/{code}/'
 
 
 class CustomBackendTestCase(TestCase):
@@ -27,4 +34,3 @@ class CustomBackendTestCase(TestCase):
     def test_thumbnail(self):
         self.assertEqual(self.backend.get_thumbnail_url(),
                          'http://thumb.myvideo.com/c/1530/')
-
