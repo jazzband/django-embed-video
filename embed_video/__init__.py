@@ -3,7 +3,7 @@ Django app for easy embeding YouTube and Vimeo videos and music from
 SoundCloud.
 """
 
-VERSION = (0, 11, 0, 'dev')
+VERSION = (1, 0, 0, 'dev')
 
 
 def get_release():
