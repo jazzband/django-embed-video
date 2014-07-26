@@ -206,6 +206,7 @@ class EmbedTestCase(TestCase):
            {% load embed_video_tags %}
            {% video 'http://www.youtube.com/watch?v=jsrRJyHBvzw' query="rel=1&wmode=transparent" %}
         """
+
         self.assertRenderedTemplate(
             template,
             '<iframe width="480" height="360" '
@@ -238,7 +239,6 @@ class EmbedTestCase(TestCase):
             'src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" '
             'frameborder="0" allowfullscreen></iframe>'
         )
-
 
 
 class EmbedVideoNodeTestCase(TestCase):

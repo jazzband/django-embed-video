@@ -1,15 +1,12 @@
 import re
+import sys
 import json
 import requests
 
-try:
-    # Python <= 2.7
-    import urlparse
-    from urllib import urlencode
-except ImportError:
-    # support for py3
+if sys.version_info.major == 3:
     import urllib.parse as urlparse
-    from urllib.parse import urlencode
+else:
+    import urlparse
 
 from django.http import QueryDict
 from django.template.loader import render_to_string
@@ -200,7 +197,6 @@ class VideoBackend(object):
         raise NotImplementedError
 
     def set_options(self, options):
-        print options
         for key in options:
             setattr(self, key, options[key])
 
