@@ -75,7 +75,6 @@ class VideoBackend(object):
         template_name
 
 
-
     .. code-block:: python
 
         class MyBackend(VideoBackend):
