@@ -110,6 +110,9 @@ class VideoBackend(object):
     """
 
     default_query = ''
+    """
+    Default query string or `QueryDict` appended to url
+    """
 
     def __init__(self, url, is_secure=False):
         """

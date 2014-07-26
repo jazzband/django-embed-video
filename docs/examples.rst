@@ -48,33 +48,15 @@ Default sizes are ``tiny`` (420x315), ``small`` (480x360), ``medium`` (640x480),
       {% video my_video '100% x 50%' %}
 
 
-Some backends (e.g. YouTube) allow configuration of the embedding via passing
-query parameters.  To specify the parameters:
+It is possible to set backend options via parameters in template tag. It is
+useful for example to enforce HTTPS protocol or set different query appended
+to url.
 
 ::
 
-    {% video item.video 'small' rel=0 %}
-
-    {% video item.video 'small' start=2 stop=5 repeat=1 %}
-
-    {% video item.video rel=0 as my_video %}
-        URL: {{ my_video.url }}
-        Thumbnail: {{ my_video.thumbnail }}
-        Backend: {{ my_video.backend }}
-        {% video my_video 'small' %}
+    {% video my_video query="rel=0&wmode=transparent" is_secure=True %}
+        {{ video.url }} {# always with https #}
     {% endvideo %}
-
-Parameters may also be template variables:
-
-::
-
-    {% video item.video 'small' start=item.start stop=item.stop repeat=item.repeat %}
-
-
-.. tip:: 
-
-  You can provide default values for the query string that's included in the
-  embedded URL by updating your Django settings file.
 
 
 .. tip::
@@ -96,7 +78,7 @@ Parameters may also be template variables:
     backend (:py:data:`~embed_video.backends.VideoBackend.template_name`).
 
     .. versionadded:: 0.9
-    
+
         ``template_name`` has been added in version 0.9.
 
 
