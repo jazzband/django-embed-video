@@ -1,6 +1,6 @@
 import re
-import requests
 import json
+import requests
 
 try:
     # Python <= 2.7
@@ -11,14 +11,14 @@ except ImportError:
     import urllib.parse as urlparse
     from urllib.parse import urlencode
 
-from django.conf import settings
+from django.http import QueryDict
 from django.template.loader import render_to_string
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
-from django.utils.datastructures import SortedDict
 
 from .utils import import_by_path
-from .settings import EMBED_VIDEO_BACKENDS, EMBED_VIDEO_TIMEOUT
+from .settings import EMBED_VIDEO_BACKENDS, EMBED_VIDEO_TIMEOUT, \
+    EMBED_VIDEO_YOUTUBE_DEFAULT_QUERY
 
 
 class EmbedVideoException(Exception):
@@ -112,7 +112,9 @@ class VideoBackend(object):
     ``{{ width }}``, ``{{ height }}``
     """
 
-    def __init__(self, url, is_secure=False, query=None):
+    default_query = ''
+
+    def __init__(self, url, is_secure=False):
         """
         First it tries to load data from cache and if it don't succeed, run
         :py:meth:`init` and then save it to cache.
@@ -120,22 +122,17 @@ class VideoBackend(object):
         self.is_secure = is_secure
         self.backend = self.__class__.__name__
         self._url = url
-        self.update_query(query)
-
-    def update_query(self, query=None):
-        self._query = SortedDict(self.get_default_query())
-        if query is not None:
-            self._query.update(query)
+        self.query = QueryDict(self.default_query, mutable=True)
 
     @cached_property
     def code(self):
         return self.get_code()
 
-    @cached_property
+    @property
     def url(self):
         return self.get_url()
 
-    @cached_property
+    @property
     def protocol(self):
         return 'https' if self.allow_https and self.is_secure else 'http'
 
@@ -146,6 +143,16 @@ class VideoBackend(object):
     @cached_property
     def info(self):
         return self.get_info()
+
+    @property
+    def query(self):
+        return self._query
+
+    @query.setter
+    def query(self, value):
+        self._query = value \
+            if isinstance(value, QueryDict) \
+            else QueryDict(value, mutable=True)
 
     @classmethod
     def is_valid(cls, url):
@@ -168,8 +175,7 @@ class VideoBackend(object):
         Returns URL folded from :py:data:`pattern_url` and parsed code.
         """
         url = self.pattern_url.format(code=self.code, protocol=self.protocol)
-        if self._query:
-            url += '?' + urlencode(self._query, doseq=True)
+        url += '?' + self.query.urlencode() if self.query else ''
         return mark_safe(url)
 
     def get_thumbnail_url(self):
@@ -193,12 +199,10 @@ class VideoBackend(object):
     def get_info(self):
         raise NotImplementedError
 
-    def get_default_query(self):
-        # Derive backend name from class name
-        backend_name = self.__class__.__name__[:-7].upper()
-        default = getattr(self, 'default_query', {})
-        settings_key = 'EMBED_VIDEO_{0}_QUERY'.format(backend_name)
-        return getattr(settings, settings_key, default).copy()
+    def set_options(self, options):
+        print options
+        for key in options:
+            setattr(self, key, options[key])
 
 
 class YoutubeBackend(VideoBackend):
@@ -225,7 +229,7 @@ class YoutubeBackend(VideoBackend):
 
     pattern_url = '{protocol}://www.youtube.com/embed/{code}'
     pattern_thumbnail_url = '{protocol}://img.youtube.com/vi/{code}/hqdefault.jpg'
-    default_query = {'wmode': 'opaque'}
+    default_query = EMBED_VIDEO_YOUTUBE_DEFAULT_QUERY
 
     def get_code(self):
         code = super(YoutubeBackend, self).get_code()

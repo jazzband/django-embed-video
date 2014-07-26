@@ -1,6 +1,10 @@
 Release 1.0.0 (dev)
 -------------------
 
+**Backward incompatible changes:**
+- filter `embed_video_tags.embed` has been removed
+
+Backward compatible changes:
 *No changes yet.*
 
 

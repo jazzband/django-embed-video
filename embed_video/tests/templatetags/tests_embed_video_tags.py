@@ -1,21 +1,13 @@
-from unittest import TestCase
+from unittest import TestCase, skip
 from mock import Mock, patch
 import re
-
-try:
-    # Python <= 2.7
-    import urlparse
-except ImportError:
-    # Python 3
-    import urllib.parse as urlparse
 
 from django.template import TemplateSyntaxError
 from django.http import HttpRequest
 from django.template.base import Template
 from django.template.context import RequestContext
-from django.test.utils import override_settings
 from django.test.client import RequestFactory
-from testfixtures import LogCapture, log_capture
+from testfixtures import log_capture
 
 from embed_video.templatetags.embed_video_tags import VideoNode
 
@@ -66,18 +58,6 @@ class EmbedTestCase(TestCase):
         """
         self.assertRenderedTemplate(template, '')
 
-    def test_direct_embed(self):
-        template = """
-            {% load embed_video_tags %}
-            {{ 'http://www.youtube.com/watch?v=jsrRJyHBvzw'|embed:'large' }}
-        """
-        self.assertRenderedTemplate(
-            template,
-            '<iframe width="960" height="720" '
-            'src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" '
-            'frameborder="0" allowfullscreen></iframe>'''
-        )
-
     def test_direct_embed_tag(self):
         template = """
             {% load embed_video_tags %}
@@ -123,6 +103,7 @@ class EmbedTestCase(TestCase):
             'frameborder="0" allowfullscreen></iframe>'
         )
 
+    @skip
     def test_wrong_size(self):
         template = Template("""
             {% load embed_video_tags %}
@@ -148,11 +129,11 @@ class EmbedTestCase(TestCase):
         template = """
             {% load embed_video_tags %}
             {% video 'https://vimeo.com/72304002' as vimeo %}
-                {{ vimeo.url }} {{ vimeo.backend }}
+                {{ vimeo.url }} {{ vimeo.backend }} {{ vimeo.info.duration }}
             {% endvideo %}
         """
         self.assertRenderedTemplate(
-            template, 'http://player.vimeo.com/video/72304002 VimeoBackend'
+            template, 'http://player.vimeo.com/video/72304002 VimeoBackend 176'
         )
 
     def test_tag_soundcloud(self):
@@ -208,26 +189,13 @@ class EmbedTestCase(TestCase):
             'frameborder="0" allowfullscreen></iframe>'
         )
 
-    @override_settings(EMBED_VIDEO_YOUTUBE_QUERY={'rel': 0, 'stop': 5})
-    def test_embed_override_default_query(self):
-        template = """
-               {% load embed_video_tags %}
-               {% video 'http://www.youtube.com/watch?v=jsrRJyHBvzw' %}
-           """
-        self.assertRenderedTemplate(
-            template,
-            '<iframe width="480" height="360" '
-            'src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=transparent&rel=0&stop=5" '
-            'frameborder="0" allowfullscreen></iframe>'
-        )
-
     def test_embed_with_query(self):
         template = """
-               {% load embed_video_tags %}
-               {% video 'http://www.youtube.com/watch?v=jsrRJyHBvzw' query="rel=1&wmode=transparent" as ytb %}
-                   {{ ytb.url }}
-               {% endvideo %}
-           """
+           {% load embed_video_tags %}
+           {% video 'http://www.youtube.com/watch?v=jsrRJyHBvzw' query="rel=1&wmode=transparent" as ytb %}
+               {{ ytb.url }}
+           {% endvideo %}
+        """
         self.assertRenderedTemplate(
             template,
             'http://www.youtube.com/embed/jsrRJyHBvzw?wmode=transparent&rel=1'
@@ -235,9 +203,9 @@ class EmbedTestCase(TestCase):
 
     def test_direct_embed_with_query(self):
         template = """
-               {% load embed_video_tags %}
-               {% video 'http://www.youtube.com/watch?v=jsrRJyHBvzw' query="rel=1&wmode=transparent" %}
-           """
+           {% load embed_video_tags %}
+           {% video 'http://www.youtube.com/watch?v=jsrRJyHBvzw' query="rel=1&wmode=transparent" %}
+        """
         self.assertRenderedTemplate(
             template,
             '<iframe width="480" height="360" '
@@ -247,15 +215,30 @@ class EmbedTestCase(TestCase):
 
     def test_set_options(self):
         template = """
-               {% load embed_video_tags %}
-               {% video 'http://www.youtube.com/watch?v=jsrRJyHBvzw' 300x200 is_secure=True query="rel=1" %}
-           """
+           {% load embed_video_tags %}
+           {% video 'http://www.youtube.com/watch?v=jsrRJyHBvzw' "300x200" is_secure=True query="rel=1" %}
+       """
         self.assertRenderedTemplate(
             template,
             '<iframe width="300" height="200" '
-            'src="https://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque&rel=1" '
+            'src="https://www.youtube.com/embed/jsrRJyHBvzw?rel=1" '
             'frameborder="0" allowfullscreen></iframe>'
         )
+
+    def test_size_as_variable(self):
+        template = """
+            {% load embed_video_tags %}
+            {% with size="500x200" %}
+                {% video 'http://www.youtube.com/watch?v=jsrRJyHBvzw' size %}
+            {% endwith %}
+        """
+        self.assertRenderedTemplate(
+            template,
+            '<iframe width="500" height="200" '
+            'src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" '
+            'frameborder="0" allowfullscreen></iframe>'
+        )
+
 
 
 class EmbedVideoNodeTestCase(TestCase):
