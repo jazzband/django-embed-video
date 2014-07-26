@@ -54,8 +54,8 @@ to url.
 
 ::
 
-    {% video my_video query="rel=0&wmode=transparent" is_secure=True %}
-        {{ video.url }} {# always with https #}
+    {% video my_video query="rel=0&wmode=transparent" is_secure=True as my_video %}
+        {{ my_video.url }} {# always with https #}
     {% endvideo %}
 
 
