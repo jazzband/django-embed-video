@@ -60,6 +60,20 @@ class VideoBackend(object):
     """
     Base class used as parental class for backends.
 
+
+    Backend variables:
+
+    .. autosummary::
+
+        url
+        code
+        thumbnail
+        query
+        info
+        is_secure
+        protocol
+
+
     .. code-block:: python
 
         class MyBackend(VideoBackend):
@@ -114,38 +128,60 @@ class VideoBackend(object):
     Default query string or `QueryDict` appended to url
     """
 
-    def __init__(self, url, is_secure=False):
+    is_secure = False
+    """
+    Decides if secured protocol (HTTPS) is used.
+    """
+
+    def __init__(self, url):
         """
         First it tries to load data from cache and if it don't succeed, run
         :py:meth:`init` and then save it to cache.
         """
-        self.is_secure = is_secure
         self.backend = self.__class__.__name__
         self._url = url
         self.query = QueryDict(self.default_query, mutable=True)
 
-    @cached_property
+    @property
     def code(self):
+        """
+        Code of video.
+        """
         return self.get_code()
 
     @property
     def url(self):
+        """
+        URL of video.
+        """
         return self.get_url()
 
     @property
     def protocol(self):
+        """
+        Protocol used to generate URL.
+        """
         return 'https' if self.allow_https and self.is_secure else 'http'
 
-    @cached_property
+    @property
     def thumbnail(self):
+        """
+        URL of video thumbnail.
+        """
         return self.get_thumbnail_url()
 
-    @cached_property
+    @property
     def info(self):
+        """
+        Additional information about video. Not implemented in all backends.
+        """
         return self.get_info()
 
     @property
     def query(self):
+        """
+        QueryDict appended to url.
+        """
         return self._query
 
     @query.setter
