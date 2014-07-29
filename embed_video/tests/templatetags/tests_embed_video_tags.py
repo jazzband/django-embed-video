@@ -103,7 +103,6 @@ class EmbedTestCase(TestCase):
             'frameborder="0" allowfullscreen></iframe>'
         )
 
-    @skip
     def test_wrong_size(self):
         template = Template("""
             {% load embed_video_tags %}
