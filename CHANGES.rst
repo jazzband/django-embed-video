@@ -5,7 +5,7 @@ Release 1.0.0 (dev)
 
 - filter `embed_video_tags.embed` has been removed
 - changed behaviour of extra params in video tag
-  (`#34 <https://github.com/yetty/django-embed-video/issues/34>`_, `#36 <https://github.com/yetty/django-embed-video/pull/36`_)
+  (`#34 <https://github.com/yetty/django-embed-video/issues/34>`_, `#36 <https://github.com/yetty/django-embed-video/pull/36>`_)
 
 Backward compatible changes:
 *No changes yet.*
