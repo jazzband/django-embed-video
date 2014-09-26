@@ -6,3 +6,4 @@ dist
 *.egg
 .coverage
 htmlcov
+.idea
