@@ -264,7 +264,7 @@ class YoutubeBackend(VideoBackend):
     )
 
     pattern_url = '{protocol}://www.youtube.com/embed/{code}'
-    pattern_thumbnail_url = '{protocol}://img.youtube.com/vi/{code}/hqdefault.jpg'
+    pattern_thumbnail_url = '{protocol}://img.youtube.com/vi/{code}/maxresdefault.jpg'
     default_query = EMBED_VIDEO_YOUTUBE_DEFAULT_QUERY
 
     def get_code(self):
