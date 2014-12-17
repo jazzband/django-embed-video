@@ -291,7 +291,7 @@ class VimeoBackend(VideoBackend):
     re_detect = re.compile(
         r'^((http(s)?:)?//)?(www\.)?(player\.)?vimeo\.com/.*', re.I
     )
-    re_code = re.compile(r'''vimeo\.com/(video/)?(?P<code>[0-9]+)''', re.I)
+    re_code = re.compile(r'''vimeo\.com/(video/)?(channels/(.*/)?)?(?P<code>[0-9]+)''', re.I)
     pattern_url = '{protocol}://player.vimeo.com/video/{code}'
     pattern_info = '{protocol}://vimeo.com/api/v2/video/{code}.json'
 
