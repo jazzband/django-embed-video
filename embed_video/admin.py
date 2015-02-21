@@ -24,6 +24,9 @@ class AdminVideoWidget(forms.TextInput):
                     u'<hr style="visibility: hidden; clear:both">'
 
     def __init__(self, attrs=None):
+        """
+        :type attrs: dict
+        """
         default_attrs = {'size': '40'}
 
         if attrs:
@@ -32,6 +35,10 @@ class AdminVideoWidget(forms.TextInput):
         super(AdminVideoWidget, self).__init__(default_attrs)
 
     def render(self, name, value='', attrs=None, size=(420, 315)):
+        """
+        :type name: str
+        :type attrs: dict
+        """
         output = super(AdminVideoWidget, self).render(name, value, attrs)
 
         if not value:
@@ -66,8 +73,11 @@ class AdminVideoMixin(object):
     """
 
     def formfield_for_dbfield(self, db_field, **kwargs):
+        """
+        :type db_field: str
+        """
         if isinstance(db_field, EmbedVideoField):
             return db_field.formfield(widget=AdminVideoWidget)
 
-        return super(AdminVideoMixin, self) \
+        return super(AdminVideoMixin, self)\
             .formfield_for_dbfield(db_field, **kwargs)

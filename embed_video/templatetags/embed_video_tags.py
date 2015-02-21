@@ -59,6 +59,12 @@ class VideoNode(Node):
     re_option = re.compile(r'^(?P<key>[\w]+)=(?P<value>.+)$')
 
     def __init__(self, parser, token):
+        """
+        :param parser: Django template parser
+        :type parser: django.template.base.Parser
+        :param token: Django template token
+        :type token: django.template.base.Token
+        """
         self.parser = parser
         self.bits = list(token.split_contents())
         self.tag_name = str(self.pop_bit())
@@ -88,6 +94,14 @@ class VideoNode(Node):
         return options
 
     def render(self, context):
+        """
+        Returns generated HTML.
+
+        :param context: Django template RequestContext
+        :type context: django.template.RequestContext
+        :return: Rendered HTML with embed video.
+        :rtype: django.utils.safestring.SafeText | str
+        """
         url = self.url.resolve(context)
         size = self.size.resolve(context) if self.size else None
         options = self.resolve_options(context)
@@ -107,6 +121,10 @@ class VideoNode(Node):
         return ''
 
     def resolve_options(self, context):
+        """
+        :param context: Django template RequestContext
+        :type context: django.template.RequestContext
+        """
         options = {}
         for key in self.options:
             value = self.options[key]
@@ -114,6 +132,13 @@ class VideoNode(Node):
         return options
 
     def render_block(self, context, backend):
+        """
+        :param context: Django template RequestContext
+        :type context: django.template.RequestContext
+        :param backend: Given instance inherited from VideoBackend
+        :type backend: VideoBackend
+        :rtype: django.utils.safestring.SafeText
+        """
         context.push()
         context[self.variable_name] = backend
         output = self.nodelist_file.render(context)
@@ -127,6 +152,12 @@ class VideoNode(Node):
         and request is secure, than the is_secure mark is set to backend.
 
         A string or VideoBackend instance can be passed to the method.
+
+        :param backend: Given instance inherited from VideoBackend or url
+        :type backend_or_url: VideoBackend | str
+        :param context: Django template RequestContext
+        :type context: django.template.RequestContext | None
+        :rtype: VideoBackend
         """
 
         backend = backend_or_url if isinstance(backend_or_url, VideoBackend) \
@@ -143,6 +174,13 @@ class VideoNode(Node):
     def embed(cls, url, size, context=None, **options):
         """
         Direct render of embed video.
+
+        :param url: URL to embed video
+        :type url: str
+        :param size: Size of rendered block
+        :type size: str
+        :param context: Django template RequestContext
+        :type context: django.template.RequestContext | None
         """
         backend = cls.get_backend(url, context=context, **options)
         width, height = cls.get_size(size)
@@ -165,6 +203,11 @@ class VideoNode(Node):
 
         You can also use custom size - in format ``WIDTHxHEIGHT``
         (eg. ``500x400``).
+
+        :type value: str
+
+        :return: Returns tuple with (width, height) values.
+        :rtype: tuple[int, int]
         """
         sizes = {
             'tiny': (420, 315),
@@ -180,7 +223,7 @@ class VideoNode(Node):
 
         try:
             size = cls.re_size.match(value)
-            return [size.group('width'), size.group('height')]
+            return size.group('width'), size.group('height')
         except AttributeError:
             raise TemplateSyntaxError(
                 'Incorrect size.\nPossible format is WIDTHxHEIGHT or using '

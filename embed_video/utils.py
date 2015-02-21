@@ -14,6 +14,11 @@ def import_by_path(dotted_path, error_prefix=''):
 
         Function :py:func:`django.utils.module_loading.import_by_path` has
         been added in Django 1.6.
+
+    :param dotted_path: Path to imported attribute or class
+    :type dotted_path: str
+
+    :return: imported attribute or class
     """
     try:
         module_path, class_name = dotted_path.rsplit('.', 1)
