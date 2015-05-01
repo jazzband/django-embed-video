@@ -1,8 +1,8 @@
 Installation & Setup
-==============================================
+====================
 
 Installation
-##############################################
+############
 
 The simpliest way is to use pip to install package:
 
@@ -19,7 +19,7 @@ If you want latest version, you may use Git. It is fresh, but unstable.
 
 
 Setup
-##############################################
+#####
 
 Add ``embed_video`` to :py:data:`~django.settings.INSTALLED_APPS` in your Django
 settings.

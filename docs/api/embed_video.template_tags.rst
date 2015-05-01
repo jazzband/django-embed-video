@@ -1,5 +1,5 @@
 Template tags
-==============================================
+=============
 
 You have to load template tag library first.
 

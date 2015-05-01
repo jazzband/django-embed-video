@@ -1,5 +1,5 @@
 django-embed-video's documentation
-==============================================
+==================================
 
 Django app for easy embeding YouTube and Vimeo videos and music from SoundCloud.
 
@@ -21,8 +21,8 @@ Repository is located on GitHub: https://github.com/yetty/django-embed-video
 
 
 
-API
-#################
+Library API
+###########
 
 .. toctree::
    :maxdepth: 2
@@ -32,7 +32,7 @@ API
 
 
 Indices and tables
-#################################################
+##################
 
 * :ref:`genindex`
 * :ref:`modindex`
