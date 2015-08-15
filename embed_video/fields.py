@@ -75,7 +75,7 @@ class EmbedBackendFormField(forms.URLField):
         try:
             if not self.backend_class.is_valid(url):
                 raise forms.ValidationError(_(u'URL could not be recognized.'))
-            backend = self.backend_class(ur l)
+            backend = self.backend_class(url)
             backend.get_code()
         except UnknownIdException:
             raise forms.ValidationError(_(u'ID of this video could not be '
