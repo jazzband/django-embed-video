@@ -9,6 +9,7 @@ env:
     - DJANGO_VERSION=1.6.5
     - DJANGO_VERSION=1.7.0
     - DJANGO_VERSION=1.8.0
+    - DJANGO_VERSION=1.8.6
 install:
     - pip install -q Django==$DJANGO_VERSION
     - pip install coveralls
