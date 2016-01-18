@@ -18,11 +18,6 @@ from .settings import EMBED_VIDEO_BACKENDS, EMBED_VIDEO_TIMEOUT, \
     EMBED_VIDEO_YOUTUBE_DEFAULT_QUERY
 
 
-def checkUrl(url):
-    r = requests.head(url)
-    return int(r.status_code) < 400
-
-
 class EmbedVideoException(Exception):
     """ Parental class for all embed_video exceptions """
     pass
@@ -313,7 +308,7 @@ class YoutubeBackend(VideoBackend):
     resolutions = [
         'maxresdefault.jpg',
         'sddefault.jpg',
-        'hqdefault.jpg'
+        'hqdefault.jpg',
         'mqdefault.jpg',
     ]
 
@@ -343,11 +338,9 @@ class YoutubeBackend(VideoBackend):
         for resolution in self.resolutions:
             temp_thumbnail_url = self.pattern_thumbnail_url.format(
                 code=self.code, protocol=self.protocol, resolution=resolution)
-            if checkUrl(temp_thumbnail_url):
+            if int(requests.head(temp_thumbnail_url).status_code) < 400:
                 return temp_thumbnail_url
-                break
-        return self.pattern_thumbnail_url.format(
-            code=self.code, protocol=self.protocol, resolution='hqdefault.jpg')
+        return None
 
 
 class VimeoBackend(VideoBackend):

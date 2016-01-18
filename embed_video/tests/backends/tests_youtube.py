@@ -40,3 +40,9 @@ class YoutubeBackendTestCase(BackendTestMixin, TestCase):
         for url in self.urls:
             backend = self.instance(url[0])
             self.assertIn(url[1], backend.thumbnail)
+
+    def test_get_better_resolution_youtube(self):
+        backend = self.instance('https://www.youtube.com/watch?v=1Zo0-sWD7xE')
+        self.assertIn(
+            'img.youtube.com/vi/1Zo0-sWD7xE/maxresdefault.jpg',
+            backend.thumbnail)
