@@ -1,6 +1,7 @@
 from django.db import models
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+from django import VERSION
 
 from .backends import detect_backend, UnknownIdException, \
     UnknownBackendException
@@ -19,14 +20,15 @@ class EmbedVideoField(models.URLField):
         defaults.update(kwargs)
         return super(EmbedVideoField, self).formfield(**defaults)
 
-    def south_field_triple(self):
-        from south.modelsinspector import introspector
-        cls_name = '%s.%s' % (
-            self.__class__.__module__,
-            self.__class__.__name__
-        )
-        args, kwargs = introspector(self)
-        return (cls_name, args, kwargs)
+    if VERSION < (1, 9):
+        def south_field_triple(self):
+            from south.modelsinspector import introspector
+            cls_name = '%s.%s' % (
+                self.__class__.__module__,
+                self.__class__.__name__
+            )
+            args, kwargs = introspector(self)
+            return (cls_name, args, kwargs)
 
 
 class EmbedVideoFormField(forms.URLField):
