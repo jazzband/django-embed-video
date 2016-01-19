@@ -1,7 +1,17 @@
-Release 1.1.0 (dev)
+Release 1.2.0 (dev)
 -------------------
 
 *No changes yet.*
+
+
+Release 1.1.0 (Jan 19, 2016)
+----------------------------
+
+- added support fort Django 1.9
+  (`#52 <https://github.com/yetty/django-embed-video/issues/52>`_)
+  
+- if possible YouTube thumbnails are returned in better resolution
+  (`#43 <https://github.com/yetty/django-embed-video/issues/43>`_)
 
 
 Release 1.0.0 (May 01, 2015)
