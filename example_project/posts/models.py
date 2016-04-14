@@ -6,8 +6,10 @@ from embed_video.fields import EmbedVideoField
 
 class Post(models.Model):
     title = models.CharField(max_length=50)
-    video = EmbedVideoField(verbose_name='My video',
-                            help_text='This is a help text')
+    video = EmbedVideoField(
+        verbose_name='My media link',
+        help_text='Link to a YouTube, Soundcloud or Vimeo clip.'
+    )
 
     def __unicode__(self):
         return self.title
