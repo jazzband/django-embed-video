@@ -1,2 +1,4 @@
 [report]
 include = embed_video/*
+omit =
+    embed_video/tests/*
