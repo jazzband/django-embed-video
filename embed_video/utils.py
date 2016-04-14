@@ -6,7 +6,7 @@ from django.core.exceptions import ImproperlyConfigured
 def import_by_path(dotted_path, error_prefix=''):
     """
     Import a dotted module path and return the attribute/class designated by
-    the last name in the path. Raise ImproperlyConfigured if something goes
+    the last name in the path. Raise ``ImproperlyConfigured`` if something goes
     wrong.
 
     .. warning::

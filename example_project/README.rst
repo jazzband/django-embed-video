@@ -8,7 +8,7 @@ Running example project
 
 #. Create database::
 
-     python manage.py syncdb --noinput
+     python manage.py migrate --noinput
 
 #. Run testing server::
 
@@ -21,5 +21,5 @@ Running example project
 Testing HTTPS
 *************
 
-To test HTTPS on development server, `follow this instructions
+To test HTTPS on development server, `follow these instructions
 <http://www.ianlewis.org/en/testing-https-djangos-development-server>`_.
