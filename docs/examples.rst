@@ -48,8 +48,8 @@ Default sizes are ``tiny`` (420x315), ``small`` (480x360), ``medium`` (640x480),
       {% video my_video '100% x 50%' %}
 
 
-It is possible to set backend options via parameters in template tag. It is
-useful for example to enforce HTTPS protocol or set different query appended
+It is possible to set backend options via parameters in the template tag. It is
+useful to enforce HTTPS protocol for example or to set different query appended
 to url.
 
 ::
@@ -73,8 +73,8 @@ to url.
 
 .. tip::
 
-    You can overwrite default template of embed code located in
-    ``templates/embed_video/embed_code.html`` or set own file for custom
+    You can overwrite the default template of the embed code located in
+    ``templates/embed_video/embed_code.html`` or use your own file for a custom
     backend (:py:data:`~embed_video.backends.VideoBackend.template_name`).
 
     .. versionadded:: 0.9
@@ -87,7 +87,7 @@ Model examples
 
 .. highlight:: python
 
-Using the ``EmbedVideoField`` provides you validation of URLs.
+Using the ``EmbedVideoField`` provides validation of URLs.
 
 ::
 
@@ -121,8 +121,8 @@ Use ``AdminVideoMixin`` in ``admin.py``.
 Custom backends
 ###############
 
-If you have specific needs and default backends don't suits you, you can write
-your custom backend.
+If you have specific needs and the default backend doesn't suit you,
+you can write a custom backend.
 
 ``my_project/my_app/backends.py``::
 
@@ -139,7 +139,7 @@ your custom backend.
       template_name = 'embed_video/custombackend_embed_code.html'  # added in v0.9
 
 You can also overwrite :py:class:`~embed_video.backends.VideoBackend` methods,
-if using regular expressions isn't well enough.
+if using regular expressions isn't good enough.
 
 ``my_project/my_project/settings.py``::
 
@@ -155,7 +155,7 @@ if using regular expressions isn't well enough.
 Low level API examples
 ######################
 
-You can get instance of :py:class:`~embed_video.backends.VideoBackend` in your
+You can get an instance of :py:class:`~embed_video.backends.VideoBackend` in your
 python code thanks to :py:func:`~embed_video.backends.detect_backend`:
 
 ::
