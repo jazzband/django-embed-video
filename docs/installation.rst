@@ -4,14 +4,14 @@ Installation & Setup
 Installation
 ############
 
-The simpliest way is to use pip to install package:
+The simpliest way is to use pip to install the package:
 
 .. code-block:: bash
 
     pip install django-embed-video
 
 
-If you want latest version, you may use Git. It is fresh, but unstable.
+If you want the latest version, you may use Git. It is fresh, but unstable.
 
 .. code-block:: bash
 
@@ -28,12 +28,13 @@ settings.
 
   INSTALLED_APPS = (
       ...
-    
+
       'embed_video',
   )
 
-To detect HTTP/S you must use :py:class:`~django.core.context_processors.request`
-context processor:
+To detect HTTP/S you must add the :py:class:`~django.template.context_processors.request`
+(or :py:class:`~django.core.context_processors.request` for Django < 1.9) context
+processor:
 
 .. code-block:: python
 
