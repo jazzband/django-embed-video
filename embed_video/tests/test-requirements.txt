@@ -1,0 +1,7 @@
+requests
+nose
+mock
+south
+testfixtures
+coverage
+flake8
