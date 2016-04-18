@@ -145,7 +145,7 @@ class VideoBackend(object):
 
     default_query = ''
     """
-    Default query string or `QueryDict` appended to url
+    Default query string or ``QueryDict`` appended to url.
 
     :type: str
     """
@@ -293,7 +293,7 @@ class Html5Backend(VideoBackend):
         """
         Returns URL.
         """
-        return mark_safe(self._url)
+        return self._url
 
     def get_code(self):
         """
@@ -316,6 +316,8 @@ class Html5VideoBackend(Html5Backend):
     """
     Backend for HTML5 video.
     """
+    template_name = 'embed_video/html5_video.html'
+
     @classmethod
     def is_valid(cls, url):
         """
@@ -335,6 +337,8 @@ class Html5AudioBackend(Html5Backend):
     """
     Backend for HTML5 audio.
     """
+    template_name = 'embed_video/html5_audio.html'
+
     @classmethod
     def is_valid(cls, url):
         """
