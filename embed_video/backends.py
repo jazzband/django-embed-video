@@ -102,7 +102,7 @@ class VideoBackend(object):
 
     re_detect = None
     """
-    Compilede regec (:py:func:`re.compile`) to detect, if input URL is valid
+    Compiled regex (:py:func:`re.compile`) to detect, if input URL is valid
     for current backend.
 
     Example: ``re.compile(r'^http://myvideo\.com/.*')``
@@ -283,6 +283,71 @@ class VideoBackend(object):
         """
         for key in options:
             setattr(self, key, options[key])
+
+
+class Html5Backend(VideoBackend):
+    """
+    Backend for HTML5 media.
+    """
+    def get_url(self):
+        """
+        Returns URL.
+        """
+        return mark_safe(self._url)
+
+    def get_code(self):
+        """
+        Returns video code.
+
+        :rtype: str
+        """
+        return None
+
+    def get_thumbnail_url(self):
+        """
+        Returns thumbnail URL.
+
+        :rtype: str
+        """
+        return None
+
+
+class Html5VideoBackend(Html5Backend):
+    """
+    Backend for HTML5 video.
+    """
+    @classmethod
+    def is_valid(cls, url):
+        """
+        Class method to control if passed url is valid for current backend.
+
+        :type url: str
+        """
+        try:
+            r = requests.head(url, timeout=EMBED_VIDEO_TIMEOUT)
+        except:
+            raise VideoDoesntExistException()
+
+        return r.headers.get('content-type').startswith('video')
+
+
+class Html5AudioBackend(Html5Backend):
+    """
+    Backend for HTML5 audio.
+    """
+    @classmethod
+    def is_valid(cls, url):
+        """
+        Class method to control if passed url is valid for current backend.
+
+        :type url: str
+        """
+        try:
+            r = requests.head(url, timeout=EMBED_VIDEO_TIMEOUT)
+        except:
+            raise VideoDoesntExistException()
+
+        return r.headers.get('content-type').startswith('audio')
 
 
 class YoutubeBackend(VideoBackend):

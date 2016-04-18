@@ -19,6 +19,8 @@ EMBED_VIDEO_BACKENDS = (
     'embed_video.backends.YoutubeBackend',
     'embed_video.backends.VimeoBackend',
     'embed_video.backends.SoundCloudBackend',
+    'embed_video.backends.Html5VideoBackend',
+    'embed_video.backends.Html5AudioBackend',
     'embed_video.tests.backends.tests_custom_backend.CustomBackend',
 )
 
