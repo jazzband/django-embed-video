@@ -222,9 +222,6 @@ class VideoBackend(object):
 
         :type url: str
         """
-        print(url)
-        print(cls.re_detect)
-        print(cls.re_detect.match(url))
         return True if cls.re_detect.match(url) else False
 
     def get_code(self):
@@ -376,14 +373,14 @@ class WistiaBackend(VideoBackend):
     """
     Backend for Wistia URLs.
     """
+    domain = None
+
     # TODO: Revisit this, with whatever their embed code looks like and the pattern_url as well
     re_detect = re.compile(r'https://(?P<domain>[a-z]+).wistia.com/medias/*', re.I)
     re_code = re.compile(r'''wistia\.com/(medias/(.*/)?|deliveries/)(?P<code>[a-z0-9;:@?&%=+/\$_.-]+)''', re.I)  # regex is different in python.
 
-    pattern_url = '{protocol}://{domain}.wistia.com/medias/{code}'
+    pattern_url = '{protocol}://fast.wistia.net/embed/iframe/{code}'
     pattern_info = '{protocol}://fast.wistia.net/oembed?url={protocol}%3A%2F%2F{domain}.wistia.com%2Fmedias%2F{code}&embedType=async'
-
-    pattern_thumbnail_url = '{protocol}://embed.wistia.com/{code}.jpeg?video_still_time=10'
 
     @cached_property
     def width(self):
@@ -404,7 +401,7 @@ class WistiaBackend(VideoBackend):
             response = requests.get(
                 self.pattern_info.format(domain=self.domain, code=self.code, protocol=self.protocol), timeout=EMBED_VIDEO_TIMEOUT
             )
-            return json.loads(response.text)[0]
+            return json.loads(response.text)
         except ValueError:
             raise VideoDoesntExistException()
 
@@ -414,10 +411,7 @@ class WistiaBackend(VideoBackend):
         parsed code.
         :rtype: str
         """
-        temp_thumbnail_url = self.pattern_thumbnail_url.format(code=self.code, protocol=self.protocol)
-        if(int(requests.head(temp_thumbnail_url).status_code) < 400):
-            return temp_thumbnail_url
-        return None
+        return self.info.get('thumbnail_url')
 
 
 class SoundCloudBackend(VideoBackend):

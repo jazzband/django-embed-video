@@ -9,12 +9,11 @@ from embed_video.backends import WistiaBackend, VideoDoesntExistException
 class WistiaBackendTestCase(BackendTestMixin, TestCase):
 
     urls = (
-        # ('https://gxsc.wistia.com/medias/ed0lahzq9t', 'ed0lahzq9t'),
-        # ('https://gxsc.wistia.com/medias/ndfbdn2zi0', 'ndfbdn2zi0'),
-        # ('https://gxsc.wistia.com/medias/vcktuzuw5p', 'vcktuzuw5p'),
+        ('https://gxsc.wistia.com/medias/ed0lahzq9t', 'ed0lahzq9t'),
+        ('https://gxsc.wistia.com/medias/ndfbdn2zi0', 'ndfbdn2zi0'),
+        ('https://gxsc.wistia.com/medias/vcktuzuw5p', 'vcktuzuw5p'),
         ('https://support.wistia.com/medias/26sk4lmiix', '26sk4lmiix'),  # This comes from the wistia docs
-        #  ('http://player.vimeo.com/video/72304002', '72304002'), used this as a test
-        # ('http://embed.wistia.com/deliveries/5413caeac5fdf4064a2f9eab5c10a0848e42f19f', '5413caeac5fdf4064a2f9eab5c10a0848e42f19f')
+
     )
 
     instance = WistiaBackend
@@ -25,9 +24,9 @@ class WistiaBackendTestCase(BackendTestMixin, TestCase):
             backend.get_info()
 
     def test_get_thumbnail_url(self):
-        backend = WistiaBackend('http://embed.wistia.com/deliveries/5413caeac5fdf4064a2f9eab5c10a0848e42f19f')
+        backend = WistiaBackend('https://gxsc.wistia.com/medias/2y1o2i2vx6')
         self.assertEqual(backend.get_thumbnail_url(),
-                         'http://embed.wistia.com/deliveries/5413caeac5fdf4064a2f9eab5c10a0848e42f19f.jpeg?video_still_time=10')
+                         'https://embed-ssl.wistia.com/deliveries/14fb3042a6df04d57a6ed1a659f737d30b6d9e5c.jpg?image_crop_resized=1920x1080')
 
     @patch('embed_video.backends.EMBED_VIDEO_TIMEOUT', 0.000001)
     def test_timeout_in_get_info(self):
