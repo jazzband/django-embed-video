@@ -17,6 +17,7 @@ from .utils import import_by_path
 from .settings import EMBED_VIDEO_BACKENDS, EMBED_VIDEO_TIMEOUT, \
     EMBED_VIDEO_YOUTUBE_DEFAULT_QUERY
 
+
 class EmbedVideoException(Exception):
     """ Parental class for all embed_video exceptions """
     pass
