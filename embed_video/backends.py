@@ -375,9 +375,8 @@ class WistiaBackend(VideoBackend):
     """
     domain = None
 
-    # TODO: Revisit this, with whatever their embed code looks like and the pattern_url as well
     re_detect = re.compile(r'https://(?P<domain>[a-z]+).wistia.com/medias/*', re.I)
-    re_code = re.compile(r'''wistia\.com/(medias/(.*/)?|deliveries/)(?P<code>[a-z0-9;:@?&%=+/\$_.-]+)''', re.I)  # regex is different in python.
+    re_code = re.compile(r'''wistia\.com/(medias/(.*/)?|deliveries/)(?P<code>[a-z0-9;:@?&%=+/\$_.-]+)''', re.I)
 
     pattern_url = '{protocol}://fast.wistia.net/embed/iframe/{code}'
     pattern_info = '{protocol}://fast.wistia.net/oembed?url={protocol}%3A%2F%2F{domain}.wistia.com%2Fmedias%2F{code}&embedType=async'
