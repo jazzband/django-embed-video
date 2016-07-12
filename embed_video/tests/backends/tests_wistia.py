@@ -9,11 +9,7 @@ from embed_video.backends import WistiaBackend, VideoDoesntExistException
 class WistiaBackendTestCase(BackendTestMixin, TestCase):
 
     urls = (
-        ('https://gxsc.wistia.com/medias/ed0lahzq9t', 'ed0lahzq9t'),
-        ('https://gxsc.wistia.com/medias/ndfbdn2zi0', 'ndfbdn2zi0'),
-        ('https://gxsc.wistia.com/medias/vcktuzuw5p', 'vcktuzuw5p'),
         ('https://support.wistia.com/medias/26sk4lmiix', '26sk4lmiix'),  # This comes from the wistia docs
-
     )
 
     instance = WistiaBackend
