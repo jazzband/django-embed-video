@@ -368,7 +368,6 @@ class VimeoBackend(VideoBackend):
         return self.info.get('thumbnail_large')
 
 
-#  Wistia uses oEmbed which contains a lot of helpful info.
 class WistiaBackend(VideoBackend):
     """
     Backend for Wistia URLs.
