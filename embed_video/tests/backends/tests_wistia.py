@@ -17,7 +17,7 @@ class WistiaBackendTestCase(BackendTestMixin, TestCase):
 
     def test_wistia_get_info_exception(self):
         with self.assertRaises(VideoDoesntExistException):
-            backend = WistiaBackend('http://support.wistia.com/123')
+            backend = WistiaBackend('https://support.wistia.com/123')
             backend.get_info()
 
     def test_get_thumbnail_url(self):
@@ -27,5 +27,5 @@ class WistiaBackendTestCase(BackendTestMixin, TestCase):
 
     @patch('embed_video.backends.EMBED_VIDEO_TIMEOUT', 0.000001)
     def test_timeout_in_get_info(self):
-        backend = WistiaBackend('http://support.wistia.com/72304002')
+        backend = WistiaBackend('https://support.wistia.com/72304002')
         self.assertRaises(requests.Timeout, backend.get_info)
