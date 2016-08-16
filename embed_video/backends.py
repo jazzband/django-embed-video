@@ -373,6 +373,7 @@ class WistiaBackend(VideoBackend):
     Backend for Wistia URLs.
     """
     domain = None
+    is_secure = True
 
     re_detect = re.compile(r'https://(?P<domain>[a-z]+).wistia.com/medias/*', re.I)
     re_code = re.compile(r'''wistia\.com/(medias/(.*/)?|deliveries/)(?P<code>[a-z0-9;:@?&%=+/\$_.-]+)''', re.I)

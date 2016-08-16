@@ -17,7 +17,7 @@ class WistiaBackendTestCase(BackendTestMixin, TestCase):
 
     def test_wistia_get_info_exception(self):
         with self.assertRaises(VideoDoesntExistException):
-            backend = WistiaBackend('http://support.wistia.com/123')
+            backend = WistiaBackend('https://support.wistia.com/123')
             backend.get_info()
 
     def test_get_thumbnail_url(self):
