@@ -11,6 +11,12 @@ Django app for easy embedding YouTube and Vimeo videos and music from SoundCloud
     :target: https://crate.io/packages/django-embed-video/
 .. image:: https://pypip.in/d/django-embed-video/badge.png
     :target: https://crate.io/packages/django-embed-video/
+.. image:: https://jazzband.co/static/img/badge.svg
+   :target: https://jazzband.co/
+   :alt: Jazzband
+
+This is a `Jazzband <https://jazzband.co>`_ project. By contributing you agree to abide by the `Contributor Code of Conduct <https://jazzband.co/about/conduct>`_ and follow the `guidelines <https://jazzband.co/about/guidelines>`_.
+
 
 Documentation
 *************
