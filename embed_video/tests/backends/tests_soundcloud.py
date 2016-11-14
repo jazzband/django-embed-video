@@ -11,7 +11,8 @@ class SoundCloudBackendTestCase(BackendTestMixin, TestCase):
         ('https://soundcloud.com/community/soundcloud-case-study-wildlife', '82244706'),
         ('https://soundcloud.com/matej-roman/jaromir-nohavica-karel-plihal-mikymauz', '7834701'),
         ('https://soundcloud.com/beny97/sets/jaromir-nohavica-prazska', '960591'),
-        ('https://soundcloud.com/corbel-keep/norah-jones-come-away-with', '22485933'),
+        ('https://soundcloud.com/jet-silver/couleur-3-downtown-boogie-show-prove', '257485194'),
+
     )
 
     instance = SoundCloudBackend
