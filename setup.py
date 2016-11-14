@@ -19,7 +19,7 @@ setup(
     version=embed_video.get_version(),
     author='Juda Kaleta',
     author_email='juda.kaleta@gmail.com',
-    url='https://github.com/yetty/django-embed-video',
+    url='https://github.com/jazzband/django-embed-video',
     description=embed_video.__doc__.strip(),
     long_description='\n\n'.join([README, CHANGES]),
     classifiers=[

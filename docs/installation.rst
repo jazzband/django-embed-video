@@ -15,7 +15,7 @@ If you want latest version, you may use Git. It is fresh, but unstable.
 
 .. code-block:: bash
 
-    pip install git+https://github.com/yetty/django-embed-video.git
+    pip install git+https://github.com/jazzband/django-embed-video
 
 
 Setup
