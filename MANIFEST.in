@@ -3,3 +3,8 @@ include CHANGES.rst
 include LICENSE
 
 recursive-include embed_video/templates *.html
+
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * *~
+recursive-exclude * .coverage

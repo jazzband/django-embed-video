@@ -1,25 +1,24 @@
 sudo: false
 language: python
 python:
-    - "2.7"
-    - "3.4"
-cache: pip
+  - "2.7"
+  - "3.4"
+cache:
+  directories:
+  - $HOME/.cache/pip
 env:
-    - DJANGO_VERSION=1.5.2
-    - DJANGO_VERSION=1.6.5
-    - DJANGO_VERSION=1.7.0
-    - DJANGO_VERSION=1.8.0
-    - DJANGO_VERSION=1.8.6
-    - DJANGO_VERSION=1.9.4
-install:
-    - pip install -q Django==$DJANGO_VERSION
-    - pip install coveralls
-    - pip install mock
-    - pip install south
-    - pip install nose
-    - pip install testfixtures
-script:
-    - python setup.py build
-    - PYTHONHASHSEED=0 python setup.py nosetests --verbosity 2 --with-coverage --cover-tests --cover-erase
-after_success:
-    - coveralls
+  - TOXENV=py27-django-15
+  - TOXENV=py27-django-16
+  - TOXENV=py27-django-17
+  - TOXENV=py27-django-18
+  - TOXENV=py27-django-19
+  - TOXENV=py27-django-110
+  - TOXENV=py34-django-15
+  - TOXENV=py34-django-16
+  - TOXENV=py34-django-17
+  - TOXENV=py34-django-18
+  - TOXENV=py34-django-19
+  - TOXENV=py34-django-110
+  - TOXENV=coveralls
+install: pip install --upgrade pip tox wheel
+script: tox

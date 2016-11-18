@@ -19,17 +19,23 @@ from .settings import EMBED_VIDEO_BACKENDS, EMBED_VIDEO_TIMEOUT, \
 
 
 class EmbedVideoException(Exception):
-    """ Parental class for all embed_video exceptions """
+    """
+    Parental class for all embed_video exceptions.
+    """
     pass
 
 
 class VideoDoesntExistException(EmbedVideoException):
-    """ Exception thrown if video doesn't exist """
+    """
+    Exception thrown if video doesn't exist.
+    """
     pass
 
 
 class UnknownBackendException(EmbedVideoException):
-    """ Exception thrown if video backend is not recognized. """
+    """
+    Exception thrown if video backend is not recognized.
+    """
     pass
 
 
@@ -53,7 +59,6 @@ def detect_backend(url):
     :return: Returns recognized VideoBackend
     :rtype: VideoBackend
     """
-
     for backend_name in EMBED_VIDEO_BACKENDS:
         backend = import_by_path(backend_name)
         if backend.is_valid(url):
@@ -97,7 +102,7 @@ class VideoBackend(object):
 
     re_detect = None
     """
-    Compilede regec (:py:func:`re.compile`) to detect, if input URL is valid
+    Compiled regex (:py:func:`re.compile`) to detect, if input URL is valid
     for current backend.
 
     Example: ``re.compile(r'^http://myvideo\.com/.*')``
@@ -140,7 +145,7 @@ class VideoBackend(object):
 
     default_query = ''
     """
-    Default query string or `QueryDict` appended to url
+    Default query string or ``QueryDict`` appended to url.
 
     :type: str
     """
@@ -154,7 +159,7 @@ class VideoBackend(object):
 
     def __init__(self, url):
         """
-        First it tries to load data from cache and if it don't succeed, run
+        First it tries to load data from cache and if it doesn't succeed, run
         :py:meth:`init` and then save it to cache.
 
         :type url: str
@@ -201,7 +206,7 @@ class VideoBackend(object):
     @property
     def query(self):
         """
-        String transformed to QueryDict appended to url.
+        String transformed to ``QueryDict`` appended to url.
         """
         return self._query
 
@@ -218,7 +223,7 @@ class VideoBackend(object):
     def is_valid(cls, url):
         """
         Class method to control if passed url is valid for current backend. By
-        default it is done by :py:data:`re_detect` regex.
+        default this is done using the :py:data:`re_detect` regex.
 
         :type url: str
         """
@@ -278,6 +283,75 @@ class VideoBackend(object):
         """
         for key in options:
             setattr(self, key, options[key])
+
+
+class Html5Backend(VideoBackend):
+    """
+    Backend for HTML5 media.
+    """
+    def get_url(self):
+        """
+        Returns URL.
+        """
+        return self._url
+
+    def get_code(self):
+        """
+        Returns video code.
+
+        :rtype: str
+        """
+        return None
+
+    def get_thumbnail_url(self):
+        """
+        Returns thumbnail URL.
+
+        :rtype: str
+        """
+        return None
+
+
+class Html5VideoBackend(Html5Backend):
+    """
+    Backend for HTML5 video.
+    """
+    template_name = 'embed_video/html5_video.html'
+
+    @classmethod
+    def is_valid(cls, url):
+        """
+        Class method to control if passed url is valid for current backend.
+
+        :type url: str
+        """
+        try:
+            r = requests.head(url, timeout=EMBED_VIDEO_TIMEOUT)
+        except:
+            raise VideoDoesntExistException()
+
+        return r.headers.get('content-type').startswith('video')
+
+
+class Html5AudioBackend(Html5Backend):
+    """
+    Backend for HTML5 audio.
+    """
+    template_name = 'embed_video/html5_audio.html'
+
+    @classmethod
+    def is_valid(cls, url):
+        """
+        Class method to control if passed url is valid for current backend.
+
+        :type url: str
+        """
+        try:
+            r = requests.head(url, timeout=EMBED_VIDEO_TIMEOUT)
+        except:
+            raise VideoDoesntExistException()
+
+        return r.headers.get('content-type').startswith('audio')
 
 
 class YoutubeBackend(VideoBackend):

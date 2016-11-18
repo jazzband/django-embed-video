@@ -14,7 +14,7 @@ class AdminVideoWidget(forms.TextInput):
 
     .. todo::
 
-        Django 1.6 provides better parent for this widget -
+        Django 1.6 provides a better parent for this widget -
         :py:class:`django.forms.URLInput`.
 
     """

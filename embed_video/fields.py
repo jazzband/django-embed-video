@@ -33,7 +33,7 @@ class EmbedVideoField(models.URLField):
 
 class EmbedVideoFormField(forms.URLField):
     """
-    Form field for embeded video. Descendant of
+    Form field for embedded video. Descendant of
     :py:class:`django.forms.URLField`
     """
 
