@@ -160,7 +160,7 @@ class EmbedTestCase(TestCase):
 
         self.assertRenderedTemplate(template, '')
         logs.check(
-            ('requests.packages.urllib3.connectionpool', 'INFO', 'Starting new HTTP connection (1): vimeo.com'),
+            ('requests.packages.urllib3.connectionpool', 'DEBUG', 'Starting new HTTP connection (1): vimeo.com'),
             ('embed_video.templatetags.embed_video_tags', 'ERROR', 'Timeout reached during rendering embed video (`http://vimeo.com/72304002`)')
         )
 
@@ -281,4 +281,3 @@ class EmbedVideoNodeTestCase(TestCase):
         context = {'request': InsecureRequest()}
         backend = VideoNode.get_backend('http://www.youtube.com/watch?v=jsrRJyHBvzw', context)
         self.assertFalse(backend.is_secure)
-
