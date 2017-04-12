@@ -197,7 +197,7 @@ class EmbedTestCase(TestCase):
         """
         self.assertRenderedTemplate(
             template,
-            'http://www.youtube.com/embed/jsrRJyHBvzw?wmode=transparent&rel=1'
+            'http://www.youtube.com/embed/jsrRJyHBvzw?rel=1&wmode=transparent'
         )
 
     def test_direct_embed_with_query(self):
@@ -209,7 +209,7 @@ class EmbedTestCase(TestCase):
         self.assertRenderedTemplate(
             template,
             '<iframe width="480" height="360" '
-            'src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=transparent&rel=1" '
+            'src="http://www.youtube.com/embed/jsrRJyHBvzw?rel=1&wmode=transparent" '
             'frameborder="0" allowfullscreen></iframe>'
         )
 
