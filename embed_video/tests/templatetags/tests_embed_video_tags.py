@@ -1,9 +1,15 @@
 from unittest import TestCase, skip
 from mock import Mock, patch
+import sys
 import re
 
+if sys.version_info.major == 3:
+    import urllib.parse as urlparse
+else:
+    import urlparse
+
 from django.template import TemplateSyntaxError
-from django.http import HttpRequest
+from django.http import HttpRequest, QueryDict
 from django.template.base import Template
 from django.template.context import RequestContext
 from django.test.client import RequestFactory
@@ -15,10 +21,38 @@ URL_PATTERN = re.compile(r'src="?\'?([^"\'>]*)"')
 
 
 class EmbedTestCase(TestCase):
-    def assertRenderedTemplate(self, template_string, output, context=None):
+    def render_template(self, template_string, context=None):
         response = RequestContext(HttpRequest(), context)
-        rendered_output = Template(template_string).render(response)
-        self.assertEqual(rendered_output.strip(), output.strip())
+        return Template(template_string).render(response).strip()
+
+    def assertRenderedTemplate(self, template_string, output, context=None):
+        rendered_output = self.render_template(template_string, context=context)
+        self.assertEqual(rendered_output, output.strip())
+
+    def url_dict(self, url):
+        """
+        Parse the URL into a format suitable for comparison, ignoring the query
+        parameter order.
+        """
+
+        parsed = urlparse.urlparse(url)
+        query = urlparse.parse_qs(parsed.query)
+
+        return {
+            'scheme': parsed.scheme,
+            'netloc': parsed.netloc,
+            'path': parsed.path,
+            'params': parsed.params,
+            'query': query,
+            'fragment': parsed.fragment,
+        }
+
+    def assertUrlEqual(self, actual, expected, msg=None):
+        """Assert two URLs are equal, ignoring the query parameter order."""
+        actual_dict = self.url_dict(actual)
+        expected_dict = self.url_dict(expected)
+
+        self.assertEqual(actual_dict, expected_dict, msg=msg)
 
     def test_embed(self):
         template = """
@@ -195,8 +229,10 @@ class EmbedTestCase(TestCase):
                {{ ytb.url }}
            {% endvideo %}
         """
-        self.assertRenderedTemplate(
-            template,
+
+        output = self.render_template(template)
+        self.assertUrlEqual(
+            output,
             'http://www.youtube.com/embed/jsrRJyHBvzw?rel=1&wmode=transparent'
         )
 
@@ -206,10 +242,25 @@ class EmbedTestCase(TestCase):
            {% video 'http://www.youtube.com/watch?v=jsrRJyHBvzw' query="rel=1&wmode=transparent" %}
         """
 
-        self.assertRenderedTemplate(
-            template,
+        output = self.render_template(template)
+
+        # The order of query parameters in the URL might change between Python
+        # versions. Compare the URL and the outer part separately.
+
+        url_pattern = re.compile(r'http[^"]+')
+        url = url_pattern.search(output).group(0)
+
+        self.assertUrlEqual(
+            url,
+            'http://www.youtube.com/embed/jsrRJyHBvzw?rel=1&wmode=transparent'
+        )
+
+        output_without_url = url_pattern.sub('URL', output)
+
+        self.assertEqual(
+            output_without_url,
             '<iframe width="480" height="360" '
-            'src="http://www.youtube.com/embed/jsrRJyHBvzw?rel=1&wmode=transparent" '
+            'src="URL" '
             'frameborder="0" allowfullscreen></iframe>'
         )
 
