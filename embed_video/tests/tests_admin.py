@@ -1,11 +1,13 @@
 from unittest import TestCase
 
+from django.test import SimpleTestCase
+
 from embed_video.admin import AdminVideoWidget, AdminVideoMixin
 from embed_video.backends import VimeoBackend
 from embed_video.fields import EmbedVideoField, EmbedVideoFormField
 
 
-class AdminVideoWidgetTestCase(TestCase):
+class AdminVideoWidgetTestCase(SimpleTestCase):
     def test_size(self):
         widget = AdminVideoWidget()
         self.assertTrue('size' in widget.attrs)
@@ -21,15 +23,15 @@ class AdminVideoWidgetTestCase(TestCase):
 
     def test_render_empty_value(self):
         widget = AdminVideoWidget(attrs={'size': '0'})
-        self.assertEqual(widget.render('foo'),
-                         '<input name="foo" size="0" type="text" />')
+        self.assertHTMLEqual(widget.render('foo'),
+                             '<input name="foo" size="0" type="text" />')
 
     def test_render(self):
         backend = VimeoBackend('https://vimeo.com/1')
         widget = AdminVideoWidget(attrs={'size': '0'})
         widget.output_format = '{video}{input}'
 
-        self.assertEqual(
+        self.assertHTMLEqual(
             widget.render('foo', backend.url, size=(100, 100)),
             backend.get_embed_code(100, 100)
             + '<input name="foo" size="0" type="text" value="%s" />'
@@ -38,14 +40,14 @@ class AdminVideoWidgetTestCase(TestCase):
 
     def test_render_unknown_backend(self):
         widget = AdminVideoWidget()
-        self.assertEqual(
+        self.assertHTMLEqual(
             widget.render('foo', 'abcd'),
             '<input name="foo" size="40" type="text" value="abcd" />'
         )
 
     def test_render_video_doesnt_exist(self):
         widget = AdminVideoWidget()
-        self.assertEqual(
+        self.assertHTMLEqual(
             widget.render('foo', 'https://soundcloud.com/xyz/foo'),
             '<input name="foo" size="40" type="text" value="https://soundcloud.com/xyz/foo" />'
         )

@@ -1,12 +1,15 @@
 Running example project
 ***********************
 
-#. Install Django and PyYAML::
+#. Install requirements::
 
-     pip install Django
-     pip install pyyaml
+     pip install -r requirements.txt
 
 #. Create database::
+
+     python manage.py migrate --run-syncdb --noinput
+
+   Or, for older versions of Django::
 
      python manage.py syncdb --noinput
 
