@@ -372,7 +372,7 @@ class SoundCloudBackend(VideoBackend):
     """
     Backend for SoundCloud URLs.
     """
-    base_url = 'http://soundcloud.com/oembed'
+    base_url = '{protocol}://soundcloud.com/oembed'
 
     re_detect = re.compile(r'^(http(s)?://(www\.)?)?soundcloud\.com/.*', re.I)
     re_code = re.compile(r'src=".*%2F(?P<code>\d+)&show_artwork.*"', re.I)
@@ -397,7 +397,8 @@ class SoundCloudBackend(VideoBackend):
             'format': 'json',
             'url': self._url,
         }
-        r = requests.get(self.base_url, params=params,
+        r = requests.get(self.base_url.format(protocol=self.protocol),
+                         params=params,
                          timeout=EMBED_VIDEO_TIMEOUT)
 
         if r.status_code != 200:

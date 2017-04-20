@@ -332,4 +332,3 @@ class EmbedVideoNodeTestCase(TestCase):
         context = {'request': InsecureRequest()}
         backend = VideoNode.get_backend('http://www.youtube.com/watch?v=jsrRJyHBvzw', context)
         self.assertFalse(backend.is_secure)
-
