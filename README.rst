@@ -37,14 +37,22 @@ Quick start
 #. Add ``embed_video`` to ``INSTALLED_APPS`` in your Django settings.
 
 #. If you want to detect HTTP/S in template tags, you have to set ``request``
-   context processor in ``settings.TEMPLATE_CONTEXT_PROCESSORS``:
+   context processor in ``settings.TEMPLATES``:
 
    ::
 
-       TEMPLATE_CONTEXT_PROCESSORS = (
-           ...
-           'django.core.context_processors.request',
-       )
+       TEMPLATES = [
+           {
+               'BACKEND': 'django.template.backends.django.DjangoTemplates',
+               # ...
+               'OPTIONS': {
+                   'context_processors': [
+                       # ...
+                       'django.template.context_processors.request',
+                   ],
+               },
+           },
+       ]
 
 #. Usage of template tags:
 

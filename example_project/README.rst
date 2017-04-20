@@ -7,6 +7,10 @@ Running example project
 
 #. Create database::
 
+     python manage.py migrate --run-syncdb --noinput
+
+   Or, for older versions of Django::
+
      python manage.py syncdb --noinput
 
 #. Run testing server::
