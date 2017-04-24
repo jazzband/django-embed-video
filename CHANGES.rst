@@ -1,7 +1,16 @@
-Release 1.2.0 (dev)
--------------------
 
-*No changes yet.*
+Release 1.1.1 (March 24, 2017)
+----------------------------
+
+- updates for Django 1.10 and 1.11
+  (`#73 <https://github.com/jazzband/django-embed-video/pull/73>`_)
+
+- update requirements for installation of the example project
+  (`#72 <https://github.com/jazzband/django-embed-video/pull/72>`_)
+
+- use secure connection to query soundcloud endpoint
+  (`#68 <https://github.com/jazzband/django-embed-video/pull/68>`_)
+
 
 
 Release 1.1.0 (Jan 19, 2016)
