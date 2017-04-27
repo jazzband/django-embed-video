@@ -53,3 +53,33 @@ class EmbedVideoFormField(forms.URLField):
             raise forms.ValidationError(_(u'ID of this video could not be '
                                           u'recognized.'))
         return url
+
+
+class EmbedBackendFormField(forms.URLField):
+    """
+    Form field for embedded video from a specific backend. Descendant of
+    :py:class:`django.forms.URLField`
+    """
+
+    def __init__(self, backend_class, max_length=None, min_length=None, *args, **kwargs):
+        kwargs['max_length'] = max_length
+        kwargs['min_length'] = min_length
+        super(EmbedBackendFormField, self).__init__(*args, **kwargs)
+        self.backend_class = backend_class
+
+    def validate(self, url):
+        # if empty url is not allowed throws an exception
+        super(EmbedBackendFormField, self).validate(url)
+
+        if not url:
+            return
+
+        try:
+            if not self.backend_class.is_valid(url):
+                raise forms.ValidationError(_(u'URL could not be recognized.'))
+            backend = self.backend_class(url)
+            backend.get_code()
+        except UnknownIdException:
+            raise forms.ValidationError(_(u'ID of this video could not be '
+                                          u'recognized.'))
+        return url
