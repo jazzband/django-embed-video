@@ -145,7 +145,7 @@ class VideoBackend(object):
     :type: str
     """
 
-    is_secure = False
+    is_secure = True
     """
     Decides if secured protocol (HTTPS) is used.
 
