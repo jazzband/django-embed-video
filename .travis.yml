@@ -30,6 +30,11 @@ matrix:
 install:
     - pip install -q Django==$DJANGO_VERSION
     - pip install coveralls
+    - pip install mock
+    - pip install south
+    - pip install nose
+    - pip install testfixtures
+    - pip install requests>=2.19
 script:
     - python setup.py build
     - PYTHONHASHSEED=0 python setup.py nosetests --verbosity 2 --with-coverage --cover-tests --cover-erase

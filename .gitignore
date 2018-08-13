@@ -7,4 +7,3 @@ dist
 .coverage
 htmlcov
 .idea
-.eggs/
