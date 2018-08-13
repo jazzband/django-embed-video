@@ -24,7 +24,7 @@ Run tests with this command:
 
 ::
 
-  python setup.py nosetests
+  nosetests
 
 
 Be sure to run it before each commit and fix broken tests.
@@ -35,6 +35,6 @@ Run tests with coverage:
 ::
 
   pip install coverage
-  python setup.py nosetests --with-coverage --cover-package=embed_video
+  nosetests --with-coverage --cover-package=embed_video
 
 
