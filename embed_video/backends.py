@@ -145,7 +145,7 @@ class VideoBackend(object):
     :type: str
     """
 
-    is_secure = True
+    is_secure = False
     """
     Decides if secured protocol (HTTPS) is used.
 
@@ -312,6 +312,8 @@ class YoutubeBackend(VideoBackend):
         'mqdefault.jpg',
     ]
 
+    is_secure = True
+
     def get_code(self):
         code = super(YoutubeBackend, self).get_code()
 
@@ -354,6 +356,8 @@ class VimeoBackend(VideoBackend):
     pattern_url = '{protocol}://player.vimeo.com/video/{code}'
     pattern_info = '{protocol}://vimeo.com/api/v2/video/{code}.json'
 
+    is_secure = True
+
     def get_info(self):
         try:
             response = requests.get(
@@ -377,6 +381,8 @@ class SoundCloudBackend(VideoBackend):
     re_detect = re.compile(r'^(http(s)?://(www\.)?)?soundcloud\.com/.*', re.I)
     re_code = re.compile(r'src=".*%2F(?P<code>\d+)&show_artwork.*"', re.I)
     re_url = re.compile(r'src="(?P<url>.*?)"', re.I)
+
+    is_secure = True
 
     @cached_property
     def width(self):
