@@ -34,7 +34,6 @@ Run tests with coverage:
 
 ::
 
-  pip install coverage
   python setup.py nosetests --with-coverage --cover-package=embed_video
 
 
