@@ -32,6 +32,7 @@ setup(
     ],
     keywords=['youtube', 'vimeo', 'video', 'soundcloud'],
     install_requires=['requests >= 1.2.3', 'Django >= 1.5'],
-    tests_require=['requests >= 2.19'],
+    setup_requires=['nose'],
+    tests_require=['Django', 'requests >= 2.19', 'mock', 'testfixtures', 'south', 'coverage'],
     test_suite='nose.collector',
 )
