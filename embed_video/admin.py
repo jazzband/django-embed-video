@@ -1,4 +1,4 @@
-from django import forms
+from django import forms, VERSION
 from django.utils.safestring import mark_safe
 
 from .backends import detect_backend, UnknownBackendException, \
@@ -34,12 +34,19 @@ class AdminVideoWidget(forms.TextInput):
 
         super(AdminVideoWidget, self).__init__(default_attrs)
 
-    def render(self, name, value='', attrs=None, size=(420, 315)):
+    def render(self, name, value='', attrs=None, size=(420, 315), renderer=None):
         """
         :type name: str
         :type attrs: dict
         """
-        output = super(AdminVideoWidget, self).render(name, value, attrs)
+
+        if VERSION < (1, 11):
+            # The renderer argument was added in 1.11.
+            # https://docs.djangoproject.com/en/1.11/ref/forms/widgets/#django.forms.Widget.render
+            output = super(AdminVideoWidget, self).render(name, value, attrs)
+        else:
+            # Support for Widget.render() methods without the renderer argument is removed in 2.1
+            output = super(AdminVideoWidget, self).render(name, value, attrs, renderer)
 
         if not value:
             return output
