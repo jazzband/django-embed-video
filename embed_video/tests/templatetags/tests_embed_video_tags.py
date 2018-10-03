@@ -64,7 +64,7 @@ class EmbedTestCase(TestCase):
         self.assertRenderedTemplate(
             template,
             '<iframe width="960" height="720" '
-            'src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" '
+            'src="https://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" '
             'frameborder="0" allowfullscreen></iframe>'
         )
 
@@ -100,7 +100,7 @@ class EmbedTestCase(TestCase):
         self.assertRenderedTemplate(
             template,
             '<iframe width="960" height="720" '
-            'src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" '
+            'src="https://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" '
             'frameborder="0" allowfullscreen></iframe>'
         )
 
@@ -112,7 +112,7 @@ class EmbedTestCase(TestCase):
         self.assertRenderedTemplate(
             template,
             '<iframe width="480" height="360" '
-            'src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" '
+            'src="https://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" '
             'frameborder="0" allowfullscreen></iframe>'
         )
 
@@ -133,7 +133,7 @@ class EmbedTestCase(TestCase):
         self.assertRenderedTemplate(
             template,
             '<iframe width="800" height="800" '
-            'src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" '
+            'src="https://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" '
             'frameborder="0" allowfullscreen></iframe>'
         )
 
@@ -154,7 +154,7 @@ class EmbedTestCase(TestCase):
         """
         self.assertRenderedTemplate(
             template,
-            'http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque '
+            'https://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque '
             'YoutubeBackend'
         )
 
@@ -166,7 +166,7 @@ class EmbedTestCase(TestCase):
             {% endvideo %}
         """
         self.assertRenderedTemplate(
-            template, 'http://player.vimeo.com/video/72304002 VimeoBackend 176'
+            template, 'https://player.vimeo.com/video/72304002 VimeoBackend 176'
         )
 
     def test_tag_soundcloud(self):
@@ -178,7 +178,7 @@ class EmbedTestCase(TestCase):
         """
         self.assertRenderedTemplate(
             template,
-            'https://w.soundcloud.com/player/?visual=true&amp;url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F82244706&amp;show_artwork=true '
+            'https://w.soundcloud.com/player/?visual=true&amp;url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F82244706&amp;show_artwork=true '
             'SoundCloudBackend'
         )
 
@@ -194,7 +194,7 @@ class EmbedTestCase(TestCase):
 
         self.assertRenderedTemplate(template, '')
         logs.check(
-            ('urllib3.connectionpool', 'DEBUG', 'Starting new HTTP connection (1): vimeo.com:80'),
+            ('urllib3.connectionpool', 'DEBUG', 'Starting new HTTPS connection (1): vimeo.com:443'),
             ('embed_video.templatetags.embed_video_tags', 'ERROR', 'Timeout reached during rendering embed video (`http://vimeo.com/72304002`)')
         )
 
@@ -206,7 +206,7 @@ class EmbedTestCase(TestCase):
         self.assertRenderedTemplate(
             template,
             '<iframe width="80%" height="30%" '
-            'src="http://player.vimeo.com/video/72304002" '
+            'src="https://player.vimeo.com/video/72304002" '
             'frameborder="0" allowfullscreen></iframe>'
         )
 
@@ -218,7 +218,7 @@ class EmbedTestCase(TestCase):
         self.assertRenderedTemplate(
             template,
             '<iframe width="80%" height="300" '
-            'src="http://player.vimeo.com/video/72304002" '
+            'src="https://player.vimeo.com/video/72304002" '
             'frameborder="0" allowfullscreen></iframe>'
         )
 
@@ -233,7 +233,7 @@ class EmbedTestCase(TestCase):
         output = self.render_template(template)
         self.assertUrlEqual(
             output,
-            'http://www.youtube.com/embed/jsrRJyHBvzw?rel=1&wmode=transparent'
+            'https://www.youtube.com/embed/jsrRJyHBvzw?rel=1&wmode=transparent'
         )
 
     def test_direct_embed_with_query(self):
@@ -252,7 +252,7 @@ class EmbedTestCase(TestCase):
 
         self.assertUrlEqual(
             url,
-            'http://www.youtube.com/embed/jsrRJyHBvzw?rel=1&wmode=transparent'
+            'https://www.youtube.com/embed/jsrRJyHBvzw?rel=1&wmode=transparent'
         )
 
         output_without_url = url_pattern.sub('URL', output)
@@ -286,7 +286,7 @@ class EmbedTestCase(TestCase):
         self.assertRenderedTemplate(
             template,
             '<iframe width="500" height="200" '
-            'src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" '
+            'src="https://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" '
             'frameborder="0" allowfullscreen></iframe>'
         )
 
