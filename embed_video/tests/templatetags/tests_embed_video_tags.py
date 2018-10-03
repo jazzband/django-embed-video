@@ -57,21 +57,21 @@ class EmbedTestCase(TestCase):
     def test_embed(self):
         template = """
             {% load embed_video_tags %}
-            {% video 'https://www.youtube.com/watch?v=jsrRJyHBvzw' as ytb %}
+            {% video 'http://www.youtube.com/watch?v=jsrRJyHBvzw' as ytb %}
                 {% video ytb 'large' %}
             {% endvideo %}
         """
         self.assertRenderedTemplate(
             template,
             '<iframe width="960" height="720" '
-            'src="https://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" '
+            'src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" '
             'frameborder="0" allowfullscreen></iframe>'
         )
 
     def test_embed_invalid_url(self):
         template = """
             {% load embed_video_tags %}
-            {% video 'https://www.youtube.com/edit?abcd=efgh' as ytb %}
+            {% video 'http://www.youtube.com/edit?abcd=efgh' as ytb %}
                 {{ ytb.url }}
             {% endvideo %}
         """
@@ -95,24 +95,24 @@ class EmbedTestCase(TestCase):
     def test_direct_embed_tag(self):
         template = """
             {% load embed_video_tags %}
-            {% video "https://www.youtube.com/watch?v=jsrRJyHBvzw" "large" %}
+            {% video "http://www.youtube.com/watch?v=jsrRJyHBvzw" "large" %}
         """
         self.assertRenderedTemplate(
             template,
             '<iframe width="960" height="720" '
-            'src="https://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" '
+            'src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" '
             'frameborder="0" allowfullscreen></iframe>'
         )
 
     def test_direct_embed_tag_with_default_size(self):
         template = """
             {% load embed_video_tags %}
-            {% video "https://www.youtube.com/watch?v=jsrRJyHBvzw" %}
+            {% video "http://www.youtube.com/watch?v=jsrRJyHBvzw" %}
         """
         self.assertRenderedTemplate(
             template,
             '<iframe width="480" height="360" '
-            'src="https://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" '
+            'src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" '
             'frameborder="0" allowfullscreen></iframe>'
         )
 
@@ -126,21 +126,21 @@ class EmbedTestCase(TestCase):
     def test_user_size(self):
         template = """
             {% load embed_video_tags %}
-            {% video 'https://www.youtube.com/watch?v=jsrRJyHBvzw' as ytb %}
+            {% video 'http://www.youtube.com/watch?v=jsrRJyHBvzw' as ytb %}
                 {% video ytb '800x800' %}
             {% endvideo %}
         """
         self.assertRenderedTemplate(
             template,
             '<iframe width="800" height="800" '
-            'src="https://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" '
+            'src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" '
             'frameborder="0" allowfullscreen></iframe>'
         )
 
     def test_wrong_size(self):
         template = Template("""
             {% load embed_video_tags %}
-            {% video 'https://www.youtube.com/watch?v=jsrRJyHBvzw' 'so x huge' %}
+            {% video 'http://www.youtube.com/watch?v=jsrRJyHBvzw' 'so x huge' %}
         """)
         request = RequestContext(HttpRequest())
         self.assertRaises(TemplateSyntaxError, template.render, request)
@@ -148,13 +148,13 @@ class EmbedTestCase(TestCase):
     def test_tag_youtube(self):
         template = """
             {% load embed_video_tags %}
-            {% video 'https://www.youtube.com/watch?v=jsrRJyHBvzw' as ytb %}
+            {% video 'http://www.youtube.com/watch?v=jsrRJyHBvzw' as ytb %}
                 {{ ytb.url }} {{ ytb.backend }}
             {% endvideo %}
         """
         self.assertRenderedTemplate(
             template,
-            'https://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque '
+            'http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque '
             'YoutubeBackend'
         )
 
@@ -166,7 +166,7 @@ class EmbedTestCase(TestCase):
             {% endvideo %}
         """
         self.assertRenderedTemplate(
-            template, 'https://player.vimeo.com/video/72304002 VimeoBackend 176'
+            template, 'http://player.vimeo.com/video/72304002 VimeoBackend 176'
         )
 
     def test_tag_soundcloud(self):
@@ -178,7 +178,7 @@ class EmbedTestCase(TestCase):
         """
         self.assertRenderedTemplate(
             template,
-            'https://w.soundcloud.com/player/?visual=true&amp;url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F82244706&amp;show_artwork=true '
+            'https://w.soundcloud.com/player/?visual=true&amp;url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F82244706&amp;show_artwork=true '
             'SoundCloudBackend'
         )
 
@@ -187,45 +187,45 @@ class EmbedTestCase(TestCase):
     def test_empty_if_timeout(self, logs):
         template = """
             {% load embed_video_tags %}
-            {% video "https://vimeo.com/72304002" as my_video %}
+            {% video "http://vimeo.com/72304002" as my_video %}
                 {{ my_video.thumbnail }}
             {% endvideo %}
         """
 
         self.assertRenderedTemplate(template, '')
         logs.check(
-            ('urllib3.connectionpool', 'DEBUG', 'Starting new HTTPS connection (1): vimeo.com:443'),
-            ('embed_video.templatetags.embed_video_tags', 'ERROR', 'Timeout reached during rendering embed video (`https://vimeo.com/72304002`)')
+            ('urllib3.connectionpool', 'DEBUG', 'Starting new HTTP connection (1): vimeo.com:80'),
+            ('embed_video.templatetags.embed_video_tags', 'ERROR', 'Timeout reached during rendering embed video (`http://vimeo.com/72304002`)')
         )
 
     def test_relative_size(self):
         template = """
             {% load embed_video_tags %}
-            {% video "https://vimeo.com/72304002" "80%x30%" %}
+            {% video "http://vimeo.com/72304002" "80%x30%" %}
         """
         self.assertRenderedTemplate(
             template,
             '<iframe width="80%" height="30%" '
-            'src="https://player.vimeo.com/video/72304002" '
+            'src="http://player.vimeo.com/video/72304002" '
             'frameborder="0" allowfullscreen></iframe>'
         )
 
     def test_allow_spaces_in_size(self):
         template = """
             {% load embed_video_tags %}
-            {% video "https://vimeo.com/72304002" "80% x 300" %}
+            {% video "http://vimeo.com/72304002" "80% x 300" %}
         """
         self.assertRenderedTemplate(
             template,
             '<iframe width="80%" height="300" '
-            'src="https://player.vimeo.com/video/72304002" '
+            'src="http://player.vimeo.com/video/72304002" '
             'frameborder="0" allowfullscreen></iframe>'
         )
 
     def test_embed_with_query(self):
         template = """
            {% load embed_video_tags %}
-           {% video 'https://www.youtube.com/watch?v=jsrRJyHBvzw' query="rel=1&wmode=transparent" as ytb %}
+           {% video 'http://www.youtube.com/watch?v=jsrRJyHBvzw' query="rel=1&wmode=transparent" as ytb %}
                {{ ytb.url }}
            {% endvideo %}
         """
@@ -233,13 +233,13 @@ class EmbedTestCase(TestCase):
         output = self.render_template(template)
         self.assertUrlEqual(
             output,
-            'https://www.youtube.com/embed/jsrRJyHBvzw?rel=1&wmode=transparent'
+            'http://www.youtube.com/embed/jsrRJyHBvzw?rel=1&wmode=transparent'
         )
 
     def test_direct_embed_with_query(self):
         template = """
            {% load embed_video_tags %}
-           {% video 'https://www.youtube.com/watch?v=jsrRJyHBvzw' query="rel=1&wmode=transparent" %}
+           {% video 'http://www.youtube.com/watch?v=jsrRJyHBvzw' query="rel=1&wmode=transparent" %}
         """
 
         output = self.render_template(template)
@@ -252,7 +252,7 @@ class EmbedTestCase(TestCase):
 
         self.assertUrlEqual(
             url,
-            'https://www.youtube.com/embed/jsrRJyHBvzw?rel=1&wmode=transparent'
+            'http://www.youtube.com/embed/jsrRJyHBvzw?rel=1&wmode=transparent'
         )
 
         output_without_url = url_pattern.sub('URL', output)
@@ -267,7 +267,7 @@ class EmbedTestCase(TestCase):
     def test_set_options(self):
         template = """
            {% load embed_video_tags %}
-           {% video 'https://www.youtube.com/watch?v=jsrRJyHBvzw' "300x200" is_secure=True query="rel=1" %}
+           {% video 'http://www.youtube.com/watch?v=jsrRJyHBvzw' "300x200" is_secure=True query="rel=1" %}
        """
         self.assertRenderedTemplate(
             template,
@@ -280,13 +280,13 @@ class EmbedTestCase(TestCase):
         template = """
             {% load embed_video_tags %}
             {% with size="500x200" %}
-                {% video 'https://www.youtube.com/watch?v=jsrRJyHBvzw' size %}
+                {% video 'http://www.youtube.com/watch?v=jsrRJyHBvzw' size %}
             {% endwith %}
         """
         self.assertRenderedTemplate(
             template,
             '<iframe width="500" height="200" '
-            'src="https://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" '
+            'src="http://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" '
             'frameborder="0" allowfullscreen></iframe>'
         )
 
@@ -298,7 +298,7 @@ class EmbedVideoNodeTestCase(TestCase):
 
     def test_repr(self):
         self.token.split_contents.return_value = (
-            'video', 'https://youtu.be/v/1234', 'as', 'myvideo'
+            'video', 'http://youtu.be/v/1234', 'as', 'myvideo'
         )
         self.parser.compile_filter.return_value = u'some_url'
 
@@ -322,7 +322,7 @@ class EmbedVideoNodeTestCase(TestCase):
             is_secure = lambda x: True
 
         context = {'request': SecureRequest()}
-        backend = VideoNode.get_backend('https://www.youtube.com/watch?v=jsrRJyHBvzw', context)
+        backend = VideoNode.get_backend('http://www.youtube.com/watch?v=jsrRJyHBvzw', context)
         self.assertTrue(backend.is_secure)
 
     def test_get_backend_insecure(self):

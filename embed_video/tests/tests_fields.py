@@ -38,23 +38,23 @@ class EmbedVideoFormFieldTestCase(TestCase):
             mock_detect_backend.return_value = True
             mock_detect_backend.side_effect = UnknownBackendException
             self.assertRaises(ValidationError, self.formfield.validate,
-                              ('https://youtube.com/v/123/',))
+                              ('http://youtube.com/v/123/',))
 
     def test_validation_unknown_id(self):
         with patch('embed_video.fields.detect_backend') as mock_detect_backend:
             mock_detect_backend.return_value = True
             mock_detect_backend.side_effect = UnknownIdException
             self.assertRaises(ValidationError, self.formfield.validate,
-                              ('https://youtube.com/v/123/',))
+                              ('http://youtube.com/v/123/',))
 
     def test_validation_correct(self):
-        url = 'https://www.youtube.com/watch?v=gauN0gzxTcU'
+        url = 'http://www.youtube.com/watch?v=gauN0gzxTcU'
         with patch('embed_video.fields.detect_backend') as mock_detect_backend:
             mock_detect_backend.return_value = YoutubeBackend(url)
             self.assertEqual(url, self.formfield.validate(url))
 
     def test_validation_unknown_code(self):
-        url = 'https://www.youtube.com/edit?abcd=abcd'
+        url = 'http://www.youtube.com/edit?abcd=abcd'
         self.assertRaises(ValidationError, self.formfield.validate, url)
 
     def test_validation_super(self):
