@@ -313,6 +313,12 @@ class YoutubeBackend(VideoBackend):
     ]
 
     is_secure = True
+    """
+    Decides if secured protocol (HTTPS) is used.
+
+    :type: bool
+    """
+
 
     def get_code(self):
         code = super(YoutubeBackend, self).get_code()
@@ -357,11 +363,18 @@ class VimeoBackend(VideoBackend):
     pattern_info = '{protocol}://vimeo.com/api/v2/video/{code}.json'
 
     is_secure = True
+    """
+    Decides if secured protocol (HTTPS) is used.
+
+    :type: bool
+    """
+
 
     def get_info(self):
         try:
             response = requests.get(
-                self.pattern_info.format(code=self.code, protocol=self.protocol),
+                self.pattern_info.format(code=self.code,
+                                         protocol=self.protocol),
                 timeout=EMBED_VIDEO_TIMEOUT
             )
             return json.loads(response.text)[0]
@@ -383,6 +396,11 @@ class SoundCloudBackend(VideoBackend):
     re_url = re.compile(r'src="(?P<url>.*?)"', re.I)
 
     is_secure = True
+    """
+    Decides if secured protocol (HTTPS) is used.
+
+    :type: bool
+    """
 
     @cached_property
     def width(self):
