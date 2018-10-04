@@ -16,5 +16,5 @@ class VideoBackendTestCase(TestCase):
             self.assertRaises(UnknownBackendException, detect_backend, url)
 
     def test_not_implemented_get_info(self):
-        backend = VideoBackend('http://www.example.com')
+        backend = VideoBackend('https://www.example.com')
         self.assertRaises(NotImplementedError, backend.get_info)
