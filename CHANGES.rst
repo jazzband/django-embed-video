@@ -1,3 +1,23 @@
+Release 1.2.0 (October 04, 2018)
+----------------------------
+
+- update docs
+  (`#92 <https://github.com/jazzband/django-embed-video/pull/92>`_)
+
+- use tests_require and setup_requires for nose testing requirements
+  (`#91 <https://github.com/jazzband/django-embed-video/pull/91>`_)
+
+- add renderer kwarg to Widget render method to support Python 2.1 and later
+  (`#88 <https://github.com/jazzband/django-embed-video/pull/88>`_)
+
+- enable default HTTPS support for YouTube, VimeoBackend, SoundCloudBackend
+  (`#86 <https://github.com/jazzband/django-embed-video/pull/86>`_)
+
+- added syntax highlight in README.rst
+  (`#81 <https://github.com/jazzband/django-embed-video/pull/81>`_)
+
+- updating requests >=2.19
+
 
 Release 1.1.2 (April 27, 2017)
 ----------------------------

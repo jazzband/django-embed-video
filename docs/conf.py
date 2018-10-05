@@ -51,7 +51,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'django-embed-video'
-copyright = u'2013, Juda Kaleta'
+copyright = u'2018, Jazzband'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
