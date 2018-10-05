@@ -1,6 +1,9 @@
 Release 1.2.0 (October 04, 2018)
 ----------------------------
 
+- hotfix docs directive
+  (`#94 <https://github.com/jazzband/django-embed-video/pull/94>`_)
+
 - update docs
   (`#92 <https://github.com/jazzband/django-embed-video/pull/92>`_)
 
