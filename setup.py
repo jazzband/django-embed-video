@@ -22,6 +22,7 @@ setup(
     url='https://github.com/jazzband/django-embed-video',
     description=embed_video.__doc__.strip(),
     long_description='\n\n'.join([README, CHANGES]),
+    long_description_content_type='text/x-rst',
     classifiers=[
         'Framework :: Django',
         'License :: OSI Approved :: MIT License',
