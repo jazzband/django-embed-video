@@ -446,3 +446,57 @@ class SoundCloudBackend(VideoBackend):
     def get_embed_code(self, width, height):
         return super(SoundCloudBackend, self). \
             get_embed_code(width=width, height=height)
+
+class PornhubBackend(VideoBackend):
+    # Simple PornhubBacked
+    # No Thumb Available
+    
+    re_detect = re.compile(r'https://([a-z][a-z])\.pornhub\.com/*')
+    re_code = re.compile(r'https://([a-z][a-z])\.pornhub\.com/embed/(?P<code>\w+)')    
+    allow_https = True
+    is_secure = True
+
+    def get_code(self):
+        code = super(PornhubBackend, self).get_code()
+        if not code:
+            return self.get_info()['code']
+    
+    def get_url(self):
+        url = super(PornhubBackend, self).get_url()
+        if not url:
+            return self.get_info()['url_embed']
+    
+    def get_thumbnail_url(self):
+         return None
+     
+    @cached_property
+    def width(self):
+        return self.info.get('width')
+    
+    @cached_property
+    def height(self):
+        return self.info.get('height')
+    
+    def get_info(self):
+        parsed_url = urlparse.urlparse(self._url)
+        parsed_qs = urlparse.parse_qs(parsed_url.query)
+        if 'viewkey' in parsed_qs:
+            code = parsed_qs['viewkey'][0]
+        else:
+            raise VideoDoesntExistException()
+        try:
+            r = requests.get(self._url, 
+                                    timeout=EMBED_VIDEO_TIMEOUT)
+            s = r.text.strip()
+            m = re.search(r'"embedCode".*:.*<iframe src=\\"([^"]+)\\" frameborder=\\"0\\" width=\\"([0-9]+)\\" height=\\"([0-9]+)\\" scrolling=\\"no\\" allowfullscreen><\\/iframe>', s)
+            url_embed = m.group(1).replace('\\/', '/')
+            width = int(m.group(2))
+            height = int(m.group(3))
+            return {
+                    'width': width,
+                    'height': height,
+                    'url_embed':url_embed,
+                    'code': code
+                }
+        except ValueError:
+            raise VideoDoesntExistException()
