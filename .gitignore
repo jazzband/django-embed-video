@@ -8,3 +8,4 @@ dist
 htmlcov
 .idea
 .eggs/
+.tox/

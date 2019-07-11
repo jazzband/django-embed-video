@@ -1,12 +1,7 @@
 import re
-import sys
 import json
 import requests
-
-if sys.version_info.major == 3:
-    import urllib.parse as urlparse
-else:
-    import urlparse
+import urllib.parse as urlparse
 
 from django.http import QueryDict
 from django.template.loader import render_to_string
@@ -62,7 +57,7 @@ def detect_backend(url):
     raise UnknownBackendException
 
 
-class VideoBackend(object):
+class VideoBackend:
     """
     Base class used as parental class for backends.
 
@@ -321,7 +316,7 @@ class YoutubeBackend(VideoBackend):
 
 
     def get_code(self):
-        code = super(YoutubeBackend, self).get_code()
+        code = super().get_code()
 
         if not code:
             parsed_url = urlparse.urlparse(self._url)
@@ -444,5 +439,4 @@ class SoundCloudBackend(VideoBackend):
         return match.group('code')
 
     def get_embed_code(self, width, height):
-        return super(SoundCloudBackend, self). \
-            get_embed_code(width=width, height=height)
+        return super().get_embed_code(width=width, height=height)

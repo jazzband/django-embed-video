@@ -1,8 +1,7 @@
-from mock import patch
 from unittest import TestCase
+from unittest.mock import patch
 
 from django.forms import ValidationError
-from django import VERSION
 
 from ..fields import EmbedVideoField, EmbedVideoFormField
 from ..backends import UnknownBackendException, UnknownIdException, \
@@ -16,17 +15,6 @@ class EmbedVideoFieldTestCase(TestCase):
     def test_formfield_form_class(self):
         self.assertIsInstance(self.field.formfield(),
                               EmbedVideoFormField)
-
-    if VERSION < (1, 9):
-        def test_south(self):
-            self.assertEqual(
-                self.field.south_field_triple(),
-                (
-                    'embed_video.fields.EmbedVideoField',
-                    [],
-                    {'max_length': '200'}
-                )
-            )
 
 
 class EmbedVideoFormFieldTestCase(TestCase):
