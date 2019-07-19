@@ -61,7 +61,7 @@ class AdminVideoMixinTestCase(TestCase):
                                    EmbedVideoFormField))
 
     def test_other_fields(self):
-        class Parent(object):
+        class Parent:
             def formfield_for_dbfield(*args, **kwargs):
                 raise Exception
 

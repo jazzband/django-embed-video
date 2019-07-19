@@ -1,19 +1,13 @@
-from unittest import TestCase, skip
-from mock import Mock, patch
-import sys
 import re
-
-if sys.version_info.major == 3:
-    import urllib.parse as urlparse
-else:
-    import urlparse
+import urllib.parse as urlparse
+from unittest import TestCase
+from unittest.mock import Mock, patch
 
 from django.template import TemplateSyntaxError
-from django.http import HttpRequest, QueryDict
+from django.http import HttpRequest
 from django.template.base import Template
 from django.template.context import RequestContext
 from django.test.client import RequestFactory
-from testfixtures import log_capture
 
 from embed_video.templatetags.embed_video_tags import VideoNode
 
@@ -183,8 +177,9 @@ class EmbedTestCase(TestCase):
         )
 
     @patch('embed_video.backends.EMBED_VIDEO_TIMEOUT', 0.000001)
-    @log_capture()
-    def test_empty_if_timeout(self, logs):
+    @patch('urllib3.connectionpool.log')
+    @patch('embed_video.templatetags.embed_video_tags.logger')
+    def test_empty_if_timeout(self, embed_video_logger, urllib_logger):
         template = """
             {% load embed_video_tags %}
             {% video "http://vimeo.com/72304002" as my_video %}
@@ -193,9 +188,14 @@ class EmbedTestCase(TestCase):
         """
 
         self.assertRenderedTemplate(template, '')
-        logs.check(
-            ('urllib3.connectionpool', 'DEBUG', 'Starting new HTTPS connection (1): vimeo.com:443'),
-            ('embed_video.templatetags.embed_video_tags', 'ERROR', 'Timeout reached during rendering embed video (`http://vimeo.com/72304002`)')
+
+        urllib_logger.debug.assert_called_with(
+            'Starting new HTTPS connection (%d): %s:%s',
+            1, 'vimeo.com', 443,
+        )
+
+        embed_video_logger.exception.assert_called_with(
+            'Timeout reached during rendering embed video (`http://vimeo.com/72304002`)',
         )
 
     def test_relative_size(self):

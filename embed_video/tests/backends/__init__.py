@@ -1,7 +1,7 @@
 from embed_video.backends import detect_backend
 
 
-class BackendTestMixin(object):
+class BackendTestMixin:
     urls = []
     instance = None
 

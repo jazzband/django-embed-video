@@ -1,4 +1,4 @@
-from django import forms, VERSION
+from django import forms
 from django.utils.safestring import mark_safe
 
 from .backends import detect_backend, UnknownBackendException, \
@@ -32,7 +32,7 @@ class AdminVideoWidget(forms.TextInput):
         if attrs:
             default_attrs.update(attrs)
 
-        super(AdminVideoWidget, self).__init__(default_attrs)
+        super().__init__(default_attrs)
 
     def render(self, name, value='', attrs=None, size=(420, 315), renderer=None):
         """
@@ -40,13 +40,7 @@ class AdminVideoWidget(forms.TextInput):
         :type attrs: dict
         """
 
-        if VERSION < (1, 11):
-            # The renderer argument was added in 1.11.
-            # https://docs.djangoproject.com/en/1.11/ref/forms/widgets/#django.forms.Widget.render
-            output = super(AdminVideoWidget, self).render(name, value, attrs)
-        else:
-            # Support for Widget.render() methods without the renderer argument is removed in 2.1
-            output = super(AdminVideoWidget, self).render(name, value, attrs, renderer)
+        output = super().render(name, value, attrs, renderer)
 
         if not value:
             return output
@@ -61,7 +55,7 @@ class AdminVideoWidget(forms.TextInput):
             return output
 
 
-class AdminVideoMixin(object):
+class AdminVideoMixin:
     """
     Mixin using :py:class:`AdminVideoWidget` for fields with
     :py:class:`~embed_video.fields.EmbedVideoField`.
@@ -86,5 +80,4 @@ class AdminVideoMixin(object):
         if isinstance(db_field, EmbedVideoField):
             return db_field.formfield(widget=AdminVideoWidget)
 
-        return super(AdminVideoMixin, self)\
-            .formfield_for_dbfield(db_field, **kwargs)
+        return super().formfield_for_dbfield(db_field, **kwargs)

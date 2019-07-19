@@ -1,37 +1,34 @@
-sudo: false
+dist: xenial
 language: python
 python:
-    - "2.7"
-    - "3.4"
-    - "3.6"
+    - 3.6
+    - 3.7
+    - 3.8-dev
+    - pypy3
 cache: pip
 env:
-    - DJANGO_VERSION=1.5.*
-    - DJANGO_VERSION=1.6.*
-    - DJANGO_VERSION=1.7.*
-    - DJANGO_VERSION=1.8.*
-    - DJANGO_VERSION=1.9.*
-    - DJANGO_VERSION=1.10.*
-    - DJANGO_VERSION=1.11.*
+    - DJANGO=1.11
+    - DJANGO=2.1
+    - DJANGO=2.2
+    - DJANGO=master
 matrix:
-    exclude:
-        - python: '3.6'
-          env: DJANGO_VERSION=1.5.*
-        - python: '3.6'
-          env: DJANGO_VERSION=1.6.*
-        - python: '3.6'
-          env: DJANGO_VERSION=1.7.*
-        - python: '3.6'
-          env: DJANGO_VERSION=1.8.*
-        - python: '3.6'
-          env: DJANGO_VERSION=1.9.*
-        - python: '3.6'
-          env: DJANGO_VERSION=1.10.*
-install:
-    - pip install -q Django==$DJANGO_VERSION
-    - pip install coveralls
-script:
-    - python setup.py build
-    - PYTHONHASHSEED=0 python setup.py nosetests --verbosity 2 --with-coverage --cover-tests --cover-erase
+    allow_failures:
+        - python: 3.6
+          env: DJANGO=master
+        - python: 3.7
+          env: DJANGO=master
+        - python: 3.8-dev
+          env: DJANGO=1.11
+        - python: 3.8-dev
+          env: DJANGO=2.1
+        - python: 3.8-dev
+          env: DJANGO=2.2
+        - python: 3.8-dev
+          env: DJANGO=master
+        - python: pypy3
+          env: DJANGO=master
+    fast_finish: true
+install: pip install tox-travis coveralls
+script: tox
 after_success:
     - coveralls
