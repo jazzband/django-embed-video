@@ -55,7 +55,7 @@ class VideoNode(Node):
                 '[size] [key1=val1 key2=val2 ...] [as var] %}``'
     default_size = 'small'
 
-    re_size = re.compile('[\'"]?(?P<width>\d+%?) *x *(?P<height>\d+%?)[\'"]?')
+    re_size = re.compile(r'[\'"]?(?P<width>\d+%?) *x *(?P<height>\d+%?)[\'"]?')
     re_option = re.compile(r'^(?P<key>[\w]+)=(?P<value>.+)$')
 
     def __init__(self, parser, token):
