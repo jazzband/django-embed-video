@@ -1,34 +1,45 @@
 dist: xenial
 language: python
 python:
-    - 3.6
-    - 3.7
-    - 3.8-dev
-    - pypy3
+- 3.6
+- 3.7
+- 3.8-dev
+- pypy3
 cache: pip
 env:
-    - DJANGO=1.11
-    - DJANGO=2.1
-    - DJANGO=2.2
-    - DJANGO=master
+- DJANGO=1.11
+- DJANGO=2.1
+- DJANGO=2.2
+- DJANGO=master
 matrix:
-    allow_failures:
-        - python: 3.6
-          env: DJANGO=master
-        - python: 3.7
-          env: DJANGO=master
-        - python: 3.8-dev
-          env: DJANGO=1.11
-        - python: 3.8-dev
-          env: DJANGO=2.1
-        - python: 3.8-dev
-          env: DJANGO=2.2
-        - python: 3.8-dev
-          env: DJANGO=master
-        - python: pypy3
-          env: DJANGO=master
-    fast_finish: true
+  allow_failures:
+  - python: 3.6
+    env: DJANGO=master
+  - python: 3.7
+    env: DJANGO=master
+  - python: 3.8-dev
+    env: DJANGO=1.11
+  - python: 3.8-dev
+    env: DJANGO=2.1
+  - python: 3.8-dev
+    env: DJANGO=2.2
+  - python: 3.8-dev
+    env: DJANGO=master
+  - python: pypy3
+    env: DJANGO=master
+  fast_finish: true
 install: pip install tox-travis coveralls
 script: tox
 after_success:
-    - coveralls
+- coveralls
+deploy:
+  provider: pypi
+  user: jazzband
+  distributions: sdist bdist_wheel
+  server: https://jazzband.co/projects/django-embed-video/upload
+  on:
+    tags: true
+    repo: jazzband/django-embed-video
+    python: 3.7
+  password:
+    secure: aje4jqKRNtGagmJy3wSezdgIA8sVjVqjzDKVoYgecA4hCTwNjzYo4cHQGIvi4+pCpfA5WU55l0KYC8O5H38SEY0Wzv16sMePRWs1LQLDv86kdXus/8zju/iiwf5RCQJVT/Ox4MMEEaVNzCIgKlf05cswv9RgtLvhlSVEr6Iz95A=
