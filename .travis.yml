@@ -37,6 +37,7 @@ deploy:
   user: jazzband
   distributions: sdist bdist_wheel
   server: https://jazzband.co/projects/django-embed-video/upload
+  skip_existing: true
   on:
     tags: true
     repo: jazzband/django-embed-video
