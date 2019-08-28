@@ -2,9 +2,6 @@ from setuptools import setup, find_packages
 
 import os
 
-embed_video = __import__('embed_video')
-
-
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
@@ -16,11 +13,11 @@ setup(
     name='django-embed-video',
     packages=find_packages(),
     package_data={'embed_video': ['templates/embed_video/*.html']},
-    version=embed_video.get_version(),
+    use_scm_version=True,
     author='Cedric Carrard',
     author_email='cedric.carrard@gmail.com',
     url='https://github.com/jazzband/django-embed-video',
-    description=embed_video.__doc__.strip(),
+    description='Django app for easy embeding YouTube and Vimeo videos and music from SoundCloud.',
     long_description='\n\n'.join([README, CHANGES]),
     long_description_content_type='text/x-rst',
     classifiers=[
@@ -34,7 +31,7 @@ setup(
     ],
     keywords=['youtube', 'vimeo', 'video', 'soundcloud'],
     install_requires=['requests >= 2.19', 'Django >= 1.11'],
-    setup_requires=['nose', 'readme'],
+    setup_requires=['nose', 'readme', 'setuptools_scm'],
     tests_require=['Django', 'requests >= 2.19', 'coverage'],
     test_suite='nose.collector',
 )
