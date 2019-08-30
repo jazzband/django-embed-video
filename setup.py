@@ -19,7 +19,6 @@ setup(
     url='https://github.com/jazzband/django-embed-video',
     description='Django app for easy embeding YouTube and Vimeo videos and music from SoundCloud.',
     long_description='\n\n'.join([README, CHANGES]),
-    long_description_content_type='text/x-rst',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
