@@ -1,13 +1,6 @@
+#!/usr/bin/env python
+
 from setuptools import setup, find_packages
-
-import os
-
-def read(fname):
-    return open(os.path.join(os.path.dirname(__file__), fname)).read()
-
-README = read('README.rst')
-CHANGES = read('CHANGES.rst')
-
 
 setup(
     name='django-embed-video',
@@ -18,7 +11,10 @@ setup(
     author_email='cedric.carrard@gmail.com',
     url='https://github.com/jazzband/django-embed-video',
     description='Django app for easy embeding YouTube and Vimeo videos and music from SoundCloud.',
-    long_description='\n\n'.join([README, CHANGES]),
+    long_description='\n'.join([
+        open('README.rst', encoding='utf-8').read(),
+        open('CHANGES.rst', encoding='utf-8').read(),
+    ]),
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
