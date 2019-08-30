@@ -1,3 +1,18 @@
+
+Changes
+=======
+
+
+Release 1.2.1 (August 30, 2019)
+-------------------------------
+
+- Drop unsupported Python and Django versions.
+- Add support for new Python and Django versions.
+- Improve project structure, docs and language.
+- Improve CI and CD infrastructure and automation.
+- Move project to Jazzband organization.
+
+
 Release 1.2.0 (October 04, 2018)
 --------------------------------
 
@@ -47,7 +62,7 @@ Release 1.1.0 (Jan 19, 2016)
 
 - added support fort Django 1.9
   (`#52 <https://github.com/jazzband/django-embed-video/issues/52>`_)
-  
+
 - if possible YouTube thumbnails are returned in better resolution
   (`#43 <https://github.com/jazzband/django-embed-video/issues/43>`_)
 
