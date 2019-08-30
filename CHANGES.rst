@@ -3,11 +3,13 @@ Changes
 =======
 
 
-Release 1.2.1 (August 30, 2019)
--------------------------------
+Release 1.3 (August 30, 2019)
+-----------------------------
 
-- Drop unsupported Python and Django versions.
-- Add support for new Python and Django versions.
+- Drop unsupported Python version prior to 3.6.
+- Drop unsupported Django versions prior to 1.11.
+- Add support for Python up to 3.8 including PyPy.
+- Add support for Django up to 2.2.
 - Improve project structure, docs and language.
 - Improve CI and CD infrastructure and automation.
 - Move project to Jazzband organization.
