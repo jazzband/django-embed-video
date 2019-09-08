@@ -6,6 +6,6 @@ admin.autodiscover()
 
 urlpatterns = staticfiles_urlpatterns() \
     + [
-        url(r'^admin/', include(admin.site.urls)),
-        url(r'^', include('posts.urls', namespace='posts')),
+        url(r'^admin/', admin.site.urls),
+        url(r'^', include('posts.urls'), name='posts'),
     ]
