@@ -1,8 +1,7 @@
 from django import forms
 from django.utils.safestring import mark_safe
 
-from .backends import detect_backend, UnknownBackendException, \
-    VideoDoesntExistException
+from .backends import detect_backend, UnknownBackendException, VideoDoesntExistException
 from .fields import EmbedVideoField
 
 
@@ -19,22 +18,24 @@ class AdminVideoWidget(forms.TextInput):
 
     """
 
-    output_format = u'<div style="float:left" class="video">' \
-                    u'{video}<br />{input}</div>' \
-                    u'<hr style="visibility: hidden; clear:both">'
+    output_format = (
+        u'<div style="float:left" class="video">'
+        u"{video}<br />{input}</div>"
+        u'<hr style="visibility: hidden; clear:both">'
+    )
 
     def __init__(self, attrs=None):
         """
         :type attrs: dict
         """
-        default_attrs = {'size': '40'}
+        default_attrs = {"size": "40"}
 
         if attrs:
             default_attrs.update(attrs)
 
         super().__init__(default_attrs)
 
-    def render(self, name, value='', attrs=None, size=(420, 315), renderer=None):
+    def render(self, name, value="", attrs=None, size=(420, 315), renderer=None):
         """
         :type name: str
         :type attrs: dict
@@ -47,10 +48,11 @@ class AdminVideoWidget(forms.TextInput):
 
         try:
             backend = detect_backend(value)
-            return mark_safe(self.output_format.format(
-                video=backend.get_embed_code(*size),
-                input=output,
-            ))
+            return mark_safe(
+                self.output_format.format(
+                    video=backend.get_embed_code(*size), input=output
+                )
+            )
         except (UnknownBackendException, VideoDoesntExistException):
             return output
 

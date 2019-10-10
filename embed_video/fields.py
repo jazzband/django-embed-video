@@ -2,10 +2,9 @@ from django.db import models
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from .backends import detect_backend, UnknownIdException, \
-    UnknownBackendException
+from .backends import detect_backend, UnknownIdException, UnknownBackendException
 
-__all__ = ('EmbedVideoField', 'EmbedVideoFormField')
+__all__ = ("EmbedVideoField", "EmbedVideoFormField")
 
 
 class EmbedVideoField(models.URLField):
@@ -15,7 +14,7 @@ class EmbedVideoField(models.URLField):
     """
 
     def formfield(self, **kwargs):
-        defaults = {'form_class': EmbedVideoFormField}
+        defaults = {"form_class": EmbedVideoFormField}
         defaults.update(kwargs)
         return super().formfield(**defaults)
 
@@ -37,8 +36,9 @@ class EmbedVideoFormField(forms.URLField):
             backend = detect_backend(url)
             backend.get_code()
         except UnknownBackendException:
-            raise forms.ValidationError(_(u'URL could not be recognized.'))
+            raise forms.ValidationError(_(u"URL could not be recognized."))
         except UnknownIdException:
-            raise forms.ValidationError(_(u'ID of this video could not be '
-                                          u'recognized.'))
+            raise forms.ValidationError(
+                _(u"ID of this video could not be " u"recognized.")
+            )
         return url

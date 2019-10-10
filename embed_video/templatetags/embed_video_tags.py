@@ -6,16 +6,19 @@ from django.template import Library, Node, TemplateSyntaxError
 from django.utils.safestring import mark_safe
 from django.utils.encoding import smart_str
 
-from ..backends import detect_backend, VideoBackend, \
-    VideoDoesntExistException, UnknownBackendException
+from ..backends import (
+    detect_backend,
+    VideoBackend,
+    VideoDoesntExistException,
+    UnknownBackendException,
+)
 
 register = Library()
 
 logger = logging.getLogger(__name__)
 
 
-
-@register.tag('video')
+@register.tag("video")
 class VideoNode(Node):
     """
     Template tag ``video``. It gives access to all
@@ -51,12 +54,15 @@ class VideoNode(Node):
         {% endvideo %}
 
     """
-    error_msg = 'Syntax error. Expected: ``{% video URL ' \
-                '[size] [key1=val1 key2=val2 ...] [as var] %}``'
-    default_size = 'small'
+
+    error_msg = (
+        "Syntax error. Expected: ``{% video URL "
+        "[size] [key1=val1 key2=val2 ...] [as var] %}``"
+    )
+    default_size = "small"
 
     re_size = re.compile(r'[\'"]?(?P<width>\d+%?) *x *(?P<height>\d+%?)[\'"]?')
-    re_option = re.compile(r'^(?P<key>[\w]+)=(?P<value>.+)$')
+    re_option = re.compile(r"^(?P<key>[\w]+)=(?P<value>.+)$")
 
     def __init__(self, parser, token):
         """
@@ -70,15 +76,15 @@ class VideoNode(Node):
         self.tag_name = str(self.pop_bit())
         self.url = self.pop_bit()
 
-        if len(self.bits) > 1 and self.bits[-2] == 'as':
+        if len(self.bits) > 1 and self.bits[-2] == "as":
             del self.bits[-2]
             self.variable_name = str(self.pop_bit(-1))
-            self.nodelist_file = parser.parse(('end' + self.tag_name, ))
+            self.nodelist_file = parser.parse(("end" + self.tag_name,))
             parser.delete_first_token()
         else:
             self.variable_name = None
 
-        self.size = self.pop_bit() if self.bits and '=' not in self.bits[0] else None
+        self.size = self.pop_bit() if self.bits and "=" not in self.bits[0] else None
         self.options = self.parse_options(self.bits)
 
     def pop_bit(self, index=0):
@@ -88,8 +94,8 @@ class VideoNode(Node):
         options = {}
         for bit in bits:
             parsed_bit = self.re_option.match(bit)
-            key = smart_str(parsed_bit.group('key'))
-            value = self.parser.compile_filter(parsed_bit.group('value'))
+            key = smart_str(parsed_bit.group("key"))
+            value = self.parser.compile_filter(parsed_bit.group("value"))
             options[key] = value
         return options
 
@@ -112,13 +118,15 @@ class VideoNode(Node):
             backend = self.get_backend(url, context=context, **options)
             return self.render_block(context, backend)
         except requests.Timeout:
-            logger.exception('Timeout reached during rendering embed video (`{0}`)'.format(url))
+            logger.exception(
+                "Timeout reached during rendering embed video (`{0}`)".format(url)
+            )
         except UnknownBackendException:
-            logger.exception('Backend wasn\'t recognised (`{0}`)'.format(url))
+            logger.exception("Backend wasn't recognised (`{0}`)".format(url))
         except VideoDoesntExistException:
-            logger.exception('Attempt to render not existing video (`{0}`)'.format(url))
+            logger.exception("Attempt to render not existing video (`{0}`)".format(url))
 
-        return ''
+        return ""
 
     def resolve_options(self, context):
         """
@@ -160,11 +168,14 @@ class VideoNode(Node):
         :rtype: VideoBackend
         """
 
-        backend = backend_or_url if isinstance(backend_or_url, VideoBackend) \
+        backend = (
+            backend_or_url
+            if isinstance(backend_or_url, VideoBackend)
             else detect_backend(str(backend_or_url))
+        )
 
-        if context and 'request' in context:
-            backend.is_secure = context['request'].is_secure()
+        if context and "request" in context:
+            backend.is_secure = context["request"].is_secure()
         if options:
             backend.set_options(options)
 
@@ -210,11 +221,11 @@ class VideoNode(Node):
         :rtype: tuple[int, int]
         """
         sizes = {
-            'tiny': (420, 315),
-            'small': (480, 360),
-            'medium': (640, 480),
-            'large': (960, 720),
-            'huge': (1280, 960),
+            "tiny": (420, 315),
+            "small": (480, 360),
+            "medium": (640, 480),
+            "large": (960, 720),
+            "huge": (1280, 960),
         }
 
         value = value or cls.default_size
@@ -223,11 +234,11 @@ class VideoNode(Node):
 
         try:
             size = cls.re_size.match(value)
-            return size.group('width'), size.group('height')
+            return size.group("width"), size.group("height")
         except AttributeError:
             raise TemplateSyntaxError(
-                'Incorrect size.\nPossible format is WIDTHxHEIGHT or using '
-                'predefined size ({sizes}).'.format(sizes=', '.join(sizes.keys()))
+                "Incorrect size.\nPossible format is WIDTHxHEIGHT or using "
+                "predefined size ({sizes}).".format(sizes=", ".join(sizes.keys()))
             )
 
     def __iter__(self):
