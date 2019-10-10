@@ -14,4 +14,3 @@ class BackendTestMixin:
         for url in self.urls:
             backend = self.instance(url[0])
             self.assertEqual(backend.code, url[1])
-
