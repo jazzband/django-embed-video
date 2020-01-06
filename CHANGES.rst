@@ -3,6 +3,13 @@ Changes
 =======
 
 
+Release 1.3.1 (January 6, 2020)
+-------------------------------
+
+- Add support for Vimeo review video URLs.
+- Update example project code.
+
+
 Release 1.3 (August 30, 2019)
 -----------------------------
 
