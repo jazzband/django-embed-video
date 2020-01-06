@@ -16,6 +16,7 @@ class VimeoBackendTestCase(BackendTestMixin, TestCase):
         ("https://player.vimeo.com/video/72304002", "72304002"),
         ("http://www.vimeo.com/channels/staffpick/72304002", "72304002"),
         ("https://www.vimeo.com/channels/staffpick/72304002", "72304002"),
+        ("https://vimeo.com/exampleusername/review/72304002/a1b2c3d4", "72304002"),
     )
 
     instance = VimeoBackend
