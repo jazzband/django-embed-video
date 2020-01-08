@@ -8,8 +8,8 @@ python:
 cache: pip
 env:
 - DJANGO=1.11
-- DJANGO=2.1
 - DJANGO=2.2
+- DJANGO=3.0
 - DJANGO=master
 matrix:
   allow_failures:
@@ -35,6 +35,6 @@ deploy:
   on:
     tags: true
     repo: jazzband/django-embed-video
-    python: 3.7
+    python: 3.6
   password:
     secure: aje4jqKRNtGagmJy3wSezdgIA8sVjVqjzDKVoYgecA4hCTwNjzYo4cHQGIvi4+pCpfA5WU55l0KYC8O5H38SEY0Wzv16sMePRWs1LQLDv86kdXus/8zju/iiwf5RCQJVT/Ox4MMEEaVNzCIgKlf05cswv9RgtLvhlSVEr6Iz95A=
