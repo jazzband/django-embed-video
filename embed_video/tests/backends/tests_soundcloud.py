@@ -31,9 +31,9 @@ class SoundCloudBackendTestCase(BackendTestMixin, TestCase):
                     "width": 123,
                     "height": 321,
                     "thumbnail_url": "xyz",
-                    "html": u'\u003Ciframe width="100%" height="400" '
-                    u'scrolling="no" frameborder="no" '
-                    u'src="{0}"\u003E\u003C/iframe\u003E'.format(self.url),
+                    "html": '\u003Ciframe width="100%" height="400" '
+                    'scrolling="no" frameborder="no" '
+                    'src="{0}"\u003E\u003C/iframe\u003E'.format(self.url),
                 }
 
         self.foo = FooBackend("abcd")

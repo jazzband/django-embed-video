@@ -301,7 +301,7 @@ class EmbedVideoNodeTestCase(TestCase):
             "as",
             "myvideo",
         )
-        self.parser.compile_filter.return_value = u"some_url"
+        self.parser.compile_filter.return_value = "some_url"
 
         node = VideoNode(self.parser, self.token)
         self.assertEqual(str(node), '<VideoNode "some_url">')
