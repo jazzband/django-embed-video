@@ -19,9 +19,9 @@ class AdminVideoWidget(forms.TextInput):
     """
 
     output_format = (
-        u'<div style="float:left" class="video">'
-        u"{video}<br />{input}</div>"
-        u'<hr style="visibility: hidden; clear:both">'
+        '<div style="float:left" class="video">'
+        "{video}<br />{input}</div>"
+        '<hr style="visibility: hidden; clear:both">'
     )
 
     def __init__(self, attrs=None):
