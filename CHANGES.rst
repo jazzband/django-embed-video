@@ -3,6 +3,12 @@ Changes
 =======
 
 
+Release 1.3.2 (March 29, 2020)
+------------------------------
+
+- Add support for Soundcloud mobile URLs.
+
+
 Release 1.3.1 (January 6, 2020)
 -------------------------------
 
