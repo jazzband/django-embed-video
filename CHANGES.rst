@@ -3,6 +3,12 @@ Changes
 =======
 
 
+Release 1.3.3 (June 10, 2020)
+------------------------------
+
+- Fix admin UI exception with form validation.
+
+
 Release 1.3.2 (March 29, 2020)
 ------------------------------
 
