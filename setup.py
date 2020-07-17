@@ -10,7 +10,7 @@ setup(
     author="Cedric Carrard",
     author_email="cedric.carrard@gmail.com",
     url="https://github.com/jazzband/django-embed-video",
-    description="Django app for easy embeding YouTube and Vimeo videos and music from SoundCloud.",
+    description="Django app for easy embedding YouTube and Vimeo videos and music from SoundCloud.",
     long_description="\n".join(
         [
             open("README.rst", encoding="utf-8").read(),
