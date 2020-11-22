@@ -7,9 +7,11 @@ Django app for easy embedding YouTube and Vimeo videos and music from SoundCloud
    :target: https://jazzband.co/
    :alt: Jazzband
 .. image:: https://travis-ci.org/jazzband/django-embed-video.svg?branch=master
-    :target: https://travis-ci.org/jazzband/django-embed-video
+   :target: https://travis-ci.org/jazzband/django-embed-video
+   :alt: Travis CI build status
 .. image:: https://coveralls.io/repos/yetty/django-embed-video/badge.svg?branch=master
-    :target: https://coveralls.io/r/yetty/django-embed-video?branch=master
+   :target: https://coveralls.io/r/yetty/django-embed-video?branch=master
+   :alt: Coveralls coverage percentage
 .. image:: https://img.shields.io/pypi/pyversions/django-embed-video.svg
    :target: https://pypi.org/project/django-embed-video/
    :alt: Supported Python versions
