@@ -1,5 +1,6 @@
 from unittest import TestCase
-from embed_video.backends import UnknownBackendException, detect_backend, VideoBackend
+
+from embed_video.backends import UnknownBackendException, VideoBackend, detect_backend
 
 
 class VideoBackendTestCase(TestCase):

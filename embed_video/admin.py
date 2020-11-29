@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.safestring import mark_safe
 
-from .backends import detect_backend, UnknownBackendException, VideoDoesntExistException
+from .backends import UnknownBackendException, VideoDoesntExistException, detect_backend
 from .fields import EmbedVideoField
 
 

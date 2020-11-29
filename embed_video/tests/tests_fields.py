@@ -3,8 +3,8 @@ from unittest.mock import patch
 
 from django.forms import ValidationError
 
-from ..fields import EmbedVideoField, EmbedVideoFormField
 from ..backends import UnknownBackendException, UnknownIdException, YoutubeBackend
+from ..fields import EmbedVideoField, EmbedVideoFormField
 
 
 class EmbedVideoFieldTestCase(TestCase):
