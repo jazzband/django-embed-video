@@ -1,16 +1,16 @@
-import re
 import logging
-import requests
+import re
 
+import requests
 from django.template import Library, Node, TemplateSyntaxError
-from django.utils.safestring import mark_safe
 from django.utils.encoding import smart_str
+from django.utils.safestring import mark_safe
 
 from ..backends import (
-    detect_backend,
+    UnknownBackendException,
     VideoBackend,
     VideoDoesntExistException,
-    UnknownBackendException,
+    detect_backend,
 )
 
 register = Library()

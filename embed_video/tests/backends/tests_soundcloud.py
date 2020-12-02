@@ -1,9 +1,11 @@
-import requests
 from unittest import TestCase
 from unittest.mock import patch
 
-from . import BackendTestMixin
+import requests
+
 from embed_video.backends import SoundCloudBackend, VideoDoesntExistException
+
+from . import BackendTestMixin
 
 
 class SoundCloudBackendTestCase(BackendTestMixin, TestCase):

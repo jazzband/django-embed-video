@@ -1,9 +1,11 @@
-import requests
 from unittest import TestCase
 from unittest.mock import patch
 
+import requests
+
+from embed_video.backends import VideoDoesntExistException, VimeoBackend
+
 from . import BackendTestMixin
-from embed_video.backends import VimeoBackend, VideoDoesntExistException
 
 
 class VimeoBackendTestCase(BackendTestMixin, TestCase):

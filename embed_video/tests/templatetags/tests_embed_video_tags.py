@@ -3,8 +3,8 @@ import urllib.parse as urlparse
 from unittest import TestCase
 from unittest.mock import Mock, patch
 
-from django.template import TemplateSyntaxError
 from django.http import HttpRequest
+from django.template import TemplateSyntaxError
 from django.template.base import Template
 from django.template.context import RequestContext
 from django.test.client import RequestFactory

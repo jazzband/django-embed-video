@@ -1,7 +1,8 @@
 from unittest import TestCase
 
+from embed_video.backends import UnknownIdException, YoutubeBackend
+
 from . import BackendTestMixin
-from embed_video.backends import YoutubeBackend, UnknownIdException
 
 
 class YoutubeBackendTestCase(BackendTestMixin, TestCase):

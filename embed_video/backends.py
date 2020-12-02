@@ -1,8 +1,8 @@
-import re
 import json
-import requests
+import re
 import urllib.parse as urlparse
 
+import requests
 from django.http import QueryDict
 from django.template.loader import render_to_string
 from django.utils.functional import cached_property
