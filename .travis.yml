@@ -4,15 +4,15 @@ python:
 - 3.6
 - 3.7
 - 3.8
+- 3.9
 - pypy3
 cache: pip
 env:
-- DJANGO=1.11
 - DJANGO=2.2
 - DJANGO=3.0
 - DJANGO=3.1
 - DJANGO=master
-matrix:
+jobs:
   allow_failures:
   - python: 3.6
     env: DJANGO=master
@@ -20,22 +20,31 @@ matrix:
     env: DJANGO=master
   - python: 3.8
     env: DJANGO=master
+  - python: 3.9
+    env: DJANGO=master
   - python: pypy3
     env: DJANGO=master
   fast_finish: true
+  include:
+    - python: 3.8
+      env: TOXENV=qa
+    - stage: deploy
+      env:
+      python: 3.6
+      script: skip
+      deploy:
+        provider: pypi
+        user: jazzband
+        distributions: sdist bdist_wheel
+        server: https://jazzband.co/projects/django-embed-video/upload
+        skip_existing: true
+        on:
+          tags: true
+          repo: jazzband/django-embed-video
+          python: 3.6
+        password:
+          secure: aje4jqKRNtGagmJy3wSezdgIA8sVjVqjzDKVoYgecA4hCTwNjzYo4cHQGIvi4+pCpfA5WU55l0KYC8O5H38SEY0Wzv16sMePRWs1LQLDv86kdXus/8zju/iiwf5RCQJVT/Ox4MMEEaVNzCIgKlf05cswv9RgtLvhlSVEr6Iz95A=
 install: pip install tox-travis coveralls
 script: tox
 after_success:
-- coveralls
-deploy:
-  provider: pypi
-  user: jazzband
-  distributions: sdist bdist_wheel
-  server: https://jazzband.co/projects/django-embed-video/upload
-  skip_existing: true
-  on:
-    tags: true
-    repo: jazzband/django-embed-video
-    python: 3.6
-  password:
-    secure: aje4jqKRNtGagmJy3wSezdgIA8sVjVqjzDKVoYgecA4hCTwNjzYo4cHQGIvi4+pCpfA5WU55l0KYC8O5H38SEY0Wzv16sMePRWs1LQLDv86kdXus/8zju/iiwf5RCQJVT/Ox4MMEEaVNzCIgKlf05cswv9RgtLvhlSVEr6Iz95A=
+  - coveralls

@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from django.test import SimpleTestCase
 
-from embed_video.admin import AdminVideoWidget, AdminVideoMixin
+from embed_video.admin import AdminVideoMixin, AdminVideoWidget
 from embed_video.backends import VimeoBackend
 from embed_video.fields import EmbedVideoField, EmbedVideoFormField
 

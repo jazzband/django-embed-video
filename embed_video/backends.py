@@ -1,14 +1,14 @@
-import re
 import json
-import requests
+import re
 import urllib.parse as urlparse
 
+import requests
 from django.http import QueryDict
 from django.template.loader import render_to_string
 from django.utils.functional import cached_property
+from django.utils.module_loading import import_string
 from django.utils.safestring import mark_safe
 
-from .utils import import_by_path
 from .settings import (
     EMBED_VIDEO_BACKENDS,
     EMBED_VIDEO_TIMEOUT,
@@ -57,7 +57,7 @@ def detect_backend(url):
     """
 
     for backend_name in EMBED_VIDEO_BACKENDS:
-        backend = import_by_path(backend_name)
+        backend = import_string(backend_name)
         if backend.is_valid(url):
             return backend(url)
 
