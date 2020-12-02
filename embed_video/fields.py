@@ -2,7 +2,7 @@ from django import forms
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from .backends import (
+from embed_video.backends import (
     UnknownBackendException,
     UnknownIdException,
     VideoDoesntExistException,
