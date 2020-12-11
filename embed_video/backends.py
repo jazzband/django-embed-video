@@ -9,7 +9,7 @@ from django.utils.functional import cached_property
 from django.utils.module_loading import import_string
 from django.utils.safestring import mark_safe
 
-from .settings import (
+from embed_video.settings import (
     EMBED_VIDEO_BACKENDS,
     EMBED_VIDEO_TIMEOUT,
     EMBED_VIDEO_YOUTUBE_DEFAULT_QUERY,
