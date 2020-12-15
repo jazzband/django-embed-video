@@ -19,10 +19,11 @@ Django app for easy embedding YouTube and Vimeo videos and music from SoundCloud
    :target: https://pypi.org/project/django-embed-video/
    :alt: Supported Django versions
 
+
 Documentation
 -------------
 
-Documentation is here: http://django-embed-video.rtfd.org/
+Documentation is at: http://django-embed-video.rtfd.org/
 
 
 Quick start
@@ -89,6 +90,7 @@ Quick start
 
       class Item(models.Model):
           video = EmbedVideoField()  # same like models.URLField()
+
 
 Contributing
 ------------
