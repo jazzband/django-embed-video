@@ -3,10 +3,12 @@ Changes
 =======
 
 
-Release 1.4.0 (December 15, 2020)
+Release 1.4.0 (December 18, 2020)
 ---------------------------------
 
+- Add lazy loading for video template tags.
 - Handle Vimeo admin "manage" URLs
+- Migrate from Travis CI to GitHub Actions.
 - Drop unsupported Django versions prior to 2.2.
 - Add support for Python up to 3.9.
 - Add support for Django up to 3.1.
