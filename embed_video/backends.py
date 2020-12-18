@@ -9,7 +9,7 @@ from django.utils.functional import cached_property
 from django.utils.module_loading import import_string
 from django.utils.safestring import mark_safe
 
-from .settings import (
+from embed_video.settings import (
     EMBED_VIDEO_BACKENDS,
     EMBED_VIDEO_TIMEOUT,
     EMBED_VIDEO_YOUTUBE_DEFAULT_QUERY,
@@ -356,7 +356,7 @@ class VimeoBackend(VideoBackend):
 
     re_detect = re.compile(r"^((http(s)?:)?//)?(www\.)?(player\.)?vimeo\.com/.*", re.I)
     re_code = re.compile(
-        r"""vimeo\.com/(video/)?(channels/(.*/)?)?((.+)/review/)?(?P<code>[0-9]+)""",
+        r"""vimeo\.com/(video/)?(channels/(.*/)?)?((.+)/review/)?(manage/)?(?P<code>[0-9]+)""",
         re.I,
     )
     pattern_url = "{protocol}://player.vimeo.com/video/{code}"

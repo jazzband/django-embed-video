@@ -6,7 +6,7 @@ from django.template import Library, Node, TemplateSyntaxError
 from django.utils.encoding import smart_str
 from django.utils.safestring import mark_safe
 
-from ..backends import (
+from embed_video.backends import (
     UnknownBackendException,
     VideoBackend,
     VideoDoesntExistException,

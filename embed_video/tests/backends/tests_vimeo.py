@@ -4,8 +4,7 @@ from unittest.mock import patch
 import requests
 
 from embed_video.backends import VideoDoesntExistException, VimeoBackend
-
-from . import BackendTestMixin
+from embed_video.tests.backends import BackendTestMixin
 
 
 class VimeoBackendTestCase(BackendTestMixin, TestCase):
@@ -19,6 +18,7 @@ class VimeoBackendTestCase(BackendTestMixin, TestCase):
         ("http://www.vimeo.com/channels/staffpick/72304002", "72304002"),
         ("https://www.vimeo.com/channels/staffpick/72304002", "72304002"),
         ("https://vimeo.com/exampleusername/review/72304002/a1b2c3d4", "72304002"),
+        ("https://vimeo.com/manage/72304002/general", "72304002"),
     )
 
     instance = VimeoBackend

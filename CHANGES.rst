@@ -3,8 +3,18 @@ Changes
 =======
 
 
+Release 1.4.0 (December 15, 2020)
+---------------------------------
+
+- Handle Vimeo admin "manage" URLs
+- Drop unsupported Django versions prior to 2.2.
+- Add support for Python up to 3.9.
+- Add support for Django up to 3.1.
+- Improve code formatting.
+
+
 Release 1.3.3 (June 10, 2020)
-------------------------------
+-----------------------------
 
 - Fix admin UI exception with form validation.
 
