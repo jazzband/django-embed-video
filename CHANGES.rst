@@ -2,6 +2,7 @@
 Changes
 =======
 
+- Drop support for Django 3.0
 
 Release 1.4.0 (December 18, 2020)
 ---------------------------------
