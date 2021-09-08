@@ -38,7 +38,6 @@ class YoutubeBackendTestCase(BackendTestMixin, TestCase):
         ),
         ("https://m.youtube.com/#/watch?v=IAooXLAPoBQ", "IAooXLAPoBQ"),
         ("https://m.youtube.com/watch?v=IAooXLAPoBQ", "IAooXLAPoBQ"),
-        ("http://www.youtube.com/edit?video_id=eBea01qmnOE", "eBea01qmnOE"),
     )
 
     instance = YoutubeBackend
