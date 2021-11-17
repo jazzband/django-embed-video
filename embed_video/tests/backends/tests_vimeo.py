@@ -32,7 +32,7 @@ class VimeoBackendTestCase(BackendTestMixin, TestCase):
         backend = VimeoBackend("https://vimeo.com/72304002")
         self.assertEqual(
             backend.get_thumbnail_url(),
-            "https://i.vimeocdn.com/video/446150690_640",
+            "https://i.vimeocdn.com/video/446150690-9621b882540b53788eaa36ef8e303d4e06fc40af3d27918b7f561bb44ed971dc-d_640",
         )
 
     @patch("embed_video.backends.EMBED_VIDEO_TIMEOUT", 0.000001)
