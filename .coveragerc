@@ -1,2 +1,6 @@
+[run]
+branch = True
+source = embed_video
+
 [report]
 include = embed_video/*

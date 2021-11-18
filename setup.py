@@ -40,7 +40,6 @@ setup(
     ],
     keywords=["youtube", "vimeo", "video", "soundcloud"],
     install_requires=["requests >= 2.19", "Django >= 2.2"],
-    setup_requires=["nose", "readme", "setuptools_scm"],
+    setup_requires=["readme", "setuptools_scm"],
     tests_require=["Django", "requests >= 2.19", "coverage"],
-    test_suite="nose.collector",
 )
