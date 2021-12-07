@@ -4,6 +4,7 @@ Changes
 
 - Drop support for Django 3.0
 - Add support for Django 3.2
+- Add support for Django 4.0
 
 
 Release 1.4.0 (December 18, 2020)
