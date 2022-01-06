@@ -2,10 +2,19 @@
 Changes
 =======
 
-- Drop support for Django 3.0
-- Add support for Django 3.2
+Unreleased
+----------
+
+
+Release 1.4.1 (January 6, 2022)
+---------------------------------
+
+- Add Code of Conduct to repository
 - Add support for Python 3.10
-- Add support for Django 4.0
+- Add support for Django 3.2 and Django 4.0
+- Drop support for EOL Python 3.6
+- Drop support for EOL Django 3.0 and EOL Django 3.1
+- Remove Nose from dependencies due to version incompatibility
 
 
 Release 1.4.0 (December 18, 2020)
