@@ -17,19 +17,19 @@ from embed_video.settings import (
 
 
 class EmbedVideoException(Exception):
-    """ Parental class for all embed_video exceptions """
+    """Parental class for all embed_video exceptions"""
 
     pass
 
 
 class VideoDoesntExistException(EmbedVideoException):
-    """ Exception thrown if video doesn't exist """
+    """Exception thrown if video doesn't exist"""
 
     pass
 
 
 class UnknownBackendException(EmbedVideoException):
-    """ Exception thrown if video backend is not recognized. """
+    """Exception thrown if video backend is not recognized."""
 
     pass
 
