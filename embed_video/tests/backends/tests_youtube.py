@@ -43,7 +43,7 @@ class YoutubeBackendTestCase(BackendTestMixin, TestCase):
     instance = YoutubeBackend
 
     def test_youtube_keyerror(self):
-        """ Test for issue #7 """
+        """Test for issue #7"""
         backend = self.instance("http://youtube.com/watch?id=5")
         self.assertRaises(UnknownIdException, backend.get_code)
 

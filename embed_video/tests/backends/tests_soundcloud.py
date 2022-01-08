@@ -59,6 +59,6 @@ class SoundCloudBackendTestCase(BackendTestMixin, TestCase):
         self.assertRaises(requests.Timeout, backend.get_info)
 
     def test_invalid_url(self):
-        """ Check if bug #21 is fixed. """
+        """Check if bug #21 is fixed."""
         backend = SoundCloudBackend("https://soundcloud.com/xyz/foo")
         self.assertRaises(VideoDoesntExistException, backend.get_info)
