@@ -6,6 +6,12 @@ Unreleased
 ----------
 
 
+Release 1.4.2 (March 17, 2022)
+------------------------------
+
+- Add Polish translation
+
+
 Release 1.4.1 (January 6, 2022)
 ---------------------------------
 
