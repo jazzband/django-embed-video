@@ -291,6 +291,7 @@ class YoutubeBackend(VideoBackend):
             (\#/)? # for mobile urls
             (embed/)?  # match the embed url syntax
             (v/)?
+            (shorts/)? # match youtube shorts
             (watch\?v=)?  # match the youtube page url
             (ytscreeningroom\?v=)?
             (feeds/api/videos/)?
