@@ -2,6 +2,50 @@
 Changes
 =======
 
+Unreleased
+----------
+
+
+Release 1.4.2 (March 17, 2022)
+------------------------------
+
+- Add Polish translation
+
+
+Release 1.4.1 (January 6, 2022)
+---------------------------------
+
+- Add Code of Conduct to repository
+- Add support for Python 3.10
+- Add support for Django 3.2 and Django 4.0
+- Drop support for EOL Python 3.6
+- Drop support for EOL Django 3.0 and EOL Django 3.1
+- Remove Nose from dependencies due to version incompatibility
+
+
+Release 1.4.0 (December 18, 2020)
+---------------------------------
+
+- Add lazy loading for video template tags.
+- Handle Vimeo admin "manage" URLs
+- Migrate from Travis CI to GitHub Actions.
+- Drop unsupported Django versions prior to 2.2.
+- Add support for Python up to 3.9.
+- Add support for Django up to 3.1.
+- Improve code formatting.
+
+
+Release 1.3.3 (June 10, 2020)
+-----------------------------
+
+- Fix admin UI exception with form validation.
+
+
+Release 1.3.2 (March 29, 2020)
+------------------------------
+
+- Add support for Soundcloud mobile URLs.
+
 
 Release 1.3.1 (January 6, 2020)
 -------------------------------

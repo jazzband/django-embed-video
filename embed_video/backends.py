@@ -1,15 +1,15 @@
-import re
 import json
-import requests
+import re
 import urllib.parse as urlparse
 
+import requests
 from django.http import QueryDict
 from django.template.loader import render_to_string
 from django.utils.functional import cached_property
+from django.utils.module_loading import import_string
 from django.utils.safestring import mark_safe
 
-from .utils import import_by_path
-from .settings import (
+from embed_video.settings import (
     EMBED_VIDEO_BACKENDS,
     EMBED_VIDEO_TIMEOUT,
     EMBED_VIDEO_YOUTUBE_DEFAULT_QUERY,
@@ -17,19 +17,19 @@ from .settings import (
 
 
 class EmbedVideoException(Exception):
-    """ Parental class for all embed_video exceptions """
+    """Parental class for all embed_video exceptions"""
 
     pass
 
 
 class VideoDoesntExistException(EmbedVideoException):
-    """ Exception thrown if video doesn't exist """
+    """Exception thrown if video doesn't exist"""
 
     pass
 
 
 class UnknownBackendException(EmbedVideoException):
-    """ Exception thrown if video backend is not recognized. """
+    """Exception thrown if video backend is not recognized."""
 
     pass
 
@@ -57,7 +57,7 @@ def detect_backend(url):
     """
 
     for backend_name in EMBED_VIDEO_BACKENDS:
-        backend = import_by_path(backend_name)
+        backend = import_string(backend_name)
         if backend.is_valid(url):
             return backend(url)
 
@@ -356,7 +356,7 @@ class VimeoBackend(VideoBackend):
 
     re_detect = re.compile(r"^((http(s)?:)?//)?(www\.)?(player\.)?vimeo\.com/.*", re.I)
     re_code = re.compile(
-        r"""vimeo\.com/(video/)?(channels/(.*/)?)?((.+)/review/)?(?P<code>[0-9]+)""",
+        r"""vimeo\.com/(video/)?(channels/(.*/)?)?((.+)/review/)?(manage/)?(?P<code>[0-9]+)""",
         re.I,
     )
     pattern_url = "{protocol}://player.vimeo.com/video/{code}"

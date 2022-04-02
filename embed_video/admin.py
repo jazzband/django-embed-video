@@ -1,8 +1,12 @@
 from django import forms
 from django.utils.safestring import mark_safe
 
-from .backends import detect_backend, UnknownBackendException, VideoDoesntExistException
-from .fields import EmbedVideoField
+from embed_video.backends import (
+    UnknownBackendException,
+    VideoDoesntExistException,
+    detect_backend,
+)
+from embed_video.fields import EmbedVideoField
 
 
 class AdminVideoWidget(forms.TextInput):

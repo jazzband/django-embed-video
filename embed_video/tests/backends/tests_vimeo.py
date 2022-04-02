@@ -1,9 +1,10 @@
-import requests
 from unittest import TestCase
 from unittest.mock import patch
 
-from . import BackendTestMixin
-from embed_video.backends import VimeoBackend, VideoDoesntExistException
+import requests
+
+from embed_video.backends import VideoDoesntExistException, VimeoBackend
+from embed_video.tests.backends import BackendTestMixin
 
 
 class VimeoBackendTestCase(BackendTestMixin, TestCase):
@@ -17,6 +18,7 @@ class VimeoBackendTestCase(BackendTestMixin, TestCase):
         ("http://www.vimeo.com/channels/staffpick/72304002", "72304002"),
         ("https://www.vimeo.com/channels/staffpick/72304002", "72304002"),
         ("https://vimeo.com/exampleusername/review/72304002/a1b2c3d4", "72304002"),
+        ("https://vimeo.com/manage/72304002/general", "72304002"),
     )
 
     instance = VimeoBackend
@@ -30,7 +32,7 @@ class VimeoBackendTestCase(BackendTestMixin, TestCase):
         backend = VimeoBackend("https://vimeo.com/72304002")
         self.assertEqual(
             backend.get_thumbnail_url(),
-            "https://i.vimeocdn.com/video/446150690_640.jpg",
+            "https://i.vimeocdn.com/video/446150690-9621b882540b53788eaa36ef8e303d4e06fc40af3d27918b7f561bb44ed971dc-d_640",
         )
 
     @patch("embed_video.backends.EMBED_VIDEO_TIMEOUT", 0.000001)

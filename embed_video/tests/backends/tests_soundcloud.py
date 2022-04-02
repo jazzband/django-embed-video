@@ -1,9 +1,10 @@
-import requests
 from unittest import TestCase
 from unittest.mock import patch
 
-from . import BackendTestMixin
+import requests
+
 from embed_video.backends import SoundCloudBackend, VideoDoesntExistException
+from embed_video.tests.backends import BackendTestMixin
 
 
 class SoundCloudBackendTestCase(BackendTestMixin, TestCase):
@@ -58,6 +59,6 @@ class SoundCloudBackendTestCase(BackendTestMixin, TestCase):
         self.assertRaises(requests.Timeout, backend.get_info)
 
     def test_invalid_url(self):
-        """ Check if bug #21 is fixed. """
+        """Check if bug #21 is fixed."""
         backend = SoundCloudBackend("https://soundcloud.com/xyz/foo")
         self.assertRaises(VideoDoesntExistException, backend.get_info)

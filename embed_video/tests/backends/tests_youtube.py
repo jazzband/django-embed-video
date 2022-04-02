@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from . import BackendTestMixin
-from embed_video.backends import YoutubeBackend, UnknownIdException
+from embed_video.backends import UnknownIdException, YoutubeBackend
+from embed_video.tests.backends import BackendTestMixin
 
 
 class YoutubeBackendTestCase(BackendTestMixin, TestCase):
@@ -38,13 +38,12 @@ class YoutubeBackendTestCase(BackendTestMixin, TestCase):
         ),
         ("https://m.youtube.com/#/watch?v=IAooXLAPoBQ", "IAooXLAPoBQ"),
         ("https://m.youtube.com/watch?v=IAooXLAPoBQ", "IAooXLAPoBQ"),
-        ("http://www.youtube.com/edit?video_id=eBea01qmnOE", "eBea01qmnOE"),
     )
 
     instance = YoutubeBackend
 
     def test_youtube_keyerror(self):
-        """ Test for issue #7 """
+        """Test for issue #7"""
         backend = self.instance("http://youtube.com/watch?id=5")
         self.assertRaises(UnknownIdException, backend.get_code)
 
