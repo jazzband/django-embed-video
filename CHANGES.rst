@@ -6,6 +6,12 @@ Unreleased
 ----------
 
 
+Release 1.4.3 (April 8, 2022)
+------------------------------
+
+- Add support for YouTube short URLs.
+
+
 Release 1.4.2 (March 17, 2022)
 ------------------------------
 
