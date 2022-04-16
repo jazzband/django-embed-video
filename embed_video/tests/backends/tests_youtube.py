@@ -1,4 +1,5 @@
 from unittest import TestCase
+from unittest.mock import patch
 
 from embed_video.backends import UnknownIdException, YoutubeBackend
 from embed_video.tests.backends import BackendTestMixin
@@ -60,3 +61,8 @@ class YoutubeBackendTestCase(BackendTestMixin, TestCase):
         self.assertIn(
             "img.youtube.com/vi/1Zo0-sWD7xE/maxresdefault.jpg", backend.thumbnail
         )
+
+    @patch("embed_video.backends.EMBED_VIDEO_YOUTUBE_CHECK_THUMBNAIL", False)
+    def test_youtube_not_check_thumbnail(self):
+        backend = self.instance("https://www.youtube.com/watch?v=not-exist")
+        self.assertIn("img.youtube.com/vi/not-exist/hqdefault.jpg", backend.thumbnail)

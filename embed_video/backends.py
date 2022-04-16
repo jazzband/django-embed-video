@@ -12,6 +12,7 @@ from django.utils.safestring import mark_safe
 from embed_video.settings import (
     EMBED_VIDEO_BACKENDS,
     EMBED_VIDEO_TIMEOUT,
+    EMBED_VIDEO_YOUTUBE_CHECK_THUMBNAIL,
     EMBED_VIDEO_YOUTUBE_DEFAULT_QUERY,
 )
 
@@ -341,6 +342,10 @@ class YoutubeBackend(VideoBackend):
 
         :rtype: str
         """
+        if not EMBED_VIDEO_YOUTUBE_CHECK_THUMBNAIL:
+            return self.pattern_thumbnail_url.format(
+                code=self.code, protocol=self.protocol, resolution="hqdefault.jpg"
+            )
         for resolution in self.resolutions:
             temp_thumbnail_url = self.pattern_thumbnail_url.format(
                 code=self.code, protocol=self.protocol, resolution=resolution
