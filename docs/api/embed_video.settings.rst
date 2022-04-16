@@ -39,3 +39,15 @@ Sets default :py:attr:`~embed_video.backends.VideoBackend.query` appended
 to YouTube url. Can be string or :py:class:`~django.http.QueryDict` instance.
 
 Default: ``"wmode=opaque"``
+
+
+.. setting:: EMBED_VIDEO_YOUTUBE_CHECK_THUMBNAIL
+
+
+EMBED_VIDEO_YOUTUBE_CHECK_THUMBNAIL
+-----------------------------------
+
+Sets whether to check thumbnail for YouTube. If ``False``, it uses ``high``
+resulution as it's guaranteed to exist.
+
+Default: ``True``

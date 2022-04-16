@@ -2,6 +2,9 @@
 Changes
 =======
 
+- Add ``EMBED_VIDEO_YOUTUBE_CHECK_THUMBNAIL`` to settings.
+
+
 Unreleased
 ----------
 

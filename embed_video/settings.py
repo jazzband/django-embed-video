@@ -18,3 +18,8 @@ EMBED_VIDEO_YOUTUBE_DEFAULT_QUERY = getattr(
     settings, "EMBED_VIDEO_YOUTUBE_DEFAULT_QUERY", "wmode=opaque"
 )
 """ :type: django.db.models.QuerySet | str """
+
+EMBED_VIDEO_YOUTUBE_CHECK_THUMBNAIL = getattr(
+    settings, "EMBED_VIDEO_YOUTUBE_CHECK_THUMBNAIL", True
+)
+""" :type: bool """
