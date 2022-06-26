@@ -1,8 +1,9 @@
 from django.conf.urls import url
+from django.urls import include, re_path
 
 from .views import PostListView, PostDetailView
 
 urlpatterns = [
-    url(r"(?P<pk>\d+)/$", PostDetailView.as_view(), name="detail"),
-    url(r"$", PostListView.as_view(), name="list"),
+    re_path(r"(?P<pk>\d+)/$", PostDetailView.as_view(), name="detail"),
+    re_path(r"$", PostListView.as_view(), name="list"),
 ]

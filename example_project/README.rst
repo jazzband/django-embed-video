@@ -7,11 +7,11 @@ Running example project
 
 #. Create database::
 
-     python manage.py migrate --run-syncdb --noinput
+     python manage.py migrate
 
-   Or, for older versions of Django::
+#. Load sample data::
 
-     python manage.py syncdb --noinput
+     python manage.py loaddata initial_data
 
 #. Run testing server::
 
