@@ -43,6 +43,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 APPEND_SLASH = True
 
 ROOT_URLCONF = "example_project.urls"
