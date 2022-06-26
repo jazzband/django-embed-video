@@ -6,6 +6,6 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = staticfiles_urlpatterns() + [
-    path("^admin/", admin.site.urls),
+    path("admin/", admin.site.urls),
     path("", include(("posts.urls", "posts"))),
 ]
