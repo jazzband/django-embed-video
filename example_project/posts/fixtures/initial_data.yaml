@@ -31,6 +31,6 @@
 - fields: {title: Django Reinhardt, video: 'https://www.youtube.com/watch?v=ceqeR49t7I4'}
   model: posts.post
   pk: 11
-- fields: {title: What is Django?, video: 'https://www.youtube.com/watch?v=c5HlCEjxQ9o&list=PLkQQsbwLvxCXWvKbcSBd7F7qg3x--A-v6'}
+- fields: {title: What is Django, video: 'https://www.youtube.com/watch?v=c5HlCEjxQ9o&list=PLkQQsbwLvxCXWvKbcSBd7F7qg3x--A-v6'}
   model: posts.post
   pk: 12
