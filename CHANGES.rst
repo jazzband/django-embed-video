@@ -2,6 +2,7 @@
 Changes
 =======
 
+- Add support for Django 4.1
 
 Release 1.4.4 (April 18, 2022)
 ------------------------------
