@@ -122,9 +122,9 @@ class VideoNode(Node):
                 "Timeout reached during rendering embed video (`{0}`)".format(url)
             )
         except UnknownBackendException:
-            logger.exception("Backend wasn't recognised (`{0}`)".format(url))
+            logger.warning("Backend wasn't recognised (`{0}`)".format(url))
         except VideoDoesntExistException:
-            logger.exception("Attempt to render not existing video (`{0}`)".format(url))
+            logger.warning("Attempt to render not existing video (`{0}`)".format(url))
 
         return ""
 
