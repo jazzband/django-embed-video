@@ -2,9 +2,14 @@
 Changes
 =======
 
+Release 1.4.7 (September 28, 2022)
+----------------------------------
+
+- Fix rST file formatting for release automation approval.
+
 
 Release 1.4.6 (September 28, 2022)
----------------------------------
+----------------------------------
 
 - Use Django 3.2 LTS for the example project.
 - Add URLvalidator to validate input in the admin widget.
