@@ -1,4 +1,6 @@
 from django import forms
+from django.core.validators import URLValidator
+from django.core.exceptions import ValidationError
 from django.utils.safestring import mark_safe
 
 from embed_video.backends import (
@@ -33,6 +35,7 @@ class AdminVideoWidget(forms.TextInput):
         :type attrs: dict
         """
         default_attrs = {"size": "40"}
+        self.validator = URLValidator()
 
         if attrs:
             default_attrs.update(attrs)
@@ -51,13 +54,14 @@ class AdminVideoWidget(forms.TextInput):
             return output
 
         try:
+            self.validator(value)
             backend = detect_backend(value)
             return mark_safe(
                 self.output_format.format(
                     video=backend.get_embed_code(*size), input=output
                 )
             )
-        except (UnknownBackendException, VideoDoesntExistException):
+        except (UnknownBackendException, ValidationError, VideoDoesntExistException):
             return output
 
 
