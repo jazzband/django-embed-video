@@ -2,10 +2,19 @@
 Changes
 =======
 
-Release 1.4.5. (September 1, 2022)
-----------------------------------
+
+Release 1.4.6 (September 28, 2022)
+---------------------------------
+
+- Use Django 3.2 LTS for the example project.
+- Add URLvalidator to validate input in the admin widget.
+
+
+Release 1.4.5 (September 1, 2022)
+---------------------------------
 
 - Add support for Django 4.1
+
 
 Release 1.4.4 (April 18, 2022)
 ------------------------------
