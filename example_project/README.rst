@@ -7,6 +7,8 @@ Running example project
 
 #. Create database::
 
+     python manage.py makemigrations
+     
      python manage.py migrate
 
 #. Load sample data::
