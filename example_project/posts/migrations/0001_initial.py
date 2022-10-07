@@ -19,5 +19,6 @@ class Migration(migrations.Migration):
                 ('title', models.CharField(max_length=50)),
                 ('video', embed_video.fields.EmbedVideoField(help_text='This is a help text', verbose_name='My video')),
             ],
+            options={'ordering': ['pk']},
         ),
     ]
