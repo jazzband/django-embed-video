@@ -32,12 +32,12 @@ settings.
       'embed_video',
   )
 
-To detect HTTP/S you must use :py:class:`~django.core.context_processors.request`
+To detect HTTP/S you must use :py:class:`~django.template.context_processors.request`
 context processor:
 
 .. code-block:: python
 
     TEMPLATE_CONTEXT_PROCESSORS = (
         ...
-        'django.core.context_processors.request',
+        'django.template.context_processors.request',
     )
