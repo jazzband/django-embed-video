@@ -2,6 +2,13 @@
 Changes
 =======
 
+
+Release 1.4.8 (November 19, 2022)
+---------------------------------
+
+- Fixes in migrations and documentation.
+
+
 Release 1.4.7 (September 28, 2022)
 ----------------------------------
 
