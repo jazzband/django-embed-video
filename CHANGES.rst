@@ -3,6 +3,14 @@ Changes
 =======
 
 
+Release 1.4.9 (July 1, 2023)
+----------------------------
+
+- Update Python and Django versions.
+- Fix Soundcloud tests.
+- Add example sites.
+
+
 Release 1.4.8 (November 19, 2022)
 ---------------------------------
 
