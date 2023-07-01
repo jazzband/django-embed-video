@@ -1,11 +1,10 @@
 from unittest import TestCase
 from unittest.mock import patch
 
-from embed_video.backends import UnknownIdException, YoutubeBackend
-from embed_video.tests.backends import BackendTestMixin
+from embed_video.backends import UnknownIdException, YoutubeBackend, detect_backend
 
 
-class YoutubeBackendTestCase(BackendTestMixin, TestCase):
+class YoutubeBackendTestCase(TestCase):
     urls = (
         ("http://youtu.be/jsrRJyHBvzw", "jsrRJyHBvzw"),
         ("http://youtu.be/n17B_uFF4cA", "n17B_uFF4cA"),
@@ -44,6 +43,16 @@ class YoutubeBackendTestCase(BackendTestMixin, TestCase):
     )
 
     instance = YoutubeBackend
+
+    def test_detect(self):
+        for url in self.urls:
+            backend = detect_backend(url[0])
+            self.assertIsInstance(backend, self.instance)
+
+    def test_code(self):
+        for url in self.urls:
+            backend = self.instance(url[0])
+            self.assertEqual(backend.code, url[1])
 
     def test_youtube_keyerror(self):
         """Test for issue #7"""

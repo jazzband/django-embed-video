@@ -3,11 +3,10 @@ from unittest.mock import patch
 
 import requests
 
-from embed_video.backends import VideoDoesntExistException, VimeoBackend
-from embed_video.tests.backends import BackendTestMixin
+from embed_video.backends import VideoDoesntExistException, VimeoBackend, detect_backend
 
 
-class VimeoBackendTestCase(BackendTestMixin, TestCase):
+class VimeoBackendTestCase(TestCase):
     urls = (
         ("http://vimeo.com/72304002", "72304002"),
         ("https://vimeo.com/72304002", "72304002"),
@@ -22,6 +21,16 @@ class VimeoBackendTestCase(BackendTestMixin, TestCase):
     )
 
     instance = VimeoBackend
+
+    def test_detect(self):
+        for url in self.urls:
+            backend = detect_backend(url[0])
+            self.assertIsInstance(backend, self.instance)
+
+    def test_code(self):
+        for url in self.urls:
+            backend = self.instance(url[0])
+            self.assertEqual(backend.code, url[1])
 
     def test_vimeo_get_info_exception(self):
         with self.assertRaises(VideoDoesntExistException):
