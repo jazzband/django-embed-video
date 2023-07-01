@@ -3,11 +3,14 @@ from unittest.mock import patch
 
 import requests
 
-from embed_video.backends import SoundCloudBackend, VideoDoesntExistException
-from embed_video.tests.backends import BackendTestMixin
+from embed_video.backends import (
+    SoundCloudBackend,
+    VideoDoesntExistException,
+    detect_backend,
+)
 
 
-class SoundCloudBackendTestCase(BackendTestMixin, TestCase):
+class SoundCloudBackendTestCase(TestCase):
     urls = (
         ("https://soundcloud.com/community/soundcloud-case-study-wildlife", "82244706"),
         (
@@ -38,6 +41,16 @@ class SoundCloudBackendTestCase(BackendTestMixin, TestCase):
                 }
 
         self.foo = FooBackend("abcd")
+
+    def test_detect(self):
+        for url in self.urls:
+            backend = detect_backend(url[0])
+            self.assertIsInstance(backend, self.instance)
+
+    def test_code(self):
+        for url in self.urls:
+            backend = self.instance(url[0])
+            self.assertEqual(backend.code, url[1])
 
     def test_width(self):
         self.assertEqual(self.foo.width, 123)
