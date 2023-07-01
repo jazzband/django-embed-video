@@ -5,6 +5,7 @@ dist
 *.egg-info
 *.egg
 .coverage
+coverage.xml
 htmlcov
 .idea
 .eggs/
