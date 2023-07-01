@@ -1,8 +1,10 @@
 import re
 import urllib.parse as urlparse
+from json import dumps
 from unittest import TestCase
 from unittest.mock import Mock, patch
 
+import requests_mock
 from django.http import HttpRequest
 from django.template import TemplateSyntaxError
 from django.template.base import Template
@@ -171,11 +173,37 @@ class EmbedTestCase(TestCase):
                 {{ soundcloud.url }} {{ soundcloud.backend }}
             {% endvideo %}
         """
-        self.assertRenderedTemplate(
-            template,
-            "https://w.soundcloud.com/player/?visual=true&amp;url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F82244706&amp;show_artwork=true "
-            "SoundCloudBackend",
+
+        # Soundcloud backend generates the following embed URL and fetches the payload from it
+        # you can check the URL contents and update it as needed
+        url = "https://soundcloud.com/oembed?format=json&url=https%3A%2F%2Fsoundcloud.com%2Fcommunity%2Fsoundcloud-case-study-wildlife"
+        response = dumps(
+            {
+                "version": 1.0,
+                "type": "rich",
+                "provider_name": "SoundCloud",
+                "provider_url": "https://soundcloud.com",
+                "height": 400,
+                "width": "100%",
+                "title": "SoundCloud Case Study: Wildlife Control by SoundCloud Community",
+                "description": "Listen to how Wildlife Control makes the most of the SoundCloud platform, and it's API.",
+                "thumbnail_url": "https://i1.sndcdn.com/artworks-000042390403-ouou1g-t500x500.jpg",
+                "html": "<iframe "
+                'width="100%" height="400" scrolling="no" frameborder="no" '
+                'src="https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F82244706&show_artwork=true"'
+                "></iframe>",
+                "author_name": "SoundCloud Community",
+                "author_url": "https://soundcloud.com/community",
+            }
         )
+
+        with requests_mock.Mocker() as m:
+            m.get(url, text=response)
+            self.assertRenderedTemplate(
+                template,
+                "https://w.soundcloud.com/player/?visual=true&amp;url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F82244706&amp;show_artwork=true "
+                "SoundCloudBackend",
+            )
 
     @patch("embed_video.backends.EMBED_VIDEO_TIMEOUT", 0.000001)
     @patch("urllib3.connectionpool.log")
