@@ -431,7 +431,10 @@ class SoundCloudBackend(VideoBackend):
 
         if r.status_code != 200:
             raise VideoDoesntExistException(
-                "SoundCloud returned status code `{0}`.".format(r.status_code)
+                "SoundCloud returned status code `{status_code}` for URL `{url}`.".format(
+                    status_code=r.status_code,
+                    url=r.url,
+                )
             )
 
         return json.loads(r.text)
