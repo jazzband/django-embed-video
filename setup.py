@@ -37,7 +37,11 @@ setup(
         "Topic :: Internet :: WWW/HTTP",
     ],
     keywords=["youtube", "vimeo", "video", "soundcloud"],
-    install_requires=["requests >= 2.19", "Django >= 3.2"],
+    install_requires=[
+        "requests >= 2.19",
+        "Django >= 3.2",
+        "importlib-metadata; python_version < '3.8'",
+    ],
     setup_requires=["readme", "setuptools_scm"],
     tests_require=["Django", "requests >= 2.19", "coverage"],
 )
