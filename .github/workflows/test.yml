@@ -29,6 +29,11 @@ jobs:
           # Exclude Django 3.2 for Python 3.11
           - python-version: '3.11'
             django-version: '3.2'
+          # Django 5.0 doesn't support < Python 3.10
+          - python-version: '3.8'
+            django-version: '5.0'
+          - python-version: '3.9'
+            django-version: '5.0'
 
     steps:
     - uses: actions/checkout@v2
