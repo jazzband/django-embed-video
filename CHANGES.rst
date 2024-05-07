@@ -3,6 +3,13 @@ Changes
 =======
 
 
+Release 1.4.10 (May 7, 2024)
+----------------------------
+
+- Update Python and Django versions.
+- Use importlib.metadata instead of deprecated pkg_resources.
+
+
 Release 1.4.9 (July 1, 2023)
 ----------------------------
 
