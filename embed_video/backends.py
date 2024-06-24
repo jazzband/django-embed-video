@@ -95,7 +95,7 @@ class VideoBackend:
     """
     Compiled regex (:py:func:`re.compile`) to search code in URL.
 
-    Example: ``re.compile(r'myvideo\.com/\?code=(?P<code>\w+)')``
+    Example: ``re.compile(r'myvideo\\.com/\\?code=(?P<code>\\w+)')``
     """
 
     re_detect = None
@@ -103,7 +103,7 @@ class VideoBackend:
     Compilede regec (:py:func:`re.compile`) to detect, if input URL is valid
     for current backend.
 
-    Example: ``re.compile(r'^http://myvideo\.com/.*')``
+    Example: ``re.compile(r'^http://myvideo\\.com/.*')``
     """
 
     pattern_url = None
