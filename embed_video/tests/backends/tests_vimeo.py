@@ -53,6 +53,16 @@ class VimeoBackendTestCase(TestCase):
             (actual_parts.scheme, actual_parts.netloc, actual_parts.path)
         )
 
+    def test_get_thumbnail_url_with_query_params(self):
+        backend = VimeoBackend("https://vimeo.com/72304002")
+        actual_url = backend.get_thumbnail_url()
+        # Verify that the URL contains query parameters
+        parsed_url = urllib.parse.urlparse(actual_url)
+        self.assertTrue(parsed_url.query, "URL should contain query parameters")
+        # Verify that the query parameters are valid
+        query_params = urllib.parse.parse_qs(parsed_url.query)
+        self.assertIn('region', query_params, "URL should contain 'region' parameter")
+
     @patch("embed_video.backends.EMBED_VIDEO_TIMEOUT", 0.000001)
     def test_timeout_in_get_info(self):
         backend = VimeoBackend("https://vimeo.com/72304002")
