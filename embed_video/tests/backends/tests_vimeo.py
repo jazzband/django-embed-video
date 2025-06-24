@@ -1,6 +1,6 @@
+import urllib.parse
 from unittest import TestCase
 from unittest.mock import patch
-import urllib.parse
 
 import requests
 
@@ -42,15 +42,15 @@ class VimeoBackendTestCase(TestCase):
         backend = VimeoBackend("https://vimeo.com/72304002")
         expected_url = "https://i.vimeocdn.com/video/446150690-9621b882540b53788eaa36ef8e303d4e06fc40af3d27918b7f561bb44ed971dc-d_640"
         actual_url = backend.get_thumbnail_url()
-        
+
         # Parse URLs and compare without query parameters
         expected_parts = urllib.parse.urlparse(expected_url)
         actual_parts = urllib.parse.urlparse(actual_url)
-        
+
         # Compare scheme, netloc, and path only
         self.assertEqual(
             (expected_parts.scheme, expected_parts.netloc, expected_parts.path),
-            (actual_parts.scheme, actual_parts.netloc, actual_parts.path)
+            (actual_parts.scheme, actual_parts.netloc, actual_parts.path),
         )
 
     def test_get_thumbnail_url_with_query_params(self):
@@ -61,7 +61,7 @@ class VimeoBackendTestCase(TestCase):
         self.assertTrue(parsed_url.query, "URL should contain query parameters")
         # Verify that the query parameters are valid
         query_params = urllib.parse.parse_qs(parsed_url.query)
-        self.assertIn('region', query_params, "URL should contain 'region' parameter")
+        self.assertIn("region", query_params, "URL should contain 'region' parameter")
 
     @patch("embed_video.backends.EMBED_VIDEO_TIMEOUT", 0.000001)
     def test_timeout_in_get_info(self):
