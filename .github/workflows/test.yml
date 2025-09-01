@@ -17,8 +17,6 @@ jobs:
           - python-version: '3.11'
             django-version: 'qa'
           # Patchwork for GitHub "required" test environments
-          - python-version: '3.7'
-            django-version: '3.2'
           - python-version: '3.8'
             django-version: '4.0'
           - python-version: '3.9'
@@ -43,8 +41,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Set up Python ${{ matrix.python-version }}
-      # TODO: upgrade to v5 after removing python 3.7 support
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
 
