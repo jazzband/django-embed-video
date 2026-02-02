@@ -44,6 +44,13 @@ jobs:
 
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
+      if: ${{ matrix.python-version != '3.7' }}
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Set up Deadsnakes Python ${{ matrix.python-version }}
+      uses: deadsnakes/action@v3.2.0
+      if: ${{ matrix.python-version == '3.7' }}
       with:
         python-version: ${{ matrix.python-version }}
 
