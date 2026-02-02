@@ -42,11 +42,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # - name: Install Python 3.7
-    #   run: |
-    #     sudo add-apt-repository ppa:deadsnakes/ppa
-    #     sudo apt-get install python3.7
-
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
       if: ${{ matrix.python-version != '3.7' }}
