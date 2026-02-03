@@ -47,8 +47,8 @@ class VimeoBackendTestCase(TestCase):
         actual_parts = urllib.parse.urlparse(actual_url)
         # Compare scheme, netloc, and path only
         self.assertEqual(
-            (expected_parts.scheme, expected_parts.netloc, expected_parts.path),
-            (actual_parts.scheme, actual_parts.netloc, actual_parts.path),
+            backend.get_thumbnail_url(),
+            "https://i.vimeocdn.com/video/446150690-9621b882540b53788eaa36ef8e303d4e06fc40af3d27918b7f561bb44ed971dc-d_640?region=us",
         )
 
     @patch("embed_video.backends.EMBED_VIDEO_TIMEOUT", 0.000001)
