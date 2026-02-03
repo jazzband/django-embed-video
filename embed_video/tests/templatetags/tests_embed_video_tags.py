@@ -61,7 +61,7 @@ class EmbedTestCase(TestCase):
             template,
             '<iframe width="960" height="720" '
             'src="https://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" '
-            'loading="lazy" frameborder="0" allowfullscreen></iframe>',
+            'loading="lazy" frameborder="0" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>',
         )
 
     def test_embed_invalid_url(self):
@@ -97,7 +97,7 @@ class EmbedTestCase(TestCase):
             template,
             '<iframe width="960" height="720" '
             'src="https://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" '
-            'loading="lazy" frameborder="0" allowfullscreen></iframe>',
+            'loading="lazy" frameborder="0" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>',
         )
 
     def test_direct_embed_tag_with_default_size(self):
@@ -109,7 +109,7 @@ class EmbedTestCase(TestCase):
             template,
             '<iframe width="480" height="360" '
             'src="https://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" '
-            'loading="lazy" frameborder="0" allowfullscreen></iframe>',
+            'loading="lazy" frameborder="0" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>',
         )
 
     def test_direct_embed_invalid_url(self):
@@ -130,7 +130,7 @@ class EmbedTestCase(TestCase):
             template,
             '<iframe width="800" height="800" '
             'src="https://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" '
-            'loading="lazy" frameborder="0" allowfullscreen></iframe>',
+            'loading="lazy" frameborder="0" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>',
         )
 
     def test_wrong_size(self):
@@ -235,7 +235,7 @@ class EmbedTestCase(TestCase):
             template,
             '<iframe width="80%" height="30%" '
             'src="https://player.vimeo.com/video/72304002" '
-            'loading="lazy" frameborder="0" allowfullscreen></iframe>',
+            'loading="lazy" frameborder="0" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>',
         )
 
     def test_allow_spaces_in_size(self):
@@ -247,7 +247,7 @@ class EmbedTestCase(TestCase):
             template,
             '<iframe width="80%" height="300" '
             'src="https://player.vimeo.com/video/72304002" '
-            'loading="lazy" frameborder="0" allowfullscreen></iframe>',
+            'loading="lazy" frameborder="0" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>',
         )
 
     def test_embed_with_query(self):
@@ -287,7 +287,7 @@ class EmbedTestCase(TestCase):
             output_without_url,
             '<iframe width="480" height="360" '
             'src="URL" '
-            'loading="lazy" frameborder="0" allowfullscreen></iframe>',
+            'loading="lazy" frameborder="0" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>',
         )
 
     def test_set_options(self):
@@ -299,7 +299,7 @@ class EmbedTestCase(TestCase):
             template,
             '<iframe width="300" height="200" '
             'src="https://www.youtube.com/embed/jsrRJyHBvzw?rel=1" '
-            'loading="lazy" frameborder="0" allowfullscreen></iframe>',
+            'loading="lazy" frameborder="0" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>',
         )
 
     def test_size_as_variable(self):
@@ -313,7 +313,7 @@ class EmbedTestCase(TestCase):
             template,
             '<iframe width="500" height="200" '
             'src="https://www.youtube.com/embed/jsrRJyHBvzw?wmode=opaque" '
-            'loading="lazy" frameborder="0" allowfullscreen></iframe>',
+            'loading="lazy" frameborder="0" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>',
         )
 
 
