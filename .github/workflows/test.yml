@@ -17,6 +17,8 @@ jobs:
           - python-version: '3.11'
             django-version: 'qa'
           # Patchwork for GitHub "required" test environments
+          - python-version: '3.7'
+            django-version: '3.2'
           - python-version: '3.8'
             django-version: '4.0'
           - python-version: '3.9'
