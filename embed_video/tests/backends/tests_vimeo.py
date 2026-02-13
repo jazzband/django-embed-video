@@ -1,6 +1,6 @@
+import urllib.parse
 from unittest import TestCase
 from unittest.mock import patch
-import urllib.parse
 
 import requests
 
