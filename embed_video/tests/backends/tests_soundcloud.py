@@ -111,9 +111,9 @@ class SoundCloudBackendTestCase(TestCase):
                     "width": 123,
                     "height": 321,
                     "thumbnail_url": "xyz",
-                    "html": '\u003Ciframe width="100%" height="400" '
+                    "html": '\u003ciframe width="100%" height="400" '
                     'scrolling="no" frameborder="no" '
-                    'src="{0}"\u003E\u003C/iframe\u003E'.format(self.url),
+                    'src="{0}"\u003e\u003c/iframe\u003e'.format(self.url),
                 }
 
         self.foo = FooBackend("abcd")

@@ -134,12 +134,10 @@ class EmbedTestCase(TestCase):
         )
 
     def test_wrong_size(self):
-        template = Template(
-            """
+        template = Template("""
             {% load embed_video_tags %}
             {% video 'http://www.youtube.com/watch?v=jsrRJyHBvzw' 'so x huge' %}
-        """
-        )
+        """)
         request = RequestContext(HttpRequest())
         self.assertRaises(TemplateSyntaxError, template.render, request)
 
