@@ -1,15 +1,17 @@
 """
 Sphinx plugins for Django documentation.
 """
+
 import json
 import os
 import re
 
-from sphinx import addnodes, __version__ as sphinx_ver
-from sphinx.builders.html import StandaloneHTMLBuilder
-from sphinx.writers.html import HTMLTranslator
-from sphinx.util.console import bold
 from docutils.parsers.rst import Directive
+from sphinx import __version__ as sphinx_ver
+from sphinx import addnodes
+from sphinx.builders.html import StandaloneHTMLBuilder
+from sphinx.util.console import bold
+from sphinx.writers.html import HTMLTranslator
 
 # RE for option descriptions without a '--' prefix
 simple_option_desc_re = re.compile(r"([-_a-zA-Z0-9]+)(\s*.*?)(?=,\s+(?:/|-|--)|$)")
