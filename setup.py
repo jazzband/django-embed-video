@@ -9,7 +9,7 @@ setup(
     use_scm_version=True,
     author="Cedric Carrard",
     author_email="cedric.carrard@gmail.com",
-    url="https://github.com/jazzband/django-embed-video",
+    url="https://github.com/django-commons/django-embed-video",
     description="Django app for easy embedding YouTube and Vimeo videos and music from SoundCloud.",
     long_description="\n".join(
         [

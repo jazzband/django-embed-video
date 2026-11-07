@@ -5,7 +5,7 @@ Django app for easy embedding YouTube and Vimeo videos and music from SoundCloud
 
 Repository is located on GitHub:
 
-https://github.com/jazzband/django-embed-video
+https://github.com/django-commons/django-embed-video
 
 
 Contents
