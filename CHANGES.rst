@@ -3,6 +3,12 @@ Changes
 =======
 
 
+Unreleased
+----------
+
+- Switched to trusted publisher release process with Django Commons.
+
+
 Release 1.4.10 (May 7, 2024)
 ----------------------------
 
