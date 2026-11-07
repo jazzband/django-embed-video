@@ -3,11 +3,8 @@ django-embed-video
 
 Django app for easy embedding YouTube and Vimeo videos and music from SoundCloud.
 
-.. image:: https://jazzband.co/static/img/badge.svg
-   :target: https://jazzband.co/
-   :alt: Jazzband
-.. image:: https://github.com/jazzband/django-embed-video/workflows/Test/badge.svg
-   :target: https://github.com/jazzband/django-embed-video/actions
+.. image:: https://github.com/django-commons/django-embed-video/workflows/Test/badge.svg
+   :target: https://github.com/django-commons/django-embed-video/actions
    :alt: GitHub Actions
 .. image:: https://coveralls.io/repos/yetty/django-embed-video/badge.svg?branch=master
    :target: https://coveralls.io/r/yetty/django-embed-video?branch=master
@@ -40,7 +37,7 @@ Quick start
 
    ::
 
-      pip install git+https://github.com/jazzband/django-embed-video
+      pip install git+https://github.com/django-commons/django-embed-video
 
 
 #. Add ``embed_video`` to ``INSTALLED_APPS`` in your Django settings.
@@ -95,6 +92,5 @@ Quick start
 Contributing
 ------------
 
-This is a `Jazzband <https://jazzband.co>`_ project.
-By contributing you agree to abide by the `Contributor Code of Conduct <https://jazzband.co/about/conduct>`_
-and follow the `guidelines <https://jazzband.co/about/guidelines>`_.
+This is a `Django Commons <https://github.com/django-commons>`_ project.
+By contributing you agree to abide by the `Contributor Code of Conduct <https://github.com/django-commons/membership/blob/main/CODE_OF_CONDUCT.md>`_.

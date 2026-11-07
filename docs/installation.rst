@@ -15,7 +15,7 @@ If you want latest version, you may use Git. It is fresh, but unstable.
 
 .. code-block:: bash
 
-    pip install git+https://github.com/jazzband/django-embed-video
+    pip install git+https://github.com/django-commons/django-embed-video
 
 
 Setup
@@ -49,4 +49,4 @@ WSGI + Nginx
 1. Add ``SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')`` to your settings.py 
 2. Add ``proxy_set_header X-Forwarded-Proto $scheme;`` to your Nginx site config file. 
 
-This will set ``request.is_secure()`` equal to true when it is checked by ``embed_video_tags.py``, for more information reffer `here <https://github.com/jazzband/django-embed-video/issues/172#issuecomment-1335895642>`_.
+This will set ``request.is_secure()`` equal to true when it is checked by ``embed_video_tags.py``, for more information reffer `here <https://github.com/django-commons/django-embed-video/issues/172#issuecomment-1335895642>`_.
