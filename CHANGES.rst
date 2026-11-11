@@ -3,6 +3,13 @@ Changes
 =======
 
 
+Unreleased
+----------
+
+- Require Python 3.11 or newer and Django 5.2 or newer.
+- Remove obsolete Python jobs from the test matrix.
+
+
 Release 1.4.10 (May 7, 2024)
 ----------------------------
 
